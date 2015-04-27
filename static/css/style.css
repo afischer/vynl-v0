@@ -36,7 +36,7 @@ html, body {
   margin-top: -5px;
 }
 
-/*Dat red: #0000f0 */
+/*Dat red: #d9230f */
 
 .metadata {
   font-size: 65%;
@@ -45,6 +45,6 @@ html, body {
 }
 
 .nav .metadata > .song-name{
-  color: #0000f0;
+  color: #d9230f;
   font-size: 130%;
 }
