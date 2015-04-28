@@ -5,5 +5,8 @@ v 1.0
 4. generate drop down menu of songs (users)
 5. user chooses song -> adds to queue of songs
 
+database of all unique codes
+each unique code is another database with songs & dj names
+
 v 2.0
 1. DJ chooses playlist to be played incase songs run out
