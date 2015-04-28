@@ -11,7 +11,9 @@ def index():
 def base():
     return render_template("base.html")
 
-
+@app.route("/party")
+def party():
+    return render_template("party.html")
 
 
 
