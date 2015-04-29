@@ -5,6 +5,7 @@ The Dankest DJ App in the Universe
 - `@Zabari` Daniel Zabari
 - `@IsaacGluck` Isaac Gluck
 - `@ezchen` Eric Chen
+- `@afischer` Andrew Fischer
 
 ## Timetable
 See TODO.md.
