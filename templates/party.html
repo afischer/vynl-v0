@@ -1,44 +1,124 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="container">
-  <div class="row" style="padding-top:60px">
-    <div class="col-md-8">
-      <h3><small> Log in to your favorite services for more music options: </small></h3>
-      <a href="#" class="btn btn-default"><span class="fa fa-music"></span> Google Music</a>
-      <a href="#" class="btn btn-success"><span class="fa fa-soundcloud"></span> SoundCloud</a>
-      <a href="#" class="btn btn-default"><span class="fa fa-lastfm"></span> last.fm</a>
+    <div class="row" style="padding-top:60px">
+        <h3>
+            Hey DJ! <small> Log in to your favorite services for more music options: </small>
+        </h3>
+        <a href="#" class="btn btn-default">
+            <span class="fa fa-music"></span> Google Music</a>
+        <a href="#" class="btn btn-success">
+            <span class="fa fa-soundcloud"></span> SoundCloud</a>
+        <a href="#" class="btn btn-default">
+            <span class="fa fa-lastfm"></span> last.fm</a>
 
-<br>
+        <br><br>
 
-<div class="jumbotron">
-<h3> Currently Playing </h3>
+        <div class="col-md-9">
+            <div class="jumbotron">
 
-<div class="row">
-     <div class="col-xs-4 col-sm-4">
-       <div class="well">
-         <h1> ALBUM ART HERE </h1>
-       </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <h3>Now Playing</h3>
+                        <div class="well">
+                            <img src="http://placehold.it/500x500&text=Album+Art" class="img-responsive img-rounded">
+                            <div class="music-data">
+                            <h4>
+                                <font color="#d9230f"> Song Name </font>
+                                <br>
+                                <small>
+                                    Song Artist
+                                    <br>
+                                    The Album
+                                </small>
+                                <br> <br>
+                                <a href="#" class="glyphicon glyphicon-step-backward"></a>
+                                <a href='#' class="glyphicon glyphicon-play"></a>
+                                <a href="#" class="glyphicon glyphicon-step-forward"></a>
+                                <br><br>
+                                <i class="fa fa-thumbs-up"></i> &nbsp;
+                                <i class="fa fa-thumbs-down"></i> &nbsp;
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="col-xs-7">
+                        <h3>Queue</h3>
+
+                        <ul class="list-group music-queue">
+                            <!-- This where the music goes -->
+
+                            <!-- Begin example list item -->
+                            <li class="list-group-item metadata">
+                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
+                                &nbsp;
+                                <span class="song-name">Song Name</span>
+                                Song Artist  |  The Album
+                                <span class="badge"><i class="fa fa-youtube fa-lg"></i></span>
+
+                            </li>
+                            <!-- End example list item. Below are dupes for wireframing -->
+
+                            <li class="list-group-item metadata">
+                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
+                                &nbsp;
+                                <span class="song-name">Song Name</span>
+                                Song Artist  |  The Album
+                                <span class="badge"><i class="fa fa-lastfm fa-lg"></i></span>
+
+                            </li>
+
+                            <li class="list-group-item metadata">
+                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
+                                &nbsp;
+                                <span class="song-name">Song Name</span>
+                                Song Artist  |  The Album
+                                <span class="badge"><i class="fa fa-soundcloud fa-lg"></i></span>
+
+                            </li>
+
+                            <li class="list-group-item metadata">
+                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
+                                &nbsp;
+                                <span class="song-name">Song Name</span>
+                                Song Artist  |  The Album
+                                <span class="badge"><i class="fa fa-music fa-lg"></i></span>
+
+                            </li>
+
+                            <li class="list-group-item metadata">
+                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
+                                &nbsp;
+                                <span class="song-name">Song Name</span>
+                                Song Artist  |  The Album
+                                <span class="badge"><i class="fa fa-youtube fa-lg"></i></span>
+
+                            </li>
+                        </ul>
+
+                        <!-- SEARCH -->
+                        <!-- See here http://thornelabs.net/2014/05/12/instant-search-with-twitter-bootstrap-jekyll-json-and-jquery.html -->
+
+                        <input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" onkeyup="checkTextField();" />
+                        <!-- Search results styled as a dropdown menu -->
+                        <ul id="search_results" class="dropdown-menu" role="menu">
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <h4> Lol what goes here </h4>
+
+
+        </div>
 
     </div>
 
-     <div class="col-xs-8 col-sm-8">
-       <h1> QUEUE HERE </h1>
-     </div>
-
-
-</div>
-
-
-    </div>
-  </div>
-
-    <div class="col-md-4">
-      hello
-
-    </div>
-
-  </div>
-
-{% endblock content %}
+    {% endblock content %}

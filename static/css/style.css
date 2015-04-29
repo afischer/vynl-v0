@@ -18,7 +18,7 @@ html, body {
   height: 100%;
   }
 
-.container-fluid {
+.container-fluid, .container {
     margin-right: auto;
     margin-left: auto;
     max-width: 950px; /* or 1600px */
@@ -29,6 +29,7 @@ html, body {
     width: 100%;
     bottom: 0;
     padding: 2em;
+    text-color: #eeeeee;
   }
 
 
@@ -42,15 +43,41 @@ html, body {
   margin-top: -5px;
 }
 
+.album-art{
+  display: inline;
+}
+
 /*Dat red: #d9230f */
+/*Dat grey: #474949*/
 
 .metadata {
   font-size: 65%;
-  text-align: right;
-  margin-top: 7px;
 }
 
-.nav .metadata > .song-name{
+.nav .metadata {
+  text-align: right;
+}
+
+.music-queue .metadata {
+  padding-top: -10px;
+}
+
+.music-data {
+  display: inline;
+  line-height: 150%;
+  text-align: center;
+}
+
+ .song-name{
   color: #d9230f;
   font-size: 130%;
+}
+
+li > .badge {
+  background-color: #474949;
+  padding: 10px 10px;
+}
+
+.list-group .music-queue{
+
 }

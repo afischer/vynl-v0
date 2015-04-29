@@ -16,6 +16,11 @@ def party():
     return render_template("party.html")
 
 
+# TEMP
+@app.route("/search.json")
+def search():
+    return render_template("search.json")
+
 
 if __name__ == "__main__":
    app.debug = True
