@@ -2,6 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+    
 
 @app.route("/")
 def index():
@@ -15,11 +16,15 @@ def base():
 def party():
     return render_template("party.html")
 
+@app.route("/party/<partyID>")
+def genParty(partyID):
+    return render_template("party.html", partyID=partyID)
 
 # TEMP
 @app.route("/search.json")
 def search():
     return render_template("search.json")
+
 
 
 if __name__ == "__main__":
