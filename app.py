@@ -1,12 +1,15 @@
 from flask import Flask, render_template
+import random
+import string
 
 app = Flask(__name__)
 
-    
+def genID():
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for i in range(8))
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", partyID=genID())
 
 @app.route("/base")
 def base():
@@ -24,7 +27,6 @@ def genParty(partyID):
 @app.route("/search.json")
 def search():
     return render_template("search.json")
-
 
 
 if __name__ == "__main__":
