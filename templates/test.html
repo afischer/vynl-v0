@@ -5,6 +5,18 @@
 
       var scopes = 'https://www.googleapis.com/auth/plus.me';
 
+	function search(query) {
+		var q = query;
+		var request = gapi.client.youtube.search.list({
+		q: q,
+		part: 'snippet'
+	});
+
+  request.execute(function(response) {
+    var str = JSON.stringify(response.result);
+    console.log(str);
+  });
+}
       function handleClientLoad() {
         // Step 2: Reference the API key
         gapi.client.setApiKey(apiKey);
