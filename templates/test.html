@@ -1,0 +1,16 @@
+    <!--Add a button for the user to click to initiate auth sequence -->
+    <script type="text/javascript">
+
+      var apiKey = '';
+
+      var scopes = 'https://www.googleapis.com/auth/plus.me';
+
+      function handleClientLoad() {
+        // Step 2: Reference the API key
+        gapi.client.setApiKey(apiKey);
+        gapi.client.load('youtube', 'v3', function() {});
+      }
+
+    </script>
+    // Step 1: Load JavaScript client library
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
