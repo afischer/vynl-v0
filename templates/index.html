@@ -1,22 +1,31 @@
-{% extends "base.html" %}
-
-{% block content %}
-<br><br><br><br>
+{% extends "base.html" %} {% block content %}
+<br>
+<br>
+<br>
+<br>
 
 <div class="container">
-<div class="row">
-  <div class="col-xs-6">
-    Vynl.
-  </div>
+    <div class="row">
+        <div class="col-xs-9">
+            <!-- SVG -->
+            <div id="svg-canvas">
+            </div>
+            <!-- /SVG -->
+        </div>
 
-  <div class="col-xs-6">
-    <div class="btn-group-vertical" role="group" aria-label="...">
-      <a class="btn btn-info" href="/party/{{partyID}}"> Start a Party </a>
-      <a class="btn btn-default" href="#"> Join a Party </a>
+        <div class="col-xs-3">
+            <div class="btn-group-vertical enter-buttons" role="group">
+                <a class="btn btn-info" href="/party/{{partyID}}"> Start a Party </a>
+                <a class="btn btn-default" href="#"> Join a Party </a>
+            </div>
+
+        </div>
     </div>
-
-  </div>
-</div>
+    <br><br><br><br><br><br><br> <!--FIX THIS-->
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+{% endblock scripts %}
