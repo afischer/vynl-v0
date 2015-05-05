@@ -15,6 +15,10 @@ def addUnique(key):  # Adds unique key to uniques database, and creates a databa
 	c.execute("INSERT INTO unique (url) VALUES (?)", key)
 	conn.commit()
 	conn.close()
-
-
-
+def addSong(key,url):
+	try:
+		conn=sqlite3.connect(key+'.db')
+	except:
+		print "key does not exist"
+	c=conn.cursor()
+	
