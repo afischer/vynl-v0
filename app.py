@@ -23,6 +23,10 @@ def party():
 def genParty(partyID):
     return render_template("party.html", partyID=partyID)
 
+@app.route("/test")
+def test():
+    return render_template("test.html")
+
 # TEMP
 @app.route("/search.json")
 def search():
