@@ -1,13 +1,17 @@
-function getSearchJSON()
-    {
-        $.getJSON("/search.json", function(e) {
-            console.log("[search.json loaded for instant search]");
-
-            $("#search_results").html("");
-
-            searchJSON = e;
-        });
-    }
+var search = function(query, key) {
+    $.ajax({
+        url : 'http://tinysong.com/s/' + query + '?format=json&key='+key,
+        type : 'get',
+        dataType : 'json',
+        success : function(response){
+            console.log(response);
+        },
+        error: function(error){
+            console.warn('ERROR');
+            console.warn(error);
+        }
+    });
+}
 
     function doSearch(e)
     {
@@ -77,8 +81,6 @@ function getSearchJSON()
     });
 
     $(document).ready(function() {
-        // Create the search index on page load
-        getSearchJSON();
 
         // Continually update search results as characters are typed
         $("#search_input").keyup(function() {
