@@ -1,16 +1,23 @@
-var search = function(query, key) {
-    $.ajax({
-        url : 'http://tinysong.com/s/' + query + '?format=json&key='+key,
-        type : 'get',
-        dataType : 'json',
-        success : function(response){
-            console.log(response);
-        },
-        error: function(error){
-            console.warn('ERROR');
-            console.warn(error);
-        }
-    });
+var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
+
+function handleClientLoad() {
+        // Step 2: Reference the API key
+    gapi.client.setApiKey(apiKey);
+    gapi.client.load('youtube', 'v3', function() {});
+	console.log("youtube client loaded");
+}	
+
+function search(query) {
+		var q = query;
+		var request = gapi.client.youtube.search.list({
+			q: q,
+			part: 'snippet'
+		});
+
+  		request.execute(function(response) {
+    		var str = JSON.stringify(response.result);
+    		console.log(str);
+  		});
 }
 
     function doSearch(e)
@@ -88,7 +95,7 @@ var search = function(query, key) {
             var e = $(this).val().toLowerCase();
 
             // Do the actual search
-            doSearch(e);
+            search(e);
         });
     });
 
