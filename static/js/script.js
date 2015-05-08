@@ -19,9 +19,13 @@ function search(query) {
     });
 }
 
+var SONGS = [
+	{title: 'example1'}
+];
+
 var SearchSongRow = React.createClass({
     render: function() {
-        var title = "test title";
+        var title = this.props.song.title;
         var rowStyle = {
             paddingTop: '3px',
             paddingBottom: '3px'
@@ -31,6 +35,41 @@ var SearchSongRow = React.createClass({
         );
     }
 });
+
+var SearchSongDropDown = React.createClass({
+	render: function() {
+		var rows = [];
+		this.props.songs.forEach(function(song) {
+			rows.push(<SearchSongRow song={song} key={song.title} />);
+		});
+		return (
+			<ul id="search_results" class="dropdown-menu" role="menu">
+				{rows}
+			</ul>
+		);
+	}
+});
+
+var SearchSongBar = React.createClass({
+	render: function() {
+		return (
+			<input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" />
+		);
+	}
+});
+
+var SearchSongDynamic = React.createClass({
+	render: function() {
+		return (
+			<div>
+				<SearchSongBar />
+				<SearchSongDropDown songs={this.props.songs} />
+			</div>
+		);
+	}
+});
+
+React.render(<SearchSongDynamic songs={SONGS} />, document.getElementById('SearchSongDynamic'));
 
 function printResults()
 {
