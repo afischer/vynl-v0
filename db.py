@@ -36,14 +36,14 @@ class Party:
 		conn.commit()
 		conn.close()
 
-    def downVote(self,vid):
-        conn=sqlite3.connect(self.db)
-        c=conn.cursor()
-        num=c.execute("SELECT downvotes FROM songs WHERE videoid=?",(vid,))
-        num+=1
-        c.execute("INSERT INTO songs (downvotes) VALUES (?) WHERE videoid=?",(num,),(vid,))
-        conn.commit()
-        conn.close()
+    	def downVote(self,vid):
+        	conn=sqlite3.connect(self.db)
+        	c=conn.cursor()
+        	num=c.execute("SELECT downvotes FROM songs WHERE videoid=?",(vid,))
+        	num+=1
+        	c.execute("INSERT INTO songs (downvotes) VALUES (?) WHERE videoid=?",(num,),(vid,))
+        	conn.commit()
+		conn.close()
 
 	
 	
