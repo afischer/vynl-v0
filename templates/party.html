@@ -116,11 +116,12 @@
         <div class="col-md-3">
             <h4> Party ID: {{partyID}}</h4>
 
-
         </div>
 
     </div>
-<script src="static/js/script.js"></script>
-<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     {% endblock content %}
-		
+
+    {% block scripts %}
+        <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    {% endblock scripts %}
+
