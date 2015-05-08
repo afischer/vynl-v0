@@ -31,7 +31,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a href="#">No results found</a></li>
+            <li style={rowStyle}><a href="#">{title}</a></li>
         );
     }
 });
@@ -43,7 +43,7 @@ var SearchSongDropDown = React.createClass({
 			rows.push(<SearchSongRow song={song} key={song.title} />);
 		});
 		return (
-			<ul id="search_results" class="dropdown-menu" role="menu">
+			<ul id={'search_results'} className={'dropdown-menu'} role={'menu'}>
 				{rows}
 			</ul>
 		);
@@ -53,7 +53,7 @@ var SearchSongDropDown = React.createClass({
 var SearchSongBar = React.createClass({
 	render: function() {
 		return (
-			<input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" />
+			<input id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
 		);
 	}
 });
@@ -71,6 +71,7 @@ var SearchSongDynamic = React.createClass({
 
 React.render(<SearchSongDynamic songs={SONGS} />, document.getElementById('SearchSongDynamic'));
 
+/*
 function printResults()
 {
     var e = $("#search_results");
@@ -89,8 +90,9 @@ function printResults()
         });
     }
     });
-}
+} */
 
+/*
 // Show the dropdown menu as long as there are characters in the text field
 function checkTextField()
 {
@@ -103,8 +105,9 @@ function checkTextField()
     {
         $('#search_results').hide();
     }
-}
+} */
 
+/*
 // Hide the dropdown menu if there is a left mouse click outside of it
 $(document).mouseup(function (e)
         {
@@ -117,6 +120,7 @@ $(document).mouseup(function (e)
     container.hide();
 }
 });
+*/
 
 $(document).ready(function() {
 

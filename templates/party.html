@@ -122,6 +122,17 @@
     {% endblock content %}
 
     {% block scripts %}
-        <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+	<script>
+		var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
+
+		function handleClientLoad() {
+			gapi.client.setApiKey(apiKey);
+			gapi.client.load('youtube', 'v3', function() {});
+			console.log("youtube client loaded");
+		}
+	</script>
+
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
     {% endblock scripts %}
 
