@@ -28,6 +28,10 @@ def genParty(partyID):
 def search():
     return render_template("search.json")
 
+@app.route("/test")
+def test():
+   return render_template("test.html")
+
 
 if __name__ == "__main__":
    app.debug = True
