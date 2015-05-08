@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block content %}
+
+
+<br><br><br><br>
+
+<div id="player"></div>
+
+<br> <br>
+<a href="#" class="glyphicon glyphicon-step-backward" onClick="prevVideo()"></a>
+<a href='#' id="play" class="glyphicon glyphicon-play" onClick="playVideo()"></a>
+<a href="#" class="glyphicon glyphicon-step-forward" onClick="nextVideo()"></a>
+<br><br>
+
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    var playlist = [];
+    var playIndex;
+
+    playlist.push("rn_YodiJO6k");
+    playlist.push("e-ORhEE9VVg");
+
+    
+    
+    function onYouTubeIframeAPIReady() {
+         playIndex = 0;
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: playlist[playIndex], //yass
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+    }
+    
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED){
+            nextVideo();
+        }
+    };
+    
+    function playVideo() {
+        player.playVideo();
+        document.getElementById('play').className = "glyphicon glyphicon-pause";
+        document.getElementById('play').onclick = function(){pauseVideo();};
+    };
+
+    function pauseVideo() {
+        player.pauseVideo();
+        document.getElementById('play').className = "glyphicon glyphicon-play";
+        document.getElementById('play').onclick = function(){playVideo();};
+    };
+
+    function nextVideo(){
+        playIndex++;
+        player.loadVideoById(playlist[playIndex]);
+    };
+
+    function prevVideo(){
+        playIndex--;
+        player.loadVideoById(playlist[playIndex]);
+    };
+
+    
+
+</script>
+
+{%endblock content %}
