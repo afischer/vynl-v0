@@ -1,5 +1,3 @@
-var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
-
 function handleClientLoad() {
     gapi.client.setApiKey(apiKey);
     gapi.client.load('youtube', 'v3', function() {});
@@ -66,7 +64,6 @@ var SearchSongDynamic = React.createClass({
 	},
 	handleOnKeyUp: function() {
 		var query = $("#search_input").val().toLowerCase();
-		console.log(query);
 		search(query, function(response) {
 			console.log(response.items);
 			this.setState({songs: response.items});
@@ -144,7 +141,7 @@ var w = $(window).width(),
 $(function() {
 
     animateLine = function(canvas, DivName, colorNumber, pathString) {
-        $('#' + DivName).hover(
+        $('#' + DivName).ready(
 
             function() {
                 var line = canvas.path(pathString).attr({
@@ -194,7 +191,7 @@ $(function() {
 });
 
 
-/////////
+///////// Youtube Iframe API shizz
 
 
 // 2. This code loads the IFrame Player API code asynchronously.
