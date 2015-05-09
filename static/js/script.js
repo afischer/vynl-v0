@@ -1,3 +1,5 @@
+// Incredibly Broken JSON search
+
 function getSearchJSON()
     {
         $.getJSON("/search.json", function(e) {
@@ -100,7 +102,7 @@ var w = $(window).width(),
 $(function() {
 
     animateLine = function(canvas, DivName, colorNumber, pathString) {
-        $('#' + DivName).hover(
+        $('#' + DivName).ready(
 
         function() {
             var line = canvas.path(pathString).attr({
@@ -150,7 +152,7 @@ $(function() {
 });
 
 
-/////////
+///////// Youtube Iframe API shizz
 
 
 // 2. This code loads the IFrame Player API code asynchronously.
