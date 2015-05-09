@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import random
 import string
 
@@ -21,12 +21,28 @@ def party():
 
 @app.route("/party/<partyID>")
 def genParty(partyID):
-    return render_template("party.html", partyID=partyID)
+   if (len(partyID)==8):
+      return render_template("party.html", partyID=partyID)
+   else:
+      return '<h1>404</h1>', 404
+
+@app.route("/<partyID>")
+def redirParty(partyID):
+   if (len(partyID)==8):
+      partyURL = "/party/" + partyID
+      return redirect(partyURL, code=303)
+   else:
+      return '<h1>404</h1>', 404
+
 
 # TEMP
 @app.route("/search.json")
 def search():
     return render_template("search.json")
+
+@app.route("/test")
+def test():
+   return render_template("test.html")
 
 
 if __name__ == "__main__":

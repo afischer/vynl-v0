@@ -37,31 +37,32 @@
             <p class="navbar-text metadata">
               <span class="song-name">Song Name</span>
               <br>
-              Song Artist  |
-              The Album
+              <span class="song-artist">Song Artist</span> / 
+              <span class="song-album">The Album</span>
             </p>
           </li>
 
           <li>
             <a class="navbar-brand">
-              <img class="album-art img-rounded" src="http://placehold.it/30x30">
+              <div class="album-art album-art-header"></div>
             </a>
             <!-- <img src="http://placehold.it/30x30" class="album-art img-rounded"></img> -->
           </li>
 
           <li>
-            <a href="#" class="glyphicon glyphicon-step-backward"></a>
+            <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
           </li>
           <li>
-            <a href='#' class="glyphicon glyphicon-play"></a>
+            <a href='#' class="glyphicon glyphicon-play play"  onClick="playVideo()"></a>
           </li>
           <li>
-            <a href="#" class="glyphicon glyphicon-step-forward"></a>
+            <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
 
 
   {% block content %}
@@ -89,7 +90,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   {% block scripts %}
   {% endblock scripts %}
-  <script src="static/js/script.js"></script>
+  <script src="/static/js/script.js"></script>
 
 </body>
 
