@@ -39,15 +39,20 @@ html, body {
 }
 .nav .album-art {
     margin-top: -5px;
+    height: 30px;
+    width: 30px;
+    overflow: hidden;
 }
 .album-art {
     display: inline;
+    overflow: hidden;
 }
 /*Dat red: #d9230f */
 /*Dat grey: #474949*/
 
 .metadata {
-    font-size: 65%;
+font-size: 65%;
+
 }
 .nav .metadata {
     text-align: right;
@@ -64,10 +69,10 @@ html, body {
     color: #d9230f;
     font-size: 130%;
 }
-li > .badge {
+/*li > .badge {
     background-color: #474949;
     padding: 10px 10px;
-}
+}*/
 
 .list-group .music-queue {}
 
