@@ -168,16 +168,17 @@ var playIndex;
 var videoData;
 
 // For demo purposes:
-playlist.push("rn_YodiJO6k");
-playlist.push("e-ORhEE9VVg");
+playlist.push("DNqv3nHyteM");
+playlist.push("OPf0YbXqDm0");
+playlist.push("onRk0sjSgFU");
 
 
 
 function onYouTubeIframeAPIReady() {
      playIndex = 0;
      player = new YT.Player('player', {
-        height: '390',
-        width: '640',
+        height: '0',
+        width: '0',
         videoId: playlist[playIndex], //yass
         events: {
             'onReady': onPlayerReady,
@@ -187,11 +188,20 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    // == videoData['title'];
-
+    // $(".song-name").html(player.getVideoData()['title']);
+    // $(".song-artist").html(player.getVideoData()['author']);
+    // $("div.album-art").html("".concat('<img class="img-rounded" src="img.youtube.com/vi/', playlist[playIndex], '/0.jpg"'));
 }
 
 function onPlayerStateChange(event) {
+    $(".song-name").html(player.getVideoData()['title']);
+    $(".song-artist").html(player.getVideoData()['author']);
+    // $("#AA").html("".concat('<img class="img-rounded" src="http://img.youtube.com/vi/', playlist[playIndex], '/0.jpg"'));
+    var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', playlist[playIndex], '/0.jpg">');
+    console.log(albumart)
+     $(".album-art").html(albumart);
+
+
     if (event.data == YT.PlayerState.ENDED){
         nextVideo();
     }
@@ -199,22 +209,14 @@ function onPlayerStateChange(event) {
 
 function playVideo() {
     player.playVideo();
-    $('#play').removeClass("glyphicon-play").addClass("glyphicon-pause");
-    $('#play').attr("onclick", "pauseVideo()");
-    $('#play-header').removeClass("glyphicon-play").addClass("glyphicon-pause");
-    $('#play-header').attr("onclick", "pauseVideo()");
-    $("#song-name").html(player.getVideoData()['title']);
-
+    $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
+    $('.play').attr("onclick", "pauseVideo()");
 };
 
 function pauseVideo() {
     player.pauseVideo();
-    $('#play').removeClass("glyphicon-pause").addClass("glyphicon-play");
-    $('#play').attr("onclick", "playVideo()");
-
-    $('#play-header').removeClass("glyphicon-pause").addClass("glyphicon-play");
-    $('#play-header').attr("onclick", "playVideo()");
-
+    $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
+    $('.play').attr("onclick", "playVideo()");
 };
 
 function nextVideo(){

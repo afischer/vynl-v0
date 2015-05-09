@@ -18,7 +18,7 @@ def base():
 @app.route("/party")
 def party():
     return render_template("party.html")
-
+    
 @app.route("/party/<partyID>")
 def genParty(partyID):
     return render_template("party.html", partyID=partyID)
