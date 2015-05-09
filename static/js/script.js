@@ -192,3 +192,91 @@ $(function() {
     });
 
 });
+
+
+/////////
+
+
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+var playlist = [];
+var playIndex;
+var videoData;
+
+// For demo purposes:
+playlist.push("rn_YodiJO6k");
+playlist.push("e-ORhEE9VVg");
+
+
+
+function onYouTubeIframeAPIReady() {
+     playIndex = 0;
+     player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: playlist[playIndex], //yass
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // == videoData['title'];
+
+}
+
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED){
+        nextVideo();
+    }
+};
+
+function playVideo() {
+    player.playVideo();
+    $('#play').removeClass("glyphicon-play").addClass("glyphicon-pause");
+    $('#play').attr("onclick", "pauseVideo()");
+    $('#play-header').removeClass("glyphicon-play").addClass("glyphicon-pause");
+    $('#play-header').attr("onclick", "pauseVideo()");
+    $("#song-name").html(player.getVideoData()['title']);
+
+};
+
+function pauseVideo() {
+    player.pauseVideo();
+    $('#play').removeClass("glyphicon-pause").addClass("glyphicon-play");
+    $('#play').attr("onclick", "playVideo()");
+
+    $('#play-header').removeClass("glyphicon-pause").addClass("glyphicon-play");
+    $('#play-header').attr("onclick", "playVideo()");
+
+};
+
+function nextVideo(){
+    playIndex++;
+    player.loadVideoById(playlist[playIndex]);
+};
+
+function prevVideo(){
+    playIndex--;
+    player.loadVideoById(playlist[playIndex]);
+};
+
+
+//search
+document.getElementById("search_input").addEventListener( "keydown", function( e ) {
+    var keyCode = e.keyCode || e.which;
+    if ( keyCode === 13 ) {
+       playlist.push(this.value);
+       console.log("added " + this.value + " to playlist.");
+    }
+}, false);

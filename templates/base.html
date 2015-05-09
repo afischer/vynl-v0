@@ -50,18 +50,19 @@
           </li>
 
           <li>
-            <a href="#" class="glyphicon glyphicon-step-backward"></a>
+            <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
           </li>
           <li>
-            <a href='#' class="glyphicon glyphicon-play"></a>
+            <a href='#' id="play-header" class="glyphicon glyphicon-play"  onClick="playVideo()"></a>
           </li>
           <li>
-            <a href="#" class="glyphicon glyphicon-step-forward"></a>
+            <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
 
 
   {% block content %}
