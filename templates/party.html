@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
+
 
 <div class="container">
     <div class="row" style="padding-top:60px">
@@ -14,6 +17,8 @@
 
         <br><br>
 
+
+
         <div class="col-md-9">
             <div class="jumbotron">
 
@@ -24,7 +29,7 @@
                             <img src="http://placehold.it/500x500&text=Album+Art" class="img-responsive img-rounded">
                             <div class="music-data">
                             <h4>
-                                <font color="#d9230f"> Song Name </font>
+                                <font color="#d9230f"> <div id="song-name"></div> </font>
                                 <br>
                                 <small>
                                     Song Artist
@@ -32,9 +37,9 @@
                                     The Album
                                 </small>
                                 <br> <br>
-                                <a href="#" class="glyphicon glyphicon-step-backward"></a>
-                                <a href='#' class="glyphicon glyphicon-play"></a>
-                                <a href="#" class="glyphicon glyphicon-step-forward"></a>
+                                <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
+                                <a href='#' id="play" class="glyphicon glyphicon-play"  onClick="playVideo()"></a>
+                                <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
                                 <br><br>
                                 <i class="fa fa-thumbs-up"></i> &nbsp;
                                 <i class="fa fa-thumbs-down"></i> &nbsp;
@@ -98,7 +103,6 @@
                         </ul>
 
                         <!-- SEARCH -->
-                        <!-- See here http://thornelabs.net/2014/05/12/instant-search-with-twitter-bootstrap-jekyll-json-and-jquery.html -->
 
                         <input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" onkeyup="checkTextField();" />
                         <!-- Search results styled as a dropdown menu -->
@@ -116,6 +120,8 @@
         <div class="col-md-3">
             <h4> Party ID: {{partyID}}</h4>
 
+
+            <div id="player"></div>
 
         </div>
 
