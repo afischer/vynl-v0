@@ -8,22 +8,22 @@ Before 4/27
 
 
 Before 5/1
-- [ ] Wireframe site (Andrew)
-    - [ ] Single Page Web 
+- [x] Wireframe site (Andrew)
+    - [x] Single Page Web 
 - [ ] Figure out deal with MVC (Eric)
     - [ ] ANGULAR nahhh
 	- [ ] Backbone.Marionette? yahhh
 - [ ] Look into APIs (Zabari)
     - [ ] Spotify
-	- [ ] Youtube (audio only?)
-	- [ ] SoundCloud
-	- [ ] GrooveShark
-	- [ ] 8tracks
+	- [x] Youtube (audio only?)
+	- [ ] SoundCloud (probably not)
+	- [ ] GrooveShark (shutdown)
+	- [ ] 8tracks (probably not)
 	- [ ] More??
 - [ ] Work out Javascript implementation for single page web (Isaac)
 
 
 Before 5/8
-- [ ] Get Single Page transitions working (Andrew)
+- [x] Get Single Page transitions working (Andrew)
 - [ ] Get random URL generation/dj rooms working (Zabari)
 - [ ] Finish this timetable (group)
