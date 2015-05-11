@@ -2,6 +2,21 @@
 
 {% block content %}
 
+<!-- Whoohoo MVC Love -->
+<script type="text/template" id="queue-tempate">
+  <ul class="list-group music-queue">
+  </ul>
+</script>
+
+<script type="text/template" id="queue-item-template"
+	<li class="list-group-item metadata">
+	  <img class="album-art img-rounded" src=<%=album-art-url%> >
+	  &nbsp;
+	  <span class="song-name"><%=song-name%></span>
+	  <%=song-artist%>
+	</li>
+</script>
+
 <!-- Hidden YTPlayer -->
 <div id="player"></div>
 
@@ -43,7 +58,9 @@
 
 
                         <!-- MUST BE A MVC. DO NOT JUST MAKE A JAVASCIRPT LIST -->
-                        <ul class="list-group music-queue">
+                        <div id="queue-region"></div>
+			
+			<ul class="list-group music-queue">
                             <!-- This where the music goes -->
 
                             <!-- Begin example list item -->
@@ -108,6 +125,10 @@
     {% endblock content %}
 
     {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
+    <script src="/static/js/app.js"></script>
 	<script>
 		var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
 
@@ -119,6 +140,4 @@
 	</script>
 
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-
     {% endblock scripts %}
-
