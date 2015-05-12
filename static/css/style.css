@@ -74,6 +74,11 @@ font-size: 65%;
     padding: 10px 10px;
 }*/
 
+.list-group-item .album-art {
+    width: 30px;
+    height: 30px;
+}
+
 .list-group .music-queue {}
 
 .enter-buttons{

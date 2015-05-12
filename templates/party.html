@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<!-- Whoohoo MVC Love -->
+<!-- MVC TEMPLATES -->
 <script type="text/template" id="queue-tempate">
   <ul class="list-group music-queue">
   </ul>
@@ -10,12 +10,13 @@
 
 <script type="text/template" id="queue-item-template"
 	<li class="list-group-item metadata">
-	  <img class="album-art img-rounded" src=<%=album-art-url%> >
+	  <img class="album-art img-rounded" src=<%=albumarturl%> >
 	  &nbsp;
-	  <span class="song-name"><%=song-name%></span>
-	  <%=song-artist%>
+	  <span class="song-name"><%=songname%></span>
+	  <%=songartist%>
 	</li>
 </script>
+<!-- /MVC TEMPLATES -->
 
 <!-- Hidden YTPlayer -->
 <div id="player"></div>
@@ -31,7 +32,6 @@
                         <h3>Now Playing</h3>
                         <div class="well">
                             <div class="album-art"></div>
-                            <!-- <img src="http://placehold.it/500x500&text=Album+Art" class="img-responsive img-rounded"> -->
                             <div class="music-data">
                             <h4>
                                 <font color="#d9230f"> <div class="song-name"></div> </font>
@@ -57,50 +57,9 @@
                         <h3>Queue</h3>
 
 
-                        <!-- MUST BE A MVC. DO NOT JUST MAKE A JAVASCIRPT LIST -->
+                        <!-- MCV Queue Region -->
                         <div id="queue-region"></div>
 			
-			<ul class="list-group music-queue">
-                            <!-- This where the music goes -->
-
-                            <!-- Begin example list item -->
-                            <li class="list-group-item metadata">
-                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
-                                &nbsp;
-                                <span class="song-name">Song Name</span>
-                                Song Artist  |  The Album
-                            </li>
-                            <!-- End example list item. Below are dupes for wireframing -->
-
-                            <li class="list-group-item metadata">
-                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
-                                &nbsp;
-                                <span class="song-name">Song Name</span>
-                                Song Artist  |  The Album
-                            </li>
-
-                            <li class="list-group-item metadata">
-                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
-                                &nbsp;
-                                <span class="song-name">Song Name</span>
-                                Song Artist  |  The Album
-                            </li>
-
-                            <li class="list-group-item metadata">
-                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
-                                &nbsp;
-                                <span class="song-name">Song Name</span>
-                                Song Artist  |  The Album
-                            </li>
-
-                            <li class="list-group-item metadata">
-                                <img class="album-art img-rounded" src="http://placehold.it/30x30">
-                                &nbsp;
-                                <span class="song-name">Song Name</span>
-                                Song Artist  |  The Album
-                            </li>
-                        </ul>
-
                         <!-- SEARCH -->
 					<div id="SearchSongDynamic">
                         <input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" />
@@ -108,23 +67,17 @@
                         <ul id="search_results" class="dropdown-menu" role="menu">
 					</div>
                 </div>
-
-
-                </div>
-
-
-            </div>
         </div>
 
         <div class="col-md-3">
             <h4> Party ID: {{partyID}}</h4>
             <div id="player"></div>
         </div>
-
     </div>
     {% endblock content %}
 
     {% block scripts %}
+    <script src="/static/js/YT.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
