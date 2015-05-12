@@ -14,7 +14,7 @@ App.on("start", function(){
 
 });
 
-// ItemView for each of the articles
+// ItemView for each of the songs
 App.ItemView = Backbone.Marionette.ItemView.extend({
     initialize: function() {
         //For Debugging Purposes:
@@ -23,14 +23,14 @@ App.ItemView = Backbone.Marionette.ItemView.extend({
     },
     template: '#queue-item-template',
     tagName: 'div',
-    className: 'metadata',
+    className: 'list-group-item metadata',
     modelEvents : {
 	"change" : function() { this.render(); }
     }
 });
 
 // CompositeView to hold all of the Items.
-App.ListView = Backbone.Marionette.CompositeView.extend({
+App.ListView = Backbone.Marionette.CollectionView.extend({
     tagName: 'ul',
     className: 'list-group music-queue',
     template: '#queue-tempate',
@@ -44,22 +44,22 @@ App.ListView = Backbone.Marionette.CompositeView.extend({
 
 var Song = Backbone.Model.extend();
 var Songs = Backbone.Collection.extend({
-		model:Song
+    model:Song
 });
 
 
 var data = new Songs([]);
-var test = new Song({"song-name":"Test Song","song-artist":'Andrew Fischer',"album-art-url":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg"});
+var test = new Song({"songname":"The Bends","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg"});
 data.push(test);
 console.log(test);
 
 
 // Controllers, etc
 var MyController = Marionette.Controller.extend({
-  makeHome: function() {
-    var listView = new App.ListView({model:song,collection:data});
-    App.queueRegion.show(listView);
-  }
+    makeHome: function() {
+	var listView = new App.ListView({model:song,collection:data});
+	App.queueRegion.show(listView);
+    }
 });
 
 
@@ -67,10 +67,10 @@ App.controller = new MyController();
 
 // Routers
 App.router = new Marionette.AppRouter({
-		controller : App.controller,
-		appRoutes : {
-		default  :  "makeHome",     //  /#
-		}
+    controller : App.controller,
+    appRoutes : {
+    default  :  "makeHome",     //  /#
+    }
 });
 
 
