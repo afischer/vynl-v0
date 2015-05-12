@@ -6,17 +6,14 @@ function handleClientLoad() {
     console.log("youtube client loaded");
 }
 
-function search(query) {
+function search(query, callback) {
     var q = query;
     var request = gapi.client.youtube.search.list({
         q: q,
         part: 'snippet'
     });
 
-    request.execute(function(response) {
-        var str = JSON.stringify(response.result);
-        console.log(str);
-    });
+    request.execute(callback(response));
 }
 
 var SONGS = [
@@ -50,19 +47,33 @@ var SearchSongDropDown = React.createClass({
 	}
 });
 
+/*
 var SearchSongBar = React.createClass({
+	handleOnKeyUp: function() {
+		console.log("bad key up");
+	},
 	render: function() {
 		return (
-			<input id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
+			<input onKeyUp={this.handleOnKeyUp} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
 		);
 	}
 });
+*/
 
-var SearchSongDynamic = React.createClass({
+var SearchSongDynamic = React.createClass({	
+	getInitialState: function() {
+		return {songs: []};
+	},
+	handleOnKeyUp: function() {
+		var query = $(this).val().toLowerCase();
+		search(query, function(response) {
+			console.log(response);
+		});
+	},
 	render: function() {
 		return (
 			<div>
-				<SearchSongBar />
+				<input onKeyUp={this.handleOnKeyUp} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
 				<SearchSongDropDown songs={this.props.songs} />
 			</div>
 		);
