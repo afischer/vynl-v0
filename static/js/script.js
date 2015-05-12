@@ -13,7 +13,7 @@ function search(query, callback) {
         part: 'snippet'
     });
 
-    request.execute(callback(response));
+    request.execute(callback);
 }
 
 var SONGS = [
@@ -22,7 +22,7 @@ var SONGS = [
 
 var SearchSongRow = React.createClass({
     render: function() {
-        var title = this.props.song.title;
+        var title = this.props.song.snippet.title;
         var rowStyle = {
             paddingTop: '3px',
             paddingBottom: '3px'
@@ -37,7 +37,7 @@ var SearchSongDropDown = React.createClass({
 	render: function() {
 		var rows = [];
 		this.props.songs.forEach(function(song) {
-			rows.push(<SearchSongRow song={song} key={song.title} />);
+			rows.push(<SearchSongRow song={song} key={song.snippet.title} />);
 		});
 		return (
 			<ul id={'search_results'} className={'dropdown-menu'} role={'menu'}>
@@ -65,22 +65,24 @@ var SearchSongDynamic = React.createClass({
 		return {songs: []};
 	},
 	handleOnKeyUp: function() {
-		var query = $(this).val().toLowerCase();
+		var query = $("#search_input").val().toLowerCase();
+		console.log(query);
 		search(query, function(response) {
-			console.log(response);
-		});
+			console.log(response.items);
+			this.setState({songs: response.items});
+		}.bind(this));
 	},
 	render: function() {
 		return (
 			<div>
 				<input onKeyUp={this.handleOnKeyUp} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
-				<SearchSongDropDown songs={this.props.songs} />
+				<SearchSongDropDown songs={this.state.songs} />
 			</div>
 		);
 	}
 });
 
-React.render(<SearchSongDynamic songs={SONGS} />, document.getElementById('SearchSongDynamic'));
+React.render(<SearchSongDynamic />, document.getElementById('SearchSongDynamic'));
 
 /*
 function printResults()
@@ -132,19 +134,6 @@ $(document).mouseup(function (e)
 }
 });
 */
-
-$(document).ready(function() {
-
-    // Continually update search results as characters are typed
-    $("#search_input").keyup(function() {
-        // Make search inputs are case insensitive
-        var e = $(this).val().toLowerCase();
-
-        // Do the actual search
-        search(e);
-    });
-});
-
 
 
 // SVG ANIM
