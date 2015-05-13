@@ -89,6 +89,10 @@ font-size: 65%;
 }
 
 /*SVG Hero*/
+#svg-canvas {
+    height: 379;
+    width: 579;
+}
 svg {
    margin-left: -50px;
 }
