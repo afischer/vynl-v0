@@ -61,19 +61,20 @@
                         <div id="queue-region"></div>
 			
                         <!-- SEARCH -->
-					<div id="SearchSongDynamic">
-                        <input id="search_input" data-toggle="dropdown" type="text" class="form-control" placeholder="Search" autofocus="autofocus" autocomplete="off" />
-                        <!-- Search results styled as a dropdown menu -->
-                        <ul id="search_results" class="dropdown-menu" role="menu">
-					</div>
+			<div id="SearchSongDynamic">
+			</div>
+
+                    </div>
                 </div>
+            </div>
         </div>
 
         <div class="col-md-3">
             <h4> Party ID: {{partyID}}</h4>
-            <div id="player"></div>
+
         </div>
     </div>
+
     {% endblock content %}
 
     {% block scripts %}
@@ -82,15 +83,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
     <script src="/static/js/app.js"></script>
-	<script>
-		var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
 
-		function handleClientLoad() {
-			gapi.client.setApiKey(apiKey);
-			gapi.client.load('youtube', 'v3', function() {});
-			console.log("youtube client loaded");
-		}
-	</script>
-
+    <script>
+      var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
+      function handleClientLoad() {
+      gapi.client.setApiKey(apiKey);
+      gapi.client.load('youtube', 'v3', function() {});
+      console.log("youtube client loaded");
+      }
+    </script>
+    
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     {% endblock scripts %}
