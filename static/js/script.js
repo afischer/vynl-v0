@@ -14,10 +14,6 @@ function search(query, callback) {
     request.execute(callback);
 }
 
-var SONGS = [
-	{title: 'example1'}
-];
-
 var SearchSongRow = React.createClass({
     render: function() {
         var title = this.props.song.snippet.title;
@@ -60,19 +56,27 @@ var SearchSongBar = React.createClass({
 
 var SearchSongDynamic = React.createClass({	
 	getInitialState: function() {
-		return {songs: []};
+		return {songs: [],
+			value: ''};
 	},
-	handleOnKeyUp: function() {
-		var query = $("#search_input").val().toLowerCase();
+	componentDidMount: function() {
+	},
+	componentWillUnmount: function() {
+	},
+	handleOnChange: function(event) {
+		this.setState({value: event.target.value});
+
+		var query = event.target.value;
 		search(query, function(response) {
 			console.log(response.items);
 			this.setState({songs: response.items});
 		}.bind(this));
 	},
 	render: function() {
+		var value = this.state.value;
 		return (
 			<div>
-				<input onKeyUp={this.handleOnKeyUp} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
+				<input onChange={this.handleOnChange} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
 				<SearchSongDropDown songs={this.state.songs} />
 			</div>
 		);
