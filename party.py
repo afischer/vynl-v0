@@ -46,11 +46,8 @@ class Party:
 		if self.active:
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			num=c.execute("SELECT VALUES (upvotes,total) FROM songs WHERE videoid=?",(vid,)).fetchone()[0]
-			num[0]+=1
-			num[1]+=1
-			print num
-			c.execute("UPDATE songs SET upvotes=?, total=? WHERE videoid=?",(num[0],num[1],vid,))
+			num=c.execute("SELECT upvotes,total FROM songs WHERE videoid=?",(vid,)).fetchone()
+			c.execute("UPDATE songs SET upvotes=?, total=? WHERE videoid=?",(num[0]+1,num[1]+1,vid,))
 			conn.commit()
 			conn.close()
 		else:
@@ -62,10 +59,8 @@ class Party:
 		if self.active:
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			num=c.execute("SELECT VALUES (downvotes,total) FROM songs WHERE videoid=?",(vid,)).fetchone()[0]
-			num[0]+=1
-			num[1]-=1
-			c.execute("UPDATE songs SET downvotes=?,total=? WHERE videoid=?",(num[0],num[1],vid,))
+			num=c.execute("SELECT downvotes,total FROM songs WHERE videoid=?",(vid,)).fetchone()
+			c.execute("UPDATE songs SET downvotes=?,total=? WHERE videoid=?",(num[0]+1,num[1]-1,vid,))
 			conn.commit()
 			conn.close()
 		else:
@@ -83,13 +78,15 @@ class Party:
 			conn.close()
 
 
-	def getOrdered(self): #{title: STRING, videoID: STRING, NG, upvotes: int, downvotes: int}
+	def getOrdered(self): #{title: STRING, videoID: STRING, upvotes: int, downvotes: int}
 		if self.active:
 			ret=[]
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			it=c.execute("SELECT VALUES (name,videoid, upvotes, downvotes) FROM songs WHERE active=1 SORT BY total").fetchall()
+			it=c.execute("SELECT name,videoid, upvotes, downvotes FROM songs WHERE active=1 ORDER BY total DESC").fetchall()
 			conn.close()
-			
+			for x in it:
+					ret.append({"title":str(x[0]),"videoID":str(x[1]),"upvotes":x[2],"downvotes":x[3]})
+			return ret
 
 	
