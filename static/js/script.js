@@ -8,6 +8,7 @@ function search(query, callback) {
     var q = query;
     var request = gapi.client.youtube.search.list({
         q: q,
+        type: 'video',
         part: 'snippet'
     });
 
@@ -54,7 +55,7 @@ var SearchSongBar = React.createClass({
 });
 */
 
-var SearchSongDynamic = React.createClass({	
+var SearchSongDynamic = React.createClass({
 	getInitialState: function() {
 		return {songs: [],
 			value: ''};
