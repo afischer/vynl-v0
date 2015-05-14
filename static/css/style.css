@@ -90,8 +90,9 @@ font-size: 65%;
 
 /*SVG Hero*/
 #svg-canvas {
-    height: 379;
-    width: 579;
+    height: 479;
+    width: 679;
+    text-align: center;
 }
 svg {
    margin-left: -50px;
