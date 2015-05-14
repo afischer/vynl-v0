@@ -12,7 +12,7 @@ class Party:
 			pass
 		conn2=sqlite3.connect(self.db)
 		c2=conn2.cursor()
-		c2.execute("CREATE TABLE songs (videoid TEXT, upvotes REAL,downvotes REAL, name TEXT, artist TEXT, albumart TEXT,active INTEGER,total REAL)")
+		c2.execute("CREATE TABLE songs (videoid TEXT, upvotes REAL,downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)")
 		conn2.commit()
 		conn2.close()
 		c.execute("INSERT INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
@@ -20,12 +20,12 @@ class Party:
 		conn.close()
 		self.active=True
 
-	def addSong(self,vid,image,title):
+	def addSong(self,vid,title):
 		if self.active:
 			conn=sqlite3.connect(self.db)
-			args=(vid,image,1,title,)
+			args=(vid,1,title,)
 			c=conn.cursor()
-			c.execute("INSERT INTO songs (videoid,albumart,active,name,upvotes,downvotes,total) VALUES (?,?,?,?,0,0,0)",args)
+			c.execute("INSERT INTO songs (videoid,active,name,upvotes,downvotes,total) VALUES (?,?,?,0,0,0)",args)
 			conn.commit()
 			conn.close()
 		else:
@@ -46,7 +46,7 @@ class Party:
 		if self.active:
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			num=c.execute("SELECT (upvotes,total) FROM songs WHERE videoid=?",(vid,)).fetchone()
+			num=c.execute("SELECT VALUES (upvotes,total) FROM songs WHERE videoid=?",(vid,)).fetchone()[0]
 			num[0]+=1
 			num[1]+=1
 			print num
@@ -62,9 +62,10 @@ class Party:
 		if self.active:
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			num=c.execute("SELECT downvotes FROM songs WHERE videoid=?",(vid,)).fetchone()[0]
-			num+=1
-			c.execute("UPDATE songs SET downvotes=? WHERE videoid=?",(num,),(vid,))
+			num=c.execute("SELECT VALUES (downvotes,total) FROM songs WHERE videoid=?",(vid,)).fetchone()[0]
+			num[0]+=1
+			num[1]-=1
+			c.execute("UPDATE songs SET downvotes=?,total=? WHERE videoid=?",(num[0],num[1],vid,))
 			conn.commit()
 			conn.close()
 		else:
@@ -82,12 +83,13 @@ class Party:
 			conn.close()
 
 
-	def getOrdered(self): #{title: STRING, videoID: STRING, image: STRING, upvotes: int, downvotes: int}
+	def getOrdered(self): #{title: STRING, videoID: STRING, NG, upvotes: int, downvotes: int}
 		if self.active:
 			ret=[]
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			it=c.execute("SELECT (name,videoid, albumart, upvotes, downvotes) FROM songs WHERE active=1 SORT BY total")
+			it=c.execute("SELECT VALUES (name,videoid, upvotes, downvotes) FROM songs WHERE active=1 SORT BY total").fetchall()
+			conn.close()
 			
 
 	
