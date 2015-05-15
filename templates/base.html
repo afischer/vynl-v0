@@ -1,0 +1,100 @@
+<html>
+
+<head>
+  <title>vynl</title>
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/simplex/bootstrap.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+
+
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+        <a class="navbar-brand" href="/">Vynl</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <p class="navbar-text metadata">
+              <span class="song-name">Song Name</span>
+              <br>
+              <span class="song-artist">Song Artist</span> / 
+              <span class="song-album">The Album</span>
+            </p>
+          </li>
+
+          <li>
+            <a class="navbar-brand">
+              <div class="album-art album-art-header"></div>
+            </a>
+            <!-- <img src="http://placehold.it/30x30" class="album-art img-rounded"></img> -->
+          </li>
+
+          <li>
+            <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
+          </li>
+          <li>
+            <a href='#' class="glyphicon glyphicon-play play"  onClick="playVideo()"></a>
+          </li>
+          <li>
+            <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  {% block content %}
+  <!-- IF I WANT TO DO THREE LINE BREAKS I WILL -->
+  <br><br><br>
+  If you see this, you forgot to override content. <br>
+  {% endblock content %}
+
+
+
+
+
+  <footer class="footer">
+      <div class="container">
+      <p class="text-muted">
+    Made with <i class="fa fa-heart"></i> by Eric Z. Chen, Andrew Fischer, Isaac Gluck, &amp;
+    Daniel Zabari, &copy; 2015. Proudly open-source on <a href="http://www.github.com/afischer/vynl" class="fa fa-github-alt fa-lg"></a>.
+      </p>
+      </div>
+  </footer>
+</div>
+
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://fb.me/JSXTransformer-0.13.2.js"></script>
+  <script src="https://fb.me/react-with-addons-0.13.2.js"></script>
+  <script type="text/jsx" src="/static/js/script.js"></script>
+
+  {% block scripts %}
+  {% endblock scripts %}
+
+</body>
+
+</html>

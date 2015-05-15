@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- MVC TEMPLATES -->
+<script type="text/template" id="queue-tempate">
+  <ul class="list-group music-queue">
+  </ul>
+</script>
+
+<script type="text/template" id="queue-item-template"
+	<li class="list-group-item metadata">
+	  <img class="album-art img-rounded" src=<%=albumarturl%> >
+	  &nbsp;
+	  <span class="song-name"><%=songname%></span>
+	  <%=songartist%>
+	</li>
+</script>
+<!-- /MVC TEMPLATES -->
+
+<!-- Hidden YTPlayer -->
+<div id="player"></div>
+
+
+<div class="container">
+    <div class="row" style="padding-top:60px">
+        <div class="col-md-9">
+            <div class="jumbotron">
+
+                <div class="row">
+                    <div class="col-xs-5">
+                        <h3>Now Playing</h3>
+                        <div class="well">
+                            <div class="album-art"></div>
+                            <div class="music-data">
+                            <h4>
+                                <font color="#d9230f"> <div class="song-name"></div> </font>
+                                <br>
+                                <small>
+                                    <div class="song-artist"></div>
+                                    <br>
+                                    <div class="song-album"></div>
+                                </small>
+                                <br> <br>
+                                <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
+                                <a href='#' class="glyphicon glyphicon-play play"  onClick="playVideo()"></a>
+                                <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
+                                <br><br>
+                                <i class="fa fa-thumbs-up"></i> &nbsp;
+                                <i class="fa fa-thumbs-down"></i> &nbsp;
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="col-xs-7">
+                        <h3>Queue</h3>
+
+
+                        <!-- MCV Queue Region -->
+                        <div id="queue-region"></div>
+			
+                        <!-- SEARCH -->
+			<div id="SearchSongDynamic">
+			</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <h4> Party ID: {{partyID}}</h4>
+
+        </div>
+    </div>
+
+    {% endblock content %}
+
+    {% block scripts %}
+    <script src="/static/js/YT.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <script>
+      var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg';
+      function handleClientLoad() {
+      gapi.client.setApiKey(apiKey);
+      gapi.client.load('youtube', 'v3', function() {});
+      console.log("youtube client loaded");
+      }
+    </script>
+    
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    {% endblock scripts %}
