@@ -6,21 +6,70 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-9">
+        <div class="col-md-10 col-md-offset-2">
             <!-- SVG -->
             <div id="svg-canvas">
             </div>
             <!-- /SVG -->
         </div>
-
-        <div class="col-xs-3">
+       <!-- <div class="col-xs-3">
             <div class="btn-group-vertical enter-buttons" role="group">
                 <a class="btn btn-info" href="/party/{{partyID}}"> Start a Party </a>
                 <a class="btn btn-default" href="#"> Join a Party </a>
             </div>
 
-        </div>
+        </div> -->
     </div>
+
+    <div class="row">
+      <div class="col-md-4 text-center">
+      	<h1>What?</h1>
+      	<p>Vynl is an app and a DJ... at the same time. Vynl is a way to crowd source the music selection at a social gathering.</p>
+      </div>
+      <div class="col-md-4">
+		<h1 class="text-center">How?</h1>
+		<p>1. Start or join a party.<br>
+		2. Add music you want to hear to the playlist.<br>
+		3. Give your opinion on other attendee's music choices.<br>
+		4. Jam out.</p>
+      </div>
+      <div class="col-md-4 text-center">
+		<h1>Why?</h1>
+		<p>DJs are expensive. Let the party's party goers dictate the music they hear.</p>
+      </div>
+    </div>
+
+    <hr>
+
+     <div class="row">
+    	<div class="col-md-6">
+    		<a href="/party/{{partyID}}" class="btn btn-default btn-lg btn-block">Start a Party</a>
+    	</div>
+    	<div class="col-md-6">
+    		<a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
+    	</div>
+
+      <!-- Modal HTML -->
+      <div id="joinModal" class="modal fade">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Join Party</h4>
+                  </div>
+                  <div class="modal-body">
+                      <input id="partyID" type="text" class="form-control" placeholder="Enter partyID" autofocus="autofocus">
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="join_party">Join</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    </div>
+
     <br><br><br><br><br><br><br> <!--FIX THIS-->
 </div>
 
@@ -28,5 +77,23 @@
 
 {% block scripts %}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+
+<script type="text/javascript" src="/static/js/animation.js"></script>
+
+
+<!-- Can be put in another file if necessary -->
+<script type="text/javascript">
+  $("#partyID").keypress(function(event) {
+    if( event.which == 13 ) {
+      // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
+      window.location.href = "/party/" + $("#partyID").val();
+    }
+  });
+  $("#join_party").on( "click", function(event) {
+    // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
+    window.location.href = "/party/" + $("#partyID").val();
+  });
+</script>
+
 <script type="text/javascript" src="/static/js/animation.js"
 {% endblock scripts %}

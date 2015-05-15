@@ -32,6 +32,9 @@ html, body {
     max-width: 950px;
     /* or 1600px */
 }
+.text-center {
+    text-align: center;
+}
 .navbar-brand {
     font-family: 'pacifico', helvetica, sans-serif;
     font-size: 175%;
@@ -86,6 +89,11 @@ font-size: 65%;
 }
 
 /*SVG Hero*/
+#svg-canvas {
+    height: 429;
+    width: 679;
+    text-align: center;
+}
 svg {
    margin-left: -50px;
 }
