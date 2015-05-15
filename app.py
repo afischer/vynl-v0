@@ -11,6 +11,10 @@ def genID():
 def index():
     return render_template("index.html", partyID=genID())
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/base")
 def base():
     return render_template("base.html")
