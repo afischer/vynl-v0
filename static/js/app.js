@@ -1,3 +1,7 @@
+function getArt(ytID){
+    return "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', ytID, '/0.jpg">');
+}
+
 //// BACKBONE.MARIONETTE ////
 var App = new Marionette.Application();
 
@@ -49,8 +53,11 @@ var Songs = Backbone.Collection.extend({
 
 
 var data = new Songs([]);
-var test = new Song({"songname":"The Bends","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"12483920"});
+
+var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
+var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
 data.push(test);
+data.push(test2);
 console.log(test);
 
 
@@ -77,3 +84,87 @@ App.router = new Marionette.AppRouter({
 
 App.start();
 
+///////// Youtube Iframe API shizz
+
+
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+var playlist = [];
+var playIndex;
+var videoData;
+
+// For demo purposes:
+playlist.push("DNqv3nHyteM");
+playlist.push("OPf0YbXqDm0");
+playlist.push("onRk0sjSgFU");
+
+
+
+function onYouTubeIframeAPIReady() {
+     playIndex = 0;
+     player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: playlist[playIndex], //yass
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+}
+
+function onPlayerStateChange(event) {
+    $(".song-name").html(player.getVideoData()['title']);
+    $(".song-artist").html(player.getVideoData()['author']);
+    var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', data.models[playIndex].attributes.songID, '/0.jpg">');
+    console.log(albumart)
+     $(".album-art").html(albumart);
+
+
+    if (event.data == YT.PlayerState.ENDED){
+        nextVideo();
+    }
+};
+
+function playVideo() {
+    player.playVideo();
+    $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
+    $('.play').attr("onclick", "pauseVideo()");
+};
+
+function pauseVideo() {
+    player.pauseVideo();
+    $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
+    $('.play').attr("onclick", "playVideo()");
+};
+
+function nextVideo(){
+    playIndex++;
+    player.loadVideoById(data.models[playIndex].attributes.songID);
+};
+
+function prevVideo(){
+    playIndex--;
+    player.loadVideoById(data.models[playIndex].attributes.songID);
+};
+
+
+//search
+document.getElementById("search_input").addEventListener( "keydown", function( e ) {
+    var keyCode = e.keyCode || e.which;
+    if ( keyCode === 13 ) {
+       playlist.push(this.value);
+       console.log("added " + this.value + " to playlist.");
+    }
+}, false);
