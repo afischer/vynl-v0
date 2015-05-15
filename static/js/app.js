@@ -54,11 +54,11 @@ var Songs = Backbone.Collection.extend({
 
 var data = new Songs([]);
 
-var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
-var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
-data.push(test);
-data.push(test2);
-console.log(test);
+//var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
+//var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
+//data.push(test);
+//data.push(test2);
+//console.log(test);
 
 
 // Controllers, etc
@@ -97,14 +97,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 var player;
-var playlist = [];
 var playIndex;
 var videoData;
 
-// For demo purposes:
-playlist.push("DNqv3nHyteM");
-playlist.push("OPf0YbXqDm0");
-playlist.push("onRk0sjSgFU");
 
 
 
@@ -113,7 +108,7 @@ function onYouTubeIframeAPIReady() {
      player = new YT.Player('player', {
         height: '0',
         width: '0',
-        videoId: playlist[playIndex], //yass
+        videoId: data.models[playIndex].attributes.songID, //yass
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -135,6 +130,7 @@ function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.ENDED){
         nextVideo();
     }
+
 };
 
 function playVideo() {
@@ -159,12 +155,3 @@ function prevVideo(){
     player.loadVideoById(data.models[playIndex].attributes.songID);
 };
 
-
-//search
-document.getElementById("search_input").addEventListener( "keydown", function( e ) {
-    var keyCode = e.keyCode || e.which;
-    if ( keyCode === 13 ) {
-       playlist.push(this.value);
-       console.log("added " + this.value + " to playlist.");
-    }
-}, false);
