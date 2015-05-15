@@ -15,6 +15,15 @@ function search(query, callback) {
 }
 
 var SearchSongRow = React.createClass({
+	handleOnClick: function() {
+		var song = new Song({
+			"songname": this.props.song.snippet.title,
+			"songartist": this.props.song.snippet.channelTitle,
+			"albumarturl": this.props.song.snippet.thumbnails.default.url,
+			"songID": this.props.song.id.videoId
+		});
+		data.push(song);
+	},
     render: function() {
         var title = this.props.song.snippet.title;
         var rowStyle = {
@@ -22,7 +31,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a href="#">{title}</a></li>
+            <li style={rowStyle}><a onClick={this.handleOnClick} href="#">{title}</a></li>
         );
     }
 });
@@ -41,19 +50,6 @@ var SearchSongDropDown = React.createClass({
     }
 });
 
-/*
-   var SearchSongBar = React.createClass({
-   handleOnKeyUp: function() {
-   console.log("bad key up");
-   },
-   render: function() {
-   return (
-   <input onKeyUp={this.handleOnKeyUp} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
-   );
-   }
-   });
-   */
-
 var SearchSongDynamic = React.createClass({
     getInitialState: function() {
         return {
@@ -61,16 +57,16 @@ var SearchSongDynamic = React.createClass({
             value: ''
         };
     },
-    handleOnFocus: function() {
-        if (this.state.value != null && this.state.value != '') {
-            $(React.findDOMNode(this.refs.searchSongDropDown)).show();
-        } else {
-            $(React.findDOMNode(this.refs.searchSongDropDown)).hide();
-        }
-    },
-    handleOnBlur: function() {
-        $(React.findDOMNode(this.refs.searchSongDropDown)).hide();
-    },
+	handleClick: function(e) {
+		if (e.target.className != 'form-control' || this.state.value == '') {
+			$(React.findDOMNode(this.refs.searchSongDropDown)).hide();
+		} else if (e.target.className == 'form-control') {
+			$(React.findDOMNode(this.refs.searchSongDropDown)).show();
+		}
+	},
+	componentDidMount: function() {
+		document.addEventListener("click", this.handleClick);
+	},
     handleOnChange: function(event) {
         this.setState({value: event.target.value});
 
@@ -88,7 +84,7 @@ var SearchSongDynamic = React.createClass({
         var value = this.state.value;
         return (
                 <div>
-                    <input onChange={this.handleOnChange} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
+                    <input onChange={this.handleOnChange} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
                     <SearchSongDropDown songs={this.state.songs} ref="searchSongDropDown" />
                 </div>
                 );

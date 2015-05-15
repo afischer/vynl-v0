@@ -49,7 +49,7 @@ var Songs = Backbone.Collection.extend({
 
 
 var data = new Songs([]);
-var test = new Song({"songname":"The Bends","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg"});
+var test = new Song({"songname":"The Bends","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"12483920"});
 data.push(test);
 console.log(test);
 
