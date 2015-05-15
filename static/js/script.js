@@ -10,7 +10,6 @@ function search(query, callback) {
         type: 'video',
         part: 'snippet'
     });
-
     request.execute(callback);
 }
 
