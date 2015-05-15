@@ -34,17 +34,6 @@ def redirParty(partyID):
    else:
       return '<h1>404</h1>', 404
 
-
-# TEMP
-@app.route("/search.json")
-def search():
-    return render_template("search.json")
-
-@app.route("/test")
-def test():
-   return render_template("test.html")
-
-
 if __name__ == "__main__":
    app.debug = True
    app.run(host="0.0.0.0", port=8000)
