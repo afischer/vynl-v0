@@ -120,7 +120,7 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-    $(".song-name").html(player.getVideoData()['title']);
+    $(".now-playing-song-name").html(player.getVideoData()['title']);
     $(".song-artist").html(player.getVideoData()['author']);
     var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', data.models[playIndex].attributes.songID, '/0.jpg">');
     console.log(albumart)
@@ -154,4 +154,3 @@ function prevVideo(){
     playIndex--;
     player.loadVideoById(data.models[playIndex].attributes.songID);
 };
-
