@@ -1,3 +1,4 @@
+
 function handleClientLoad() {
     gapi.client.setApiKey(apiKey);
     gapi.client.load('youtube', 'v3', function() {});
@@ -22,6 +23,9 @@ var SearchSongRow = React.createClass({
 			"songID": this.props.song.id.videoId
 		});
 		data.push(song);
+      if (data.models.length < 2){
+         onYouTubeIframeAPIReady()
+      }
 	},
     render: function() {
         var title = this.props.song.snippet.title;
