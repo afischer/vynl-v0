@@ -1,4 +1,12 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block nav %}
+  <li><a href="/">Home</a></li>
+  <li class="active"><a href="/about">About</a></li>
+  <li><a href="#">Contact</a></li>
+{% endblock nav %}
+
+{% block content %}
 <br>
 <br>
 <br>
@@ -7,20 +15,18 @@
 <div class="container">
 
   <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">About Us
-                    <small>It's Nice to Meet You!</small>
-                </h1>
+            <div class="col-lg-12 jumbotron">
+                <h1 class="page-header">About Us</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint, explicabo dolores ipsam aliquam inventore corrupti eveniet quisquam quod totam laudantium repudiandae obcaecati ea consectetur debitis velit facere nisi expedita vel?</p>
             </div>
   </div>
-  <br><br>
+  <!-- <br><br> -->
   
-    <hr class="featurette-divider">
+    <!-- <hr class="featurette-divider"> -->
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+          <h2 class="featurette-heading">Eric Chen</h2>
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5">
@@ -34,7 +40,7 @@
 
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+          <h2 class="featurette-heading">Isaac Gluck</h2>
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
@@ -48,7 +54,7 @@
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+          <h2 class="featurette-heading">Andrew Fischer</h2>
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5">
@@ -61,7 +67,7 @@
 
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+          <h2 class="featurette-heading">Daniel Zabari</h2>
           <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
@@ -70,7 +76,8 @@
         </div>
       </div>
 
-      <hr class="featurette-divider">
+      <!-- <hr class="featurette-divider"> -->
+      <br><br>
 
 </div>
 
