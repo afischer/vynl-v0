@@ -1,9 +1,20 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect,request
 import random
 import string
-import api
+import party, json
 
 app = Flask(__name__)
+
+
+@app.route("/api/parties/<party_id>/",methods=["GET","POST"])
+def apiParty(party_id):
+    if request.method == "GET":
+        #newParty = party.Party(party_id)
+        #return json.dumps(newParty.getOrdered())
+		return "hello"
+    elif request.method == "POST":
+        pass
+
 
 def genID():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for i in range(8))
