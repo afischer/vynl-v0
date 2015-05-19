@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect
 import random
 import string
-import api
 
 app = Flask(__name__)
 
