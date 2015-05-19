@@ -24,12 +24,6 @@ def apiParty(party_id):
     elif request.method=="DELETE":
         rec=request.get_json()
         newParty.removeSong(rec["videoID"])
-
-
-
-
-
-
 def genID():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for i in range(8))
 
