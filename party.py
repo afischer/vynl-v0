@@ -4,6 +4,16 @@ class Party:
 	def __init__(self,key):  # Adds unique key to uniques database, and creates a database with a unique name
 		self.k=key
 		self.db=self.k+'.db'
+		conn2=sqlite3.connect(self.db)
+		c2=conn2.cursor()
+		ex=c2.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='songs'").fetchAll()
+		conn2.close()
+		if len(ex):
+			self.active=True
+		else:
+			self.active=False
+
+	def create(): 
 		conn = sqlite3.connect('uniques.db')
 		c=conn.cursor()
 		try:

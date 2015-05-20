@@ -1,7 +1,7 @@
-from flask import Flask, render_template, redirect,request
+from flask import Flask, render_template, redirect,request,jsonify, Response
 import random
 import string
-import party, json
+import party as p
 
 app = Flask(__name__)
 
@@ -9,11 +9,12 @@ app = Flask(__name__)
 @app.route("/api/parties/<party_id>/",methods=["GET","POST"])
 def apiParty(party_id):
     if request.method == "GET":
-        #newParty = party.Party(party_id)
-        #return json.dumps(newParty.getOrdered())
-		return "hello"
+        newParty = p.Party(party_id)
+        return jsonify(newParty.getOrdered())
+		#return jsonify({'hello':5,'hey':8})
     elif request.method == "POST":
         pass
+
 
 
 def genID():

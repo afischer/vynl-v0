@@ -23,6 +23,8 @@ for i in xrange(50):
 	x.upVote(song4)
 
 print x.getOrdered()
+y=party.Party("hey")
+print y.getOrdered()
 x.end()
 #except:
 #	os.system("rm uniques.db;rm hey.db")
