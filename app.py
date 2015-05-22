@@ -43,7 +43,7 @@ def about():
 def party():
     return render_template("party.html")
 
-@app.route("/party/<partyID>")
+@app.route("/parties/<partyID>")
 def genParty(partyID):
     if (len(partyID)==8):
         return render_template("party.html", partyID=partyID)
@@ -52,11 +52,11 @@ def genParty(partyID):
 
 @app.route("/<partyID>")
 def redirParty(partyID):
-    if (len(partyID)==8):
-        partyURL = "/party/" + partyID
-        return redirect(partyURL, code=303)
-    else:
-        return '<h1>404</h1>', 404
+   if (len(partyID)==8):
+      partyURL = "/parties/" + partyID
+      return redirect(partyURL, code=303)
+   else:
+      return '<h1>404</h1>', 404
 
 if __name__ == "__main__":
     app.debug = True
