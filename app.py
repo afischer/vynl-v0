@@ -6,14 +6,27 @@ import party as p
 app = Flask(__name__)
 
 
-@app.route("/api/parties/<party_id>/",methods=["GET","POST"])
+@app.route("/api/parties/<party_id>/",methods=["GET","POST","PATCH","DELETE"])
 def apiParty(party_id):
-    if request.method == "GET":
-        newParty = p.Party(party_id)
+	newParty=p.Party(party_id)
+	if request.method == "GET":
         return jsonify(newParty.getOrdered())
 		#return jsonify({'hello':5,'hey':8})
     elif request.method == "POST":
-        pass
+        rec=request.get_json()
+		newParty.addSong(rec["videoID"],rec["title"],rec["artist"])
+	elif request.method== "PATCH":
+		rec=request.get_json()
+		if rec["upvote"]:
+			newParty.upVote(rec["videoID"])
+		else:
+			newParty.downVote(rec["videoID"])
+	elif request.method=="DELETE":
+		rec=request.get_json()
+		newParty.removeSong(rec["videoID"])
+
+	
+
 
 
 

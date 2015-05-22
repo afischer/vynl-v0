@@ -4,22 +4,16 @@ class Party:
 	def __init__(self,key):  # Adds unique key to uniques database, and creates a database with a unique name
 		self.k=key
 		self.db=self.k+'.db'
-		conn2=sqlite3.connect(self.db)
-		c2=conn2.cursor()
-		ex=c2.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='songs'").fetchAll()
-		conn2.close()
-		if len(ex):
-			self.active=True
-		else:
-			self.active=False
-
-	def create(): 
 		conn = sqlite3.connect('uniques.db')
 		c=conn.cursor()
 		try:
 			c.execute("CREATE TABLE uniques (url TEXT, active INTEGER)")
 		except:
 			pass
+		self.active=len(c.execute("SELECT (url) FROM uniques WHERE url=? AND active=1",(self.k,)).fetchall())
+		if (self.active):
+			conn.close()
+			return 
 		conn2=sqlite3.connect(self.db)
 		c2=conn2.cursor()
 		c2.execute("CREATE TABLE songs (videoid TEXT, upvotes REAL,downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)")
@@ -30,12 +24,12 @@ class Party:
 		conn.close()
 		self.active=True
 
-	def addSong(self,vid,title):
+	def addSong(self,vid,title,artist):
 		if self.active:
 			conn=sqlite3.connect(self.db)
-			args=(vid,1,title,)
+			args=(vid,1,title,artist,)
 			c=conn.cursor()
-			c.execute("INSERT INTO songs (videoid,active,name,upvotes,downvotes,total) VALUES (?,?,?,0,0,0)",args)
+			c.execute("INSERT INTO songs (videoid,active,name,artist,upvotes,downvotes,total) VALUES (?,?,?,?,0,0,0)",args)
 			conn.commit()
 			conn.close()
 		else:
@@ -88,15 +82,15 @@ class Party:
 			conn.close()
 
 
-	def getOrdered(self): #{title: STRING, videoID: STRING, upvotes: int, downvotes: int}
+	def getOrdered(self): #{title: STRING, artist:STRING, videoID: STRING, upvotes: int, downvotes: int}
 		if self.active:
 			ret=[]
 			conn=sqlite3.connect(self.db)
 			c=conn.cursor()
-			it=c.execute("SELECT name,videoid, upvotes, downvotes FROM songs WHERE active=1 ORDER BY total DESC").fetchall()
+			it=c.execute("SELECT name,artist,videoid, upvotes, downvotes FROM songs WHERE active=1 ORDER BY total DESC").fetchall()
 			conn.close()
 			for x in it:
-					ret.append({"title":str(x[0]),"videoID":str(x[1]),"upvotes":x[2],"downvotes":x[3]})
+					ret.append({"title":str(x[0]),"artist":str(x[1]),"videoID":str(x[2]),"upvotes":x[3],"downvotes":x[4]})
 			return ret
 
 	
