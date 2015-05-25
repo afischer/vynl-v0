@@ -57,3 +57,49 @@ vynl.api = (function() {
             getSongs: getSongs
         };
 }());
+
+vynl.sockets = (function() {
+    var socket = io.connect('http://' + document.domain + ':' + location.port + '/party');
+
+    var getPartyID = function() {
+        var pathname = document.location.pathname;
+        var length = pathname.length;
+        var room = pathname.slice(length - 8, length);
+        return room;
+    };
+
+    var join = function() {
+        socket.emit('join', {room: getPartyID()});
+    };
+
+    var leave = function() {
+        socket.emit('leave', {room: getPartyID()});
+    };
+
+    var addSong = function(song) {
+        room = getPartyID();
+        socket.emit('addSong', {room: room, song: song});
+    };
+
+    var vote = function(song, vote) {
+        if (vote == 1 || vote == -1) {
+            room = getPartyID();
+            socket.emit('voteSong', {room: room, song: song, vote: vote});
+        } else {
+            console.error("vote must be -1 or 1");
+        };
+    };
+
+    socket.on('updateSongs', function(songs) {
+        console.log(songs);
+    });
+
+    return {
+        socket: socket,
+        join: join,
+        leave: leave,
+        addSong: addSong,
+        vote: vote,
+        getPartyID: getPartyID
+    };
+}());
