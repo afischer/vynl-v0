@@ -154,3 +154,30 @@ function prevVideo(){
     playIndex--;
     player.loadVideoById(data.models[playIndex].attributes.songID);
 };
+
+$(document).ready(function() {
+    vynl.sockets.join();
+
+    vynl.sockets.socket.on('join', function(songs) {
+        console.log("joined");
+        console.log(songs.songs);
+        var i;
+        for (i = 0; i < songs.songs.length; i++) {
+            data.push(songs.songs[i]);
+        }
+        onYouTubeIframeAPIReady();
+    });
+
+    vynl.sockets.socket.on('updateSongs', function(songs) {
+        console.log('updatesongs');
+        console.log(songs);
+    });
+
+    vynl.sockets.socket.on('addSong', function(song) {
+        console.log(song);
+        data.push(song);
+        if (data.models.length < 2) {
+            onYouTubeIframeAPIReady();
+        }
+    });
+});

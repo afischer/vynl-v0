@@ -93,7 +93,7 @@ class Party:
             it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes FROM songs WHERE active=1 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
-                ret.append({"title":str(x[0]),"artist":str(x[1]),"videoID":str(x[2]),"imgURL":str(x[3]),"upvotes":x[4],"downvotes":x[5]})
+                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5]})
             return ret
 
 

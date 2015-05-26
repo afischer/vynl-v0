@@ -78,7 +78,9 @@ def redirParty(partyID):
 def on_join(data):
     room = data['room']
     join_room(room)
+    newParty = p.Party(room)
     print "joined room: " + room
+    emit('join', {"songs": newParty.getOrdered()})
 
 
 @socketio.on('leave', namespace='/party')
@@ -94,8 +96,8 @@ def addSong(data):
     song = data['song']
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
-    newParty.addSong(song["videoID"], song["title"], song["artist"])
-    emit('updateSongs', {"songs": newParty.getOrdered()}, room=partyID)
+    newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
+    emit('addSong', song, room=partyID)
 
 
 @socketio.on('voteSong', namespace="/party")
@@ -106,10 +108,10 @@ def voteSong(data):
     newParty = p.Party(partyID)
     print "vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
-        newParty.upVote(song["videoID"])
+        newParty.upVote(song["songID"])
     elif vote == -1:
-        newParty.downVote(song["videoID"])
-    emit('updateSongs', {"songs": newParty.getOrdered()}, room=partyID)
+        newParty.downVote(song["songID"])
+    emit('updateSongs', {newParty.getOrdered()}, room=partyID)
 
 
 if __name__ == "__main__":

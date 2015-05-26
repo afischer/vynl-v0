@@ -91,7 +91,13 @@ vynl.sockets = (function() {
     };
 
     socket.on('updateSongs', function(songs) {
+        console.log('updatesongs');
         console.log(songs);
+    });
+
+    socket.on('addSong', function(song) {
+        console.log('addSong');
+        console.log(song);
     });
 
     return {
