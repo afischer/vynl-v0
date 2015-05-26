@@ -6,8 +6,8 @@ class Party:
     # Adds unique key to uniques database and creates a database with a name
     def __init__(self, key):
         self.k = key
-        self.db = self.k+'.db'
-        conn = sqlite3.connect('uniques.db')
+        self.db = 'parties.db'
+        conn = sqlite3.connect('parties.db')
         c = conn.cursor()
         try:
             c.execute("CREATE TABLE uniques (url TEXT, active INTEGER)")
@@ -17,11 +17,10 @@ class Party:
         if (self.active):
             conn.close()
             return
-        conn2=sqlite3.connect(self.db)
-        c2=conn2.cursor()
-        c2.execute("CREATE TABLE songs (videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)")
-        conn2.commit()
-        conn2.close()
+        #conn2=sqlite3.connect(self.db)
+        #c2=conn2.cursor()
+        c.execute("CREATE TABLE ? (videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)",(self.k,))
+        conn.commit()
         c.execute("INSERT INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
         conn.commit()
         conn.close()
@@ -32,7 +31,7 @@ class Party:
             conn=sqlite3.connect(self.db)
             args=(vid,imgURL,1,title,artist,)
             c=conn.cursor()
-            c.execute("INSERT INTO songs (videoid,imgURL,active,name,artist,upvotes,downvotes,total) VALUES (?,?,?,?,?,0,0,0)",args)
+            c.execute("INSERT INTO ? (videoid,imgURL,active,name,artist,upvotes,downvotes,total) VALUES (?,?,?,?,?,0,0,0)",(self.k,),args)
             conn.commit()
             conn.close()
         else:
@@ -43,7 +42,7 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("INSERT INTO songs (active) VALUES (?) WHERE videoid=?",(0,),(vid,))
+            c.execute("INSERT INTO ? (active) VALUES (?) WHERE videoid=?",(self.k,),(0,),(vid,))
             conn.commit()
             conn.close()
         else:
@@ -53,8 +52,8 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            num=c.execute("SELECT upvotes,total FROM songs WHERE videoid=?",(vid,)).fetchone()
-            c.execute("UPDATE songs SET upvotes=?, total=? WHERE videoid=?",(num[0]+1,num[1]+1,vid,))
+            num=c.execute("SELECT upvotes,total FROM ? WHERE videoid=?",(self.k,),(vid,)).fetchone()
+            c.execute("UPDATE ? SET upvotes=?, total=? WHERE videoid=?",(self.k,),(num[0]+1,num[1]+1,vid,))
             conn.commit()
             conn.close()
         else:
@@ -66,8 +65,8 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            num=c.execute("SELECT downvotes,total FROM songs WHERE videoid=?",(vid,)).fetchone()
-            c.execute("UPDATE songs SET downvotes=?,total=? WHERE videoid=?",(num[0]+1,num[1]-1,vid,))
+            num=c.execute("SELECT downvotes,total FROM ? WHERE videoid=?",(self.k,),(vid,)).fetchone()
+            c.execute("UPDATE ? SET downvotes=?,total=? WHERE videoid=?",(self.k,),(num[0]+1,num[1]-1,vid,))
             conn.commit()
             conn.close()
         else:
@@ -76,7 +75,7 @@ class Party:
 
     def end(self):
         if self.active:
-            os.system('rm "'+self.db+'"')
+            #os.system('rm "'+self.db+'"')
             self.active=False
             conn = sqlite3.connect('uniques.db')
             c=conn.cursor()
