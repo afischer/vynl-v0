@@ -165,7 +165,9 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
-        onYouTubeIframeAPIReady();
+        if (songs.songs.length > 0) {
+        	onYouTubeIframeAPIReady();
+        }
     });
 
     vynl.sockets.socket.on('updateSongs', function(songs) {
