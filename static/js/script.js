@@ -22,10 +22,7 @@ var SearchSongRow = React.createClass({
 			"albumarturl": this.props.song.snippet.thumbnails.default.url,
 			"songID": this.props.song.id.videoId
 		});
-		data.push(song);
-      if (data.models.length < 2){
-         onYouTubeIframeAPIReady()
-      }
+                vynl.sockets.addSong(song);
 	},
     render: function() {
         var title = this.props.song.snippet.title;

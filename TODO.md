@@ -42,6 +42,7 @@
 - [ ] Fix the insane number of api calls made in search (Eric)
 - [ ] Hook up MVC/Frontend to Backend DB (Zabari, Eric)
 - [ ] Sessions (Andrew)
+- [x] About Page (Isaac)
 - [ ] Visual User Representations (Isaac, Andrew)
 
 ###### Before 5/26 (**DUE DATE**)
