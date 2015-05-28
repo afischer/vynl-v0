@@ -1,11 +1,14 @@
 import sqlite3
 import os
 
+def scrub(query):
+    return ''.join(x for x in query if x.isalnum())
 
 class Party:
     # Adds unique key to uniques database and creates a database with a name
     def __init__(self, key):
-        self.k = key
+        self.k = scrub(key)
+        #print self.k
         self.db = 'parties.db'
         conn = sqlite3.connect('parties.db')
         c = conn.cursor()
@@ -19,7 +22,7 @@ class Party:
             return
         #conn2=sqlite3.connect(self.db)
         #c2=conn2.cursor()
-        c.execute("CREATE TABLE ? (videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)",(self.k,))
+        c.execute("CREATE TABLE " + self.k +"(videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)")
         conn.commit()
         c.execute("INSERT INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
         conn.commit()
@@ -31,7 +34,7 @@ class Party:
             conn=sqlite3.connect(self.db)
             args=(vid,imgURL,1,title,artist,)
             c=conn.cursor()
-            c.execute("INSERT INTO ? (videoid,imgURL,active,name,artist,upvotes,downvotes,total) VALUES (?,?,?,?,?,0,0,0)",(self.k,),args)
+            c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,active,name,artist,upvotes,downvotes,total) VALUES (?,?,?,?,?,0,0,0)",args)
             conn.commit()
             conn.close()
         else:
@@ -42,7 +45,7 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("INSERT INTO ? (active) VALUES (?) WHERE videoid=?",(self.k,),(0,),(vid,))
+            c.execute("INSERT INTO "+self.k+ "(active) VALUES (?) WHERE videoid=?",(0,),(vid,))
             conn.commit()
             conn.close()
         else:
@@ -52,8 +55,8 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            num=c.execute("SELECT upvotes,total FROM ? WHERE videoid=?",(self.k,),(vid,)).fetchone()
-            c.execute("UPDATE ? SET upvotes=?, total=? WHERE videoid=?",(self.k,),(num[0]+1,num[1]+1,vid,))
+            num=c.execute("SELECT upvotes,total FROM "+self.k+" WHERE videoid=?",(vid,)).fetchone()
+            c.execute("UPDATE "+self.k+" SET upvotes=?, total=? WHERE videoid=?",(num[0]+1,num[1]+1,vid,))
             conn.commit()
             conn.close()
         else:
@@ -65,8 +68,8 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            num=c.execute("SELECT downvotes,total FROM ? WHERE videoid=?",(self.k,),(vid,)).fetchone()
-            c.execute("UPDATE ? SET downvotes=?,total=? WHERE videoid=?",(self.k,),(num[0]+1,num[1]-1,vid,))
+            num=c.execute("SELECT downvotes,total FROM "+self.k+" WHERE videoid=?",(vid,)).fetchone()
+            c.execute("UPDATE "+self.k+" SET downvotes=?,total=? WHERE videoid=?",(num[0]+1,num[1]-1,vid,))
             conn.commit()
             conn.close()
         else:
@@ -77,9 +80,10 @@ class Party:
         if self.active:
             #os.system('rm "'+self.db+'"')
             self.active=False
-            conn = sqlite3.connect('uniques.db')
+            conn = sqlite3.connect('parties.db')
             c=conn.cursor()
             c.execute("UPDATE uniques SET active=? WHERE url=?",(0,self.k,))
+            c.execute("DROP TABLE "+self.k)
             conn.commit()
             conn.close()
 
@@ -89,10 +93,8 @@ class Party:
             ret=[]
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes FROM songs WHERE active=1 ORDER BY total DESC").fetchall()
+            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes FROM "+self.k+" WHERE active=1 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
                 ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5]})
             return ret
-
-
