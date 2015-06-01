@@ -77,6 +77,14 @@ def redirParty(partyID):
     else:
         return '<h1>404</h1>', 404
 
+@socketio.on('connect', namespace='/party')
+def test_connect():
+    print "connected"
+    emit('connect', {'data': 'Connected'})
+
+@socketio.on('disconnect', namespace='/party')
+def test_disconnect():
+    print "client disconnected"
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
@@ -91,7 +99,7 @@ def on_join(data):
 def on_leave(data):
     room = data['room']
     leave_room(room)
-    print "left room: " + room
+    print "nigga left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')

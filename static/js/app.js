@@ -182,4 +182,10 @@ $(document).ready(function() {
             onYouTubeIframeAPIReady();
         }
     });
+
+    window.onbeforeunload = function(e) {
+        console.log("nigga left");
+        vynl.sockets.leave();
+        return null;
+    };
 });
