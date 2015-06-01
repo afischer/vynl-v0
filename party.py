@@ -6,7 +6,7 @@ def scrub(query):
 
 class Party:
     # Adds unique key to uniques database and creates a database with a name
-    def __init__(self, key):
+    def __init__(self, key, dj=0):
         self.k = scrub(key)
         #print self.k
         self.db = 'parties.db'
@@ -16,17 +16,24 @@ class Party:
             c.execute("CREATE TABLE uniques (url TEXT, active INTEGER)")
         except:
             pass
-        self.active=len(c.execute("SELECT (url) FROM uniques WHERE url=? AND active=1",(self.k,)).fetchall())
+        self.active= len(c.execute("SELECT (url) FROM uniques WHERE url=? AND active=1",(self.k,)).fetchall())
+        #print self.active
         if (self.active):
+            #print dj
+            self.dj=c.execute("SELECT ip FROM djs WHERE party=?",(self.k,)).fetchall()[0]
+            #print self.dj
             conn.close()
             return
+        #print "why"
         #conn2=sqlite3.connect(self.db)
         #c2=conn2.cursor()
         c.execute("CREATE TABLE " + self.k +"(videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL)")
         conn.commit()
-        c.execute("INSERT INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
+        self.addDJ(dj)
+        c.execute("INSERT OR REPLACE INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
         conn.commit()
         conn.close()
+        self.dj=dj
         self.active=True
 
     def addSong(self,vid,imgURL,title,artist):
@@ -98,3 +105,14 @@ class Party:
             for x in it:
                 ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5]})
             return ret
+    def addDJ(self,dj):
+        conn=sqlite3.connect(self.db)
+        c=conn.cursor()
+        try:
+            c.execute("CREATE TABLE djs (party TEXT, ip TEXT)")
+        except:
+            pass
+        c.execute("INSERT INTO djs(party, ip) VALUES (?,?)",(self.k,dj,))
+        conn.commit()
+        conn.close()
+        #print "ayy"

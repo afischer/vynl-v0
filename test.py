@@ -1,6 +1,6 @@
 import party,os
 #try:
-x=party.Party("hey")
+x=party.Party("hey","195.196.1.1")
 song="xxx5"
 song2="yyy5"
 song3="fff5"
