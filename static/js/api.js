@@ -68,6 +68,10 @@ vynl.sockets = (function() {
         return room;
     };
 
+    var makeParty = function(partyID) {
+        socket.emit('makeParty', {room: partyID, ipAddress: ipAddress})
+    };
+
     var join = function() {
         socket.emit('join', {room: getPartyID()});
     };
@@ -102,6 +106,7 @@ vynl.sockets = (function() {
 
     return {
         socket: socket,
+        makeParty: makeParty,
         join: join,
         leave: leave,
         addSong: addSong,

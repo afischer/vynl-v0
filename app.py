@@ -86,6 +86,14 @@ def test_connect():
 def test_disconnect():
     print "client disconnected"
 
+@socketio.on('makeParty', namespace='/party')
+def makeParty(data):
+    room = data['room']
+    ip = data['ipAddress']
+    newParty = p.Party(room, ip)
+    print "user: " + ip + "created party: " + room
+    emit('makeParty', {'data': 'Party Created'})
+
 @socketio.on('join', namespace='/party')
 def on_join(data):
     room = data['room']
