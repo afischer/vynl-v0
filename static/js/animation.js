@@ -48,10 +48,15 @@ $(function() {
     });
 
     $(window).resize(function(){
-	console.log("RESIZING BITCH");
-
 	$('svg').attr('width', $(window).width());
+	$('svg').attr('height', $(window).width()/2);
+	$
+    });
 
+    $(window).load(function(){
+	console.log("MEOW")
+	$('svg').attr('width', $(window).width());
+	$('svg').attr('height', $(window).width()/2);
     });
 
 });

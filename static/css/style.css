@@ -90,13 +90,23 @@ font-size: 65%;
 
 /*SVG Hero*/
 #svg-canvas {
-    height: 429;
-    width: 679;
     text-align: center;
 }
 svg {
-   margin-left: -50px;
+   display: block;
+   max-width: 950px;
+   max-height: 400px;
+   overflow: hide;
 }
+.svg-area {
+    margin: 0 auto;
+    position: relative;
+    left: 25%;
+   // -webkit-transform: translateX(-50%);
+   //-ms-transform: translateX(-50%);
+   //transform: translateX(-50%);
+}
+
 svg path {
    stroke-linecap:round;
    stroke-linejoin:round;
