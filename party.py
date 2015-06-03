@@ -1,7 +1,7 @@
 import sqlite3
 import os
 import marshal as m
-
+##added a comment to test broken commits
 def scrub(query):
     return "["+''.join(x for x in query if x.isalnum())+"]"
 
