@@ -43,7 +43,7 @@
 
      <div class="row">
     	<div class="col-md-6">
-    		<a id="startPartyButton" href="/party/{{partyID}}" class="btn btn-default btn-lg btn-block">Start a Party</a>
+    		<a id="startPartyButton" class="btn btn-default btn-lg btn-block">Start a Party</a>
     	</div>
     	<div class="col-md-6">
     		<a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
@@ -84,9 +84,13 @@
 <!-- Can be put in another file if necessary -->
 <script type="text/javascript">
   $("#startPartyButton").on("click", function(event) {
-    console.log("creating {{partyID}}"
+    console.log("creating {{partyID}}");
     vynl.sockets.makeParty("{{partyID}}");
-    return null;
+  });
+
+  vynl.sockets.socket.on('makeParty', function(data) {
+    console.log("party: {{partyID}} created");
+    window.location.href = "/party/{{partyID}}"
   });
 
   $("#partyID").keypress(function(event) {
