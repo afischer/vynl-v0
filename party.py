@@ -2,6 +2,15 @@ import sqlite3
 import os
 import marshal as m
 ##added a comment to test broken commits
+def partyExists(key):
+    try:
+        conn = sqlite3.connect('parties.db')
+        c = conn.cursor()
+        n=len(c.execute("SELECT * FROM uniques WHERE url=? AND active=1",(key,)))
+        return n>0
+    except:
+        return False
+
 def scrub(query):
     return "["+''.join(x for x in query if x.isalnum())+"]"
 
