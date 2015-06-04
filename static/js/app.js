@@ -117,6 +117,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
+    console.log("player ready");
 }
 
 function onPlayerStateChange(event) {
@@ -171,18 +172,19 @@ $(document).ready(function() {
     });
 
     vynl.sockets.socket.on('updateSongs', function(songs) {
-        console.log('updatesongs');
-        console.log(songs);
         data.reset();
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
+        }
+        if (data.models.length > 0) {
+            onYouTubeIframeAPIReady();
         }
     });
 
     vynl.sockets.socket.on('addSong', function(song) {
         console.log(song);
         data.push(song);
-        if (data.models.length < 2) {
+        if (data.models.length > 0) {
             onYouTubeIframeAPIReady();
         }
     });
