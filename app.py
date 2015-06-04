@@ -165,6 +165,14 @@ def deleteSong(data):
         emit('error', {'data': "You are not the dj. You cannot Delete songs"});
 
 
+@socketio.on('playingSong', namespace="/party")
+def playingSong(data):
+    partyID = data['room']
+    song = data['song']
+    print "playing song: ", song, " in room: ", partyID
+    emit('playingSong', {"song": song}, room=partyID)
+
+
 if __name__ == "__main__":
     app.debug = True
     socketio.run(app, host='0.0.0.0', port=8000)

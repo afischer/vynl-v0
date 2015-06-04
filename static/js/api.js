@@ -99,6 +99,11 @@ vynl.sockets = (function() {
         };
     };
 
+    var playingSong = function(song, ipAddress) {
+        room = getPartyID();
+        socket.emit('playingSong', {room: room, song: song, ipAddress: ipAddress});
+    };
+
     var deleteSong = function(song, ipAddress) {
         room = getPartyID();
         socket.emit('deleteSong', {room: room, song: song, ipAddress: ipAddress});
@@ -138,6 +143,7 @@ vynl.sockets = (function() {
         addSong: addSong,
         vote: vote,
         deleteSong: deleteSong,
+        playingSong: playingSong,
         getSongs: getSongs,
         getPartyID: getPartyID
     };

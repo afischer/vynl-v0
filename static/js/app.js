@@ -134,6 +134,7 @@ function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         if (!paused) {
             showSong();
+            vynl.sockets.playingSong(data.models[0], ipAddress);
             vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
         }
         paused = false;
@@ -231,6 +232,15 @@ $(document).ready(function() {
             onYouTubeIframeAPIReady();
         }
         */
+    });
+
+    vynl.sockets.socket.on('playingSong', function(song) {
+        console.log(song);
+        console.log("playing song");
+        $(".now-playing-song-name").html(song.song.songname);
+        $(".song-artist").html(song.song.songartist);
+        var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', song.song.songID, '/0.jpg">');
+         $(".album-art").html(albumart);
     });
 
     var handleClick = function(e) {
