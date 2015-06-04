@@ -178,7 +178,11 @@ $(document).ready(function() {
         }
     });
 
-    vynl.sockets.socket.on('addSongs', function(songs) {
+    vynl.sockets.socket.on('notifySongUpdate', function(songs) {
+        vynl.sockets.getSongs();
+    });
+
+    vynl.sockets.socket.on('addSong', function(songs) {
         console.log(songs);
         data.reset();
         for (i = 0; i < songs.songs.length; i++) {

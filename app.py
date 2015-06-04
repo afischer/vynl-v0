@@ -119,8 +119,16 @@ def addSong(data):
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
-    print newParty.getOrdered(ipAddress)
-    emit('addSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
+
+
+@socketio.on('getSongs', namespace='/party')
+def getSong(data):
+    print "updating songs"
+    partyID = data['room']
+    ipAddress = data['ipAddress']
+    newParty = p.Party(partyID)
+    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
 
 
 @socketio.on('voteSong', namespace="/party")
@@ -135,7 +143,7 @@ def voteSong(data):
         newParty.upVote(song["songID"], ipAddress)
     elif vote == -1:
         newParty.downVote(song["songID"], ipAddress)
-    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
 if __name__ == "__main__":
