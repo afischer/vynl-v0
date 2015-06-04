@@ -193,8 +193,10 @@ $(document).ready(function() {
         console.log(songs.songs);
         if (ipAddress !== songs.dj) {
             hideDJOnly();
+            toastr.info('You may vote and suggest songs', 'You are not the DJ');
         } else {
             console.log("you're the dj!");
+            toastr.success('You have full access to the playlist', 'You are the DJ!');
         }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
