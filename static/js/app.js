@@ -217,24 +217,26 @@ $(document).ready(function() {
     });
 
     var handleClick = function(e) {
-        console.log(e);
+        e.stopPropagation();
+        e.preventDefault();
 
-        if (e.srcElement.className == "fa fa-thumbs-up" || e.srcElement.className == "fa fa-thumbs-down") {
-            id = e.srcElement.dataset.id;
-            console.log(e.srcElement.dataset.id);
+        if (e.handled !== true) {
+            console.log(e);
 
-            vote = e.srcElement.dataset.vote;
-            console.log(e.srcElement.dataset.vote);
+            id = e.target.dataset.id;
+            console.log(e.target.dataset.id);
+
+            vote = e.target.dataset.vote;
+            console.log(e.target.dataset.vote);
 
             vynl.sockets.vote({"songID": id}, parseInt(vote), ipAddress);
+        } else {
+            return false;
         }
     }
 
-    if (document.addEventListener) {
-        document.addEventListener('click', handleClick, false);
-    } else if (document.attachEvent) {
-        document.attachEvent('onClick', handleClick);
-    }
+    $(document).on('touchstart click', '.fa.thumbs', handleClick);
+
 
     window.onbeforeunload = function(e) {
         console.log("nigga left");
