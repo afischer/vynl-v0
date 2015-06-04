@@ -119,7 +119,8 @@ def addSong(data):
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
-    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
+    print newParty.getOrdered(ipAddress)
+    emit('addSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
 
 
 @socketio.on('voteSong', namespace="/party")
@@ -129,7 +130,7 @@ def voteSong(data):
     vote = data['vote']
     ipAddress = data['ipAddress']
     newParty = p.Party(partyID)
-    print "vote: ", vote, " for song: ", song, " to room: " + partyID
+    print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
         newParty.upVote(song["songID"], ipAddress)
     elif vote == -1:
