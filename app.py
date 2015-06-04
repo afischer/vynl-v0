@@ -64,7 +64,6 @@ def party():
 @app.route("/party/<partyID>")
 def genParty(partyID):
     if (len(partyID) == 8):
-        print request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
         return render_template("party.html", partyID=partyID)
     else:
         return '<h1>404</h1>', 404
@@ -101,8 +100,10 @@ def on_join(data):
     ipAddress = data['ipAddress']
     join_room(room)
     newParty = p.Party(room)
+    dj = newParty.getDJ()
     print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered(ipAddress)})
+    emit('join', {"songs": newParty.getOrdered(ipAddress),
+                  "dj": dj})
 
 
 @socketio.on('leave', namespace='/party')

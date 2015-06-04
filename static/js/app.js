@@ -120,12 +120,16 @@ function onPlayerReady(event) {
     console.log("player ready");
 }
 
-function onPlayerStateChange(event) {
+function showSong() {
     $(".now-playing-song-name").html(player.getVideoData()['title']);
     $(".song-artist").html(player.getVideoData()['author']);
     var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', data.models[playIndex].attributes.songID, '/0.jpg">');
     console.log(albumart)
      $(".album-art").html(albumart);
+}
+
+function onPlayerStateChange(event) {
+    showSong();
 
 
     if (event.data == YT.PlayerState.ENDED){
@@ -172,12 +176,21 @@ function prevVideo(){
     }
 };
 
+function hideDJOnly() {
+    $(".dj").remove();
+}
+
 $(document).ready(function() {
     vynl.sockets.join();
 
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
         console.log(songs.songs);
+        if (ipAddress !== songs.dj) {
+            hideDJOnly();
+        } else {
+            console.log("you're the dj!");
+        }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
