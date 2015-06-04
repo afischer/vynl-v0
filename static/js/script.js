@@ -35,7 +35,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a onClick={this.handleOnClick} href="#">{title}</a></li>
+            <li style={rowStyle}><a onClick={this.handleOnClick} href="javascript:void(0);">{title}</a></li>
         );
     }
 });

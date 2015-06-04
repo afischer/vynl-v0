@@ -164,7 +164,7 @@ function nextVideo(){
 };
 
 function prevVideo(){
-    if (playIndex <= 0) {
+    if (playIndex > 0) {
         playIndex--;
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
