@@ -103,14 +103,14 @@ var videoData;
 
 
 
-function onYouTubeIframeAPIReady() {
+function onYouTubeIframeAPIReady(callback) {
      playIndex = 0;
      player = new YT.Player('player', {
         height: '0',
         width: '0',
         videoId: data.models[playIndex].attributes.songID, //yass
         events: {
-            'onReady': onPlayerReady,
+            'onReady': callback,
             'onStateChange': onPlayerStateChange
         }
     });
@@ -135,6 +135,14 @@ function onPlayerStateChange(event) {
 };
 
 function playVideo() {
+    if (data.models.length < 1) {
+        console.warn("no videos in queue");
+        return;
+    }
+    if (player === undefined) {
+        onYouTubeIframeAPIReady(playVideo);
+        return;
+    }
     player.playVideo();
     $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
     $('.play').attr("onclick", "pauseVideo()");
@@ -147,13 +155,21 @@ function pauseVideo() {
 };
 
 function nextVideo(){
-    playIndex++;
-    player.loadVideoById(data.models[playIndex].attributes.songID);
+    if (playIndex < data.models.length - 1) {
+        playIndex++;
+        player.loadVideoById(data.models[playIndex].attributes.songID);
+    } else {
+        console.warn("can't call nextVideo: end of queue");
+    }
 };
 
 function prevVideo(){
-    playIndex--;
-    player.loadVideoById(data.models[playIndex].attributes.songID);
+    if (playIndex <= 0) {
+        playIndex--;
+        player.loadVideoById(data.models[playIndex].attributes.songID);
+    } else {
+        console.warn("can't call previousVideo: start of queue");
+    }
 };
 
 $(document).ready(function() {
@@ -176,9 +192,11 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
+        /*
         if (typeof(player) == 'undefined' && data.models.length > 0) {
             onYouTubeIframeAPIReady();
         }
+        */
     });
 
     vynl.sockets.socket.on('notifySongUpdate', function(songs) {
@@ -191,9 +209,11 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
+        /*
         if (data.models.length < 2) {
             onYouTubeIframeAPIReady();
         }
+        */
     });
 
     var handleClick = function(e) {
