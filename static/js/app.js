@@ -163,7 +163,7 @@ function pauseVideo() {
 };
 
 function nextVideo(){
-    if (playIndex < data.models.length - 1) {
+    if (playIndex < data.models.length) {
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
         console.warn("can't call nextVideo: end of queue");
