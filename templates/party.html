@@ -9,10 +9,13 @@
 </script>
 
 <script type="text/template" id="queue-item-template">
-	  <img class="album-art img-rounded" src=<%=albumarturl%> >
-	  &nbsp;
-	  <span class="song-name"><%=songname%></span>
-	  <%=songartist%>
+      <img class="album-art img-rounded" src=<%=albumarturl%> >
+      &nbsp;
+      <span class="song-name"><%=songname%></span>
+      <%=songartist%>
+      <div class="deleteButton dj">
+          <i data-id=<%=songID%> class="fa fa-times"></i>
+      </div>
       <div class="votes">
         <div class="thumbCount">
             <div data-voted=<%=downvoted%> class="icon downvote">

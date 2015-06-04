@@ -100,6 +100,14 @@ font-size: 65%;
 .thumbCountNum {
     font-size: 150%;
 }
+.deleteButton {
+    float: right;
+    font-size: 175%;
+}
+.deleteButton:hover {
+    font-size: 200%;
+    color: red;
+}
 /*li > .badge {
     background-color: #474949;
     padding: 10px 10px;

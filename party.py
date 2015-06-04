@@ -64,7 +64,7 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("INSERT INTO "+self.k+ "(active) VALUES (?) WHERE videoid=?",(0,),(vid,))
+            c.execute("UPDATE "+self.k+ "SET active = 0 WHERE videoid=?",(vid,))
             conn.commit()
             conn.close()
         else:

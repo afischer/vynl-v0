@@ -148,6 +148,23 @@ def voteSong(data):
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
+@socketio.on('deleteSong', namespace="/party")
+def deleteSong(data):
+    partyID = data['room']
+    song = data['song']
+    ipAddress = data['ipAddress']
+    newParty = p.Party(partyID)
+    dj = newParty.getDJ()
+    if dj == ipAddress:
+        print "user: ", ipAddress, " deleting song: ", song["songID"], " to room: ", partyID
+        newParty.removeSong(song["songID"])
+        emit('notifySongUpdate', {"data": True}, room=partyID)
+        emit('success', {'data': "Deleted Song"})
+    else:
+        print "user: ", ipAddress, " is not a dj: ", dj
+        emit('error', {'data': "You are not the dj. You cannot Delete songs"});
+
+
 if __name__ == "__main__":
     app.debug = True
     socketio.run(app, host='0.0.0.0', port=8000)

@@ -250,6 +250,20 @@ $(document).ready(function() {
 
     $(document).on('touchstart click', '.fa.thumbs', handleClick);
 
+    var handleDeleteClick = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.handled !== true) {
+            id = e.target.dataset.id;
+            vynl.sockets.deleteSong({"songID": id}, ipAddress);
+        } else {
+            return false;
+        }
+    }
+
+    $(document).on('touchstart click', '.fa.fa-times', handleDeleteClick);
+
 
     window.onbeforeunload = function(e) {
         console.log("nigga left");
