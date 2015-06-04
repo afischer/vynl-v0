@@ -147,10 +147,6 @@ function onPlayerStateChange(event) {
 };
 
 function playVideo() {
-    if (data.models.length < 1) {
-        console.warn("no videos in queue");
-        return;
-    }
     if (player === undefined) {
         onYouTubeIframeAPIReady(playVideo);
         return;
