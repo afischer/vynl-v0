@@ -42,7 +42,7 @@
 
 <div class="container">
     <div class="row" style="padding-top:60px">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="jumbotron">
 
                 <div class="row">
@@ -87,8 +87,9 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <h4> Party ID: {{partyID}}</h4>
+        <div class="col-md-2">
+            <h5> Party ID: {{partyID}}</h5> <br>
+            <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://www.vynl.party/party/{{partyID}} >
 
         </div>
     </div>
