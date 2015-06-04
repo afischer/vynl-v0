@@ -16,16 +16,16 @@
 	  <%=songartist%>
       <div class="votes">
         <div class="thumbCount">
-            <div data-id=<%=songID%> class="icon downvote">
-            <i class="fa fa-thumbs-down"></i>
+            <div class="icon downvote">
+            <i data-id=<%=songID%> data-vote=-1 class="fa fa-thumbs-down"></i>
             </div>
             <div class="thumbCountNum">
             <%=downvotes%>
             </div>
         </div>
         <div class="thumbCount">
-            <div data-id=<%=songID%> class="icon upvote">
-            <i class="fa fa-thumbs-up"></i>
+            <div class="icon upvote">
+            <i data-id=<%=songID%> data-vote=1 class="fa fa-thumbs-up"></i>
             </div>
             <div class="thumbCountNum">
             <%=upvotes%>

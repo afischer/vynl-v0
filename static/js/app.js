@@ -173,6 +173,10 @@ $(document).ready(function() {
     vynl.sockets.socket.on('updateSongs', function(songs) {
         console.log('updatesongs');
         console.log(songs);
+        data.reset();
+        for (i = 0; i < songs.songs.length; i++) {
+            data.push(songs.songs[i]);
+        }
     });
 
     vynl.sockets.socket.on('addSong', function(song) {
@@ -182,6 +186,26 @@ $(document).ready(function() {
             onYouTubeIframeAPIReady();
         }
     });
+
+    var handleClick = function(e) {
+        console.log(e);
+
+        if (e.srcElement.className == "fa fa-thumbs-up" || e.srcElement.className == "fa fa-thumbs-down") {
+            id = e.srcElement.dataset.id;
+            console.log(e.srcElement.dataset.id);
+
+            vote = e.srcElement.dataset.vote;
+            console.log(e.srcElement.dataset.vote);
+
+            vynl.sockets.vote({"songID": id}, parseInt(vote));
+        }
+    }
+
+    if (document.addEventListener) {
+        document.addEventListener('click', handleClick, false);
+    } else if (document.attachEvent) {
+        document.attachEvent('onClick', handleClick);
+    }
 
     window.onbeforeunload = function(e) {
         console.log("nigga left");
