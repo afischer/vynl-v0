@@ -84,7 +84,7 @@ font-size: 65%;
 .icon {
     font-size: 250%;
 }
-.icon:hover{
+.icon:hover[data-voted="false"]{
     margin-top: -5px;
     margin-left: -.75px;
     margin-right: -.75px;
@@ -93,6 +93,9 @@ font-size: 65%;
 }
 .thumbCountNum {
     font-size: 150%;
+}
+.icon[data-voted="true"] {
+    color: red;
 }
 /*li > .badge {
     background-color: #474949;

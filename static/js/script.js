@@ -22,7 +22,9 @@ var SearchSongRow = React.createClass({
 			"albumarturl": this.props.song.snippet.thumbnails.default.url,
 			"songID": this.props.song.id.videoId,
                         "upvotes": 0,
-                        "downvotes": 0
+                        "downvotes": 0,
+                        "upvoted": false,
+                        "downvoted": false
 		});
                 vynl.sockets.addSong(song);
 	},

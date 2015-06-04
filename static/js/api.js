@@ -73,7 +73,7 @@ vynl.sockets = (function() {
     };
 
     var join = function() {
-        socket.emit('join', {room: getPartyID()});
+        socket.emit('join', {room: getPartyID(), ipAddress: ipAddress});
     };
 
     var leave = function() {
@@ -85,10 +85,10 @@ vynl.sockets = (function() {
         socket.emit('addSong', {room: room, song: song});
     };
 
-    var vote = function(song, vote) {
+    var vote = function(song, vote, ipAddress) {
         if (vote == 1 || vote == -1) {
             room = getPartyID();
-            socket.emit('voteSong', {room: room, song: song, vote: vote});
+            socket.emit('voteSong', {room: room, song: song, vote: vote, ipAddress: ipAddress});
         } else {
             console.error("vote must be -1 or 1");
         };

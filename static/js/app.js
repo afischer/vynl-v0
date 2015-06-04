@@ -197,7 +197,7 @@ $(document).ready(function() {
             vote = e.srcElement.dataset.vote;
             console.log(e.srcElement.dataset.vote);
 
-            vynl.sockets.vote({"songID": id}, parseInt(vote));
+            vynl.sockets.vote({"songID": id}, parseInt(vote), ipAddress);
         }
     }
 

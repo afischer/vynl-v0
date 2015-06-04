@@ -97,10 +97,11 @@ def makeParty(data):
 @socketio.on('join', namespace='/party')
 def on_join(data):
     room = data['room']
+    ipAddress = data['ipAddress']
     join_room(room)
     newParty = p.Party(room)
     print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered()})
+    emit('join', {"songs": newParty.getOrdered(ipAddress)})
 
 
 @socketio.on('leave', namespace='/party')
@@ -125,13 +126,14 @@ def voteSong(data):
     partyID = data['room']
     song = data['song']
     vote = data['vote']
+    ipAddress = data['ipAddress']
     newParty = p.Party(partyID)
     print "vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
-        newParty.upVote(song["songID"])
+        newParty.upVote(song["songID"], ipAddress)
     elif vote == -1:
-        newParty.downVote(song["songID"])
-    emit('updateSongs', {"songs": newParty.getOrdered()}, room=partyID)
+        newParty.downVote(song["songID"], ipAddress)
+    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
 
 
 if __name__ == "__main__":
