@@ -82,7 +82,7 @@ vynl.sockets = (function() {
 
     var addSong = function(song) {
         room = getPartyID();
-        socket.emit('addSong', {room: room, song: song});
+        socket.emit('addSong', {room: room, song: song, ipAddress: ipAddress});
     };
 
     var vote = function(song, vote, ipAddress) {

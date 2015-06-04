@@ -115,10 +115,11 @@ def on_leave(data):
 def addSong(data):
     partyID = data['room']
     song = data['song']
+    ipAddress = data['ipAddress']
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
-    emit('addSong', song, room=partyID)
+    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)}, room=partyID)
 
 
 @socketio.on('voteSong', namespace="/party")
