@@ -91,11 +91,14 @@ font-size: 65%;
     color: red;
     font-size: 275%;
 }
-.thumbCountNum {
-    font-size: 150%;
+.icon:hover[data-voted="true"]{
+    color: grey;
 }
 .icon[data-voted="true"] {
     color: red;
+}
+.thumbCountNum {
+    font-size: 150%;
 }
 /*li > .badge {
     background-color: #474949;
