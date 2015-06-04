@@ -176,6 +176,9 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
+        if (typeof(player) == 'undefined' && data.models.length > 0) {
+            onYouTubeIframeAPIReady();
+        }
     });
 
     vynl.sockets.socket.on('notifySongUpdate', function(songs) {
