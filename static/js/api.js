@@ -94,6 +94,14 @@ vynl.sockets = (function() {
         };
     };
 
+    socket.on('connect', function(data) {
+        console.log(data);
+    });
+
+    socket.on('disconnect', function(data) {
+        console.log(data);
+    });
+
     socket.on('updateSongs', function(songs) {
         console.log('updatesongs');
         console.log(songs);

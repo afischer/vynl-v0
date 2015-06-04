@@ -72,6 +72,28 @@ font-size: 65%;
     color: #d9230f;
     font-size: 130%;
 }
+.votes {
+    text-align: center;
+    display: block;
+}
+.thumbCount{
+    display: inline-block;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.icon {
+    font-size: 250%;
+}
+.icon:hover{
+    margin-top: -5px;
+    margin-left: -.75px;
+    margin-right: -.75px;
+    color: red;
+    font-size: 275%;
+}
+.thumbCountNum {
+    font-size: 150%;
+}
 /*li > .badge {
     background-color: #474949;
     padding: 10px 10px;

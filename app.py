@@ -131,7 +131,7 @@ def voteSong(data):
         newParty.upVote(song["songID"])
     elif vote == -1:
         newParty.downVote(song["songID"])
-    emit('updateSongs', {newParty.getOrdered()}, room=partyID)
+    emit('updateSongs', {"songs": newParty.getOrdered()}, room=partyID)
 
 
 if __name__ == "__main__":

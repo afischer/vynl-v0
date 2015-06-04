@@ -14,10 +14,24 @@
 	  &nbsp;
 	  <span class="song-name"><%=songname%></span>
 	  <%=songartist%>
-      <span class="votes">
-        <i class="fa fa-thumbs-down"></i>
-        <i class="fa fa-thumbs-up"></i>
-      </span>
+      <div class="votes">
+        <div class="thumbCount">
+            <div data-id=<%=songID%> class="icon downvote">
+            <i class="fa fa-thumbs-down"></i>
+            </div>
+            <div class="thumbCountNum">
+            <%=downvotes%>
+            </div>
+        </div>
+        <div class="thumbCount">
+            <div data-id=<%=songID%> class="icon upvote">
+            <i class="fa fa-thumbs-up"></i>
+            </div>
+            <div class="thumbCountNum">
+            <%=upvotes%>
+            </div>
+        </div>
+      </div>
 	</li>
 </script>
 <!-- /MVC TEMPLATES -->
