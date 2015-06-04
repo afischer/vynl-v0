@@ -121,6 +121,7 @@ function onPlayerReady(event) {
 }
 
 function showSong() {
+    console.log("showing song");
     $(".now-playing-song-name").html(player.getVideoData()['title']);
     $(".song-artist").html(player.getVideoData()['author']);
     var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', data.models[playIndex].attributes.songID, '/0.jpg">');
@@ -129,7 +130,10 @@ function showSong() {
 }
 
 function onPlayerStateChange(event) {
-    showSong();
+    if (event.data === YT.PlayerState.PLAYING) {
+        showSong();
+        vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
+    }
 
 
     if (event.data == YT.PlayerState.ENDED){
@@ -160,7 +164,6 @@ function pauseVideo() {
 
 function nextVideo(){
     if (playIndex < data.models.length - 1) {
-        playIndex++;
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
         console.warn("can't call nextVideo: end of queue");
