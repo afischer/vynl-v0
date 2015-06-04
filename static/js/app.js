@@ -99,6 +99,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var playIndex;
 var videoData;
+var paused = false;
 
 
 
@@ -131,8 +132,11 @@ function showSong() {
 
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
-        showSong();
-        vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
+        if (!paused) {
+            showSong();
+            vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
+        }
+        paused = false;
     }
 
 
@@ -157,6 +161,7 @@ function playVideo() {
 };
 
 function pauseVideo() {
+    paused = true;
     player.pauseVideo();
     $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
     $('.play').attr("onclick", "playVideo()");
