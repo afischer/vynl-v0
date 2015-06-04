@@ -119,10 +119,12 @@ vynl.sockets = (function() {
 
     socket.on('success', function(data) {
         console.log(data.data);
+        toastr.success(data.data);
     });
 
     socket.on('error', function(data) {
         console.log(data.data);
+        toastr.error(data.data);
     });
 
     socket.on('updateSongs', function(songs) {
