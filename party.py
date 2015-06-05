@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import marshal as m
+import time
 ##added a comment to test broken commits
 def partyExists(key):
     try:
@@ -37,7 +38,7 @@ class Party:
         #print "why"
         #conn2=sqlite3.connect(self.db)
         #c2=conn2.cursor()
-        c.execute("CREATE TABLE " + self.k +"(videoid TEXT, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL, upvoteip BLOB, downvoteip BLOB)")
+        c.execute("CREATE TABLE " + self.k +"(videoid TEXT PRIMARY KEY ON CONFLICT IGNORE, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL, upvoteip BLOB, downvoteip BLOB, timestamp REAL,played INTEGER)")
         conn.commit()
         self.addDJ(dj)
         c.execute("INSERT OR REPLACE INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
@@ -53,7 +54,7 @@ class Party:
             y=m.dumps([])
             args=(vid,imgURL,1,title,artist,x,y,)
             c=conn.cursor()
-            c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,active,name,artist,upvotes,downvotes,total,upvoteip,downvoteip) VALUES (?,?,?,?,?,0,0,0,?,?)",args)
+            c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,active,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played) VALUES (?,?,?,?,?,0,0,0,?,?,0)",args)
             conn.commit()
             conn.close()
         else:
@@ -146,7 +147,7 @@ class Party:
             ret=[]
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE active=1 ORDER BY total DESC").fetchall()
+            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE active=1 AND played=0 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
                 ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
@@ -167,3 +168,23 @@ class Party:
     def getDJ(self):
         if self.active:
             return self.dj
+
+
+    def playSong(self,vid):
+        if self.active:
+            x=time.time()
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            c.execute("UPDATE  "+self.k+" SET timestamp=?, played=1 WHERE videoid=? AND active=1", (x,vid,))
+            conn.commit()
+            conn.close()
+
+    def getPlayed(self):
+        if self.active:
+            ret=[]
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE active=1 AND played=1 ORDER BY timestamp ASC").fetchall()
+            for x in it:
+                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3])})
+            return ret
