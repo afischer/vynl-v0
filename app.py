@@ -105,7 +105,7 @@ def makeParty(data):
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
-    vote = data['vote']
+    #vote = data['vote']
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
     print "onjoin:", session['id']
