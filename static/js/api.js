@@ -68,6 +68,10 @@ vynl.sockets = (function() {
         return room;
     };
 
+	var getID = function() {
+		socket.emit('getID', {'data': 'Success'});
+	};
+
     var makeParty = function(partyID) {
         socket.emit('makeParty', {room: partyID, ipAddress: ipAddress})
     };
@@ -111,11 +115,17 @@ vynl.sockets = (function() {
 
     socket.on('connect', function(data) {
         console.log(data);
+		getID();
     });
 
     socket.on('disconnect', function(data) {
         console.log(data);
     });
+
+	socket.on('getID', function(data) {
+		console.log(data);
+		ipAddress = data.id;
+	});
 
     socket.on('success', function(data) {
         console.log(data.data);
@@ -137,6 +147,7 @@ vynl.sockets = (function() {
 
     return {
         socket: socket,
+		getUserID: getID,
         makeParty: makeParty,
         join: join,
         leave: leave,

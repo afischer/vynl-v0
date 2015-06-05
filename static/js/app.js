@@ -186,7 +186,15 @@ function hideDJOnly() {
 }
 
 $(document).ready(function() {
-    vynl.sockets.join();
+ 
+
+	vynl.sockets.getUserID();
+
+    vynl.sockets.socket.on('getID', function() {
+           vynl.sockets.join();
+    });
+
+	console.log("after getUserID()" + ipAddress);
 
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
