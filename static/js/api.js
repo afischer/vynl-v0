@@ -115,7 +115,6 @@ vynl.sockets = (function() {
 
     socket.on('connect', function(data) {
         console.log(data);
-		getID();
     });
 
     socket.on('disconnect', function(data) {
