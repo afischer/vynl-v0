@@ -83,6 +83,16 @@
 
 <!-- Can be put in another file if necessary -->
 <script type="text/javascript">
+  $("#startPartyButton").on("click", function(event) {
+    console.log("creating {{partyID}}");
+    vynl.sockets.makeParty("{{partyID}}");
+  });
+
+  vynl.sockets.socket.on('makeParty', function(data) {
+    console.log("party: {{partyID}} created");
+    window.location.href = "/party/{{partyID}}"
+  });
+
   $("#partyID").keypress(function(event) {
     if( event.which == 13 ) {
       // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)

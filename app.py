@@ -77,31 +77,60 @@ def redirParty(partyID):
     else:
         return '<h1>404</h1>', 404
 
+@socketio.on('connect', namespace='/party')
+def test_connect():
+    print "connected"
+    emit('connect', {'data': 'Connected'})
+
+@socketio.on('disconnect', namespace='/party')
+def test_disconnect():
+    print "client disconnected"
+
+@socketio.on('makeParty', namespace='/party')
+def makeParty(data):
+    room = data['room']
+    ip = data['ipAddress']
+    newParty = p.Party(room, ip)
+    print "user: " + ip + "created party: " + room
+    emit('makeParty', {'data': 'Party Created'})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
     room = data['room']
+    ipAddress = data['ipAddress']
     join_room(room)
     newParty = p.Party(room)
+    dj = newParty.getDJ()
     print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered()})
+    emit('join', {"songs": newParty.getOrdered(ipAddress),
+                  "dj": dj})
 
 
 @socketio.on('leave', namespace='/party')
 def on_leave(data):
     room = data['room']
     leave_room(room)
-    print "left room: " + room
+    print "nigga left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')
 def addSong(data):
     partyID = data['room']
     song = data['song']
+    ipAddress = data['ipAddress']
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
-    emit('addSong', song, room=partyID)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
+
+
+@socketio.on('getSongs', namespace='/party')
+def getSong(data):
+    print "updating songs"
+    partyID = data['room']
+    ipAddress = data['ipAddress']
+    newParty = p.Party(partyID)
+    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
 
 
 @socketio.on('voteSong', namespace="/party")
@@ -109,13 +138,39 @@ def voteSong(data):
     partyID = data['room']
     song = data['song']
     vote = data['vote']
+    ipAddress = data['ipAddress']
     newParty = p.Party(partyID)
-    print "vote: ", vote, " for song: ", song, " to room: " + partyID
+    print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
-        newParty.upVote(song["songID"])
+        newParty.upVote(song["songID"], ipAddress)
     elif vote == -1:
-        newParty.downVote(song["songID"])
-    emit('updateSongs', {newParty.getOrdered()}, room=partyID)
+        newParty.downVote(song["songID"], ipAddress)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
+
+
+@socketio.on('deleteSong', namespace="/party")
+def deleteSong(data):
+    partyID = data['room']
+    song = data['song']
+    ipAddress = data['ipAddress']
+    newParty = p.Party(partyID)
+    dj = newParty.getDJ()
+    if dj == ipAddress:
+        print "user: ", ipAddress, " deleting song: ", song["songID"], " to room: ", partyID
+        newParty.removeSong(song["songID"])
+        emit('notifySongUpdate', {"data": True}, room=partyID)
+        emit('success', {'data': "Deleted Song"})
+    else:
+        print "user: ", ipAddress, " is not a dj: ", dj
+        emit('error', {'data': "You are not the dj. You cannot Delete songs"});
+
+
+@socketio.on('playingSong', namespace="/party")
+def playingSong(data):
+    partyID = data['room']
+    song = data['song']
+    print "playing song: ", song, " in room: ", partyID
+    emit('playingSong', {"song": song}, room=partyID)
 
 
 if __name__ == "__main__":

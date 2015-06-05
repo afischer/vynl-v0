@@ -20,7 +20,11 @@ var SearchSongRow = React.createClass({
 			"songname": this.props.song.snippet.title,
 			"songartist": this.props.song.snippet.channelTitle,
 			"albumarturl": this.props.song.snippet.thumbnails.default.url,
-			"songID": this.props.song.id.videoId
+			"songID": this.props.song.id.videoId,
+                        "upvotes": 0,
+                        "downvotes": 0,
+                        "upvoted": false,
+                        "downvoted": false
 		});
                 vynl.sockets.addSong(song);
 	},
@@ -31,7 +35,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a onClick={this.handleOnClick} href="#">{title}</a></li>
+            <li style={rowStyle}><a onClick={this.handleOnClick} href="javascript:void(0);">{title}</a></li>
         );
     }
 });

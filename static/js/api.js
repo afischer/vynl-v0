@@ -68,27 +68,64 @@ vynl.sockets = (function() {
         return room;
     };
 
+    var makeParty = function(partyID) {
+        socket.emit('makeParty', {room: partyID, ipAddress: ipAddress})
+    };
+
     var join = function() {
-        socket.emit('join', {room: getPartyID()});
+        socket.emit('join', {room: getPartyID(), ipAddress: ipAddress});
     };
 
     var leave = function() {
         socket.emit('leave', {room: getPartyID()});
     };
 
-    var addSong = function(song) {
+    var getSongs = function() {
         room = getPartyID();
-        socket.emit('addSong', {room: room, song: song});
+        socket.emit('getSongs', {room: room, ipAddress: ipAddress})
     };
 
-    var vote = function(song, vote) {
+    var addSong = function(song) {
+        room = getPartyID();
+        socket.emit('addSong', {room: room, song: song, ipAddress: ipAddress});
+    };
+
+    var vote = function(song, vote, ipAddress) {
         if (vote == 1 || vote == -1) {
             room = getPartyID();
-            socket.emit('voteSong', {room: room, song: song, vote: vote});
+            socket.emit('voteSong', {room: room, song: song, vote: vote, ipAddress: ipAddress});
         } else {
             console.error("vote must be -1 or 1");
         };
     };
+
+    var playingSong = function(song, ipAddress) {
+        room = getPartyID();
+        socket.emit('playingSong', {room: room, song: song, ipAddress: ipAddress});
+    };
+
+    var deleteSong = function(song, ipAddress) {
+        room = getPartyID();
+        socket.emit('deleteSong', {room: room, song: song, ipAddress: ipAddress});
+    };
+
+    socket.on('connect', function(data) {
+        console.log(data);
+    });
+
+    socket.on('disconnect', function(data) {
+        console.log(data);
+    });
+
+    socket.on('success', function(data) {
+        console.log(data.data);
+        toastr.success(data.data);
+    });
+
+    socket.on('error', function(data) {
+        console.log(data.data);
+        toastr.error(data.data);
+    });
 
     socket.on('updateSongs', function(songs) {
         console.log('updatesongs');
@@ -102,10 +139,14 @@ vynl.sockets = (function() {
 
     return {
         socket: socket,
+        makeParty: makeParty,
         join: join,
         leave: leave,
         addSong: addSong,
         vote: vote,
+        deleteSong: deleteSong,
+        playingSong: playingSong,
+        getSongs: getSongs,
         getPartyID: getPartyID
     };
 }());

@@ -8,13 +8,32 @@
   </ul>
 </script>
 
-<script type="text/template" id="queue-item-template"
-	<li class="list-group-item metadata">
-	  <img class="album-art img-rounded" src=<%=albumarturl%> >
-	  &nbsp;
-	  <span class="song-name"><%=songname%></span>
-	  <%=songartist%>
-	</li>
+<script type="text/template" id="queue-item-template">
+      <img class="album-art img-rounded" src=<%=albumarturl%> >
+      &nbsp;
+      <span class="song-name"><%=songname%></span>
+      <%=songartist%>
+      <div class="deleteButton dj">
+          <i data-id=<%=songID%> class="fa fa-times"></i>
+      </div>
+      <div class="votes">
+        <div class="thumbCount">
+            <div data-voted=<%=downvoted%> class="icon downvote">
+            <i data-id=<%=songID%> data-vote=-1 data-downvoted=<%=downvoted%> class="fa thumbs fa-thumbs-down"></i>
+            </div>
+            <div class="thumbCountNum">
+            <%=downvotes%>
+            </div>
+        </div>
+        <div class="thumbCount">
+            <div data-voted=<%=upvoted%> class="icon upvote">
+            <i data-id=<%=songID%> data-vote=1 data-upvoted=<%=upvoted%> class="fa thumbs fa-thumbs-up"></i>
+            </div>
+            <div class="thumbCountNum">
+            <%=upvotes%>
+            </div>
+        </div>
+      </div>
 </script>
 <!-- /MVC TEMPLATES -->
 
@@ -24,7 +43,7 @@
 
 <div class="container">
     <div class="row" style="padding-top:60px">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="jumbotron">
 
                 <div class="row">
@@ -42,9 +61,9 @@
                                     <div class="song-album"></div>
                                 </small>
                                 <br> <br>
-                                <a href="#" class="glyphicon glyphicon-step-backward"  onClick="prevVideo()"></a>
-                                <a href='#' class="glyphicon glyphicon-play play"  onClick="playVideo()"></a>
-                                <a href="#" class="glyphicon glyphicon-step-forward"  onClick="nextVideo()"></a>
+                                <a class="glyphicon glyphicon-step-backward dj"  onClick="prevVideo()"></a>
+                                <a class="glyphicon glyphicon-play play dj"  onClick="playVideo()"></a>
+                                <a class="glyphicon glyphicon-step-forward dj"  onClick="nextVideo()"></a>
                                 <br><br>
                                 <i class="fa fa-thumbs-up"></i> &nbsp;
                                 <i class="fa fa-thumbs-down"></i> &nbsp;
@@ -69,8 +88,9 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <h4> Party ID: {{partyID}}</h4>
+        <div class="col-md-2">
+            <h5> Party ID: {{partyID}}</h5> <br>
+            <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://www.vynl.party/party/{{partyID}} >
 
         </div>
     </div>
