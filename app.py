@@ -150,6 +150,7 @@ def getSong(data):
 def voteSong(data):
     partyID = data['room']
     song = data['song']
+    vote=data['vote']
     ipAddress = session['id']
     newParty = p.Party(partyID)
     print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
