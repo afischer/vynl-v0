@@ -83,7 +83,7 @@ def redirParty(partyID):
 def test_connect():
     print "connected"
     if 'id' not in session.keys():
-        session['id']=u.uuid4()
+        session['id']=str(u.uuid4())
     print "connect:",session['id']
     emit('connect', {'data': session['id']})
 
@@ -95,7 +95,7 @@ def test_disconnect():
 @socketio.on('makeParty', namespace='/party')
 def makeParty(data):
     if 'id' not in session.keys():
-        session['id']=u.uuid4()
+        session['id']=str(u.uuid4())
     print "makeParty:", session['id']
     room = data['room']
     ip = session['id']
@@ -107,7 +107,7 @@ def makeParty(data):
 def on_join(data):
     vote = data['vote']
     if 'id' not in session.keys():
-        session['id']=u.uuid4()
+        session['id']=str(u.uuid4())
     print "onjoin:", session['id']
     room = data['room']
     ipAddress =session['id']
