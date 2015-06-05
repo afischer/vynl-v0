@@ -98,18 +98,19 @@ def makeParty(data):
         session['id']=u.uuid4()
     print "makeParty:", session['id']
     room = data['room']
-    ip = data['ipAddress']
+    ip = session['id']
     newParty = p.Party(room, ip)
     print "user: " + ip + "created party: " + room
     emit('makeParty', {'id': session['id']})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
+    vote = data['vote']
     if 'id' not in session.keys():
         session['id']=u.uuid4()
     print "onjoin:", session['id']
     room = data['room']
-    ipAddress =data['ipAddress']
+    ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
     dj = newParty.getDJ()
@@ -129,7 +130,7 @@ def on_leave(data):
 def addSong(data):
     partyID = data['room']
     song = data['song']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
@@ -140,7 +141,7 @@ def addSong(data):
 def getSong(data):
     print "updating songs"
     partyID = data['room']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
 
@@ -149,8 +150,7 @@ def getSong(data):
 def voteSong(data):
     partyID = data['room']
     song = data['song']
-    vote = data['vote']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
@@ -164,7 +164,7 @@ def voteSong(data):
 def deleteSong(data):
     partyID = data['room']
     song = data['song']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     dj = newParty.getDJ()
     if dj == ipAddress:
