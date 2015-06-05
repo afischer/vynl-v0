@@ -64,9 +64,6 @@
                                 <a class="glyphicon glyphicon-step-backward dj"  onClick="prevVideo()"></a>
                                 <a class="glyphicon glyphicon-play play dj"  onClick="playVideo()"></a>
                                 <a class="glyphicon glyphicon-step-forward dj"  onClick="nextVideo()"></a>
-                                <br><br>
-                                <i class="fa fa-thumbs-up"></i> &nbsp;
-                                <i class="fa fa-thumbs-down"></i> &nbsp;
                             </h4>
                         </div>
                     </div>
@@ -89,9 +86,10 @@
         </div>
 
         <div class="col-md-2">
+	  <center>
             <h5> Party ID: {{partyID}}</h5> <br>
-            <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://www.vynl.party/party/{{partyID}} >
-
+            <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://vynl.party/{{partyID}} >
+	  </center>
         </div>
     </div>
 
