@@ -1,11 +1,13 @@
-from flask import Flask, render_template, redirect,request, jsonify, Response
+from flask import Flask, render_template, redirect,request, jsonify, Response, sessions,session
 from flask.ext.socketio import SocketIO, join_room, leave_room, emit
 import random
 import string
 import party as p
-
+import uuid as u
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret'
+#app.config['SECRET_KEY'] = 'secret'
+with open('secret.txt','r') as f:
+    app.secret_key =f.read()
 socketio = SocketIO(app)
 
 
@@ -80,7 +82,11 @@ def redirParty(partyID):
 @socketio.on('connect', namespace='/party')
 def test_connect():
     print "connected"
-    emit('connect', {'data': 'Connected'})
+    if 'id' not in session.keys():
+        session['id']=u.uuid4()
+    print "connect:",session['id']
+    emit('connect', {'data': session['id']})
+
 
 @socketio.on('disconnect', namespace='/party')
 def test_disconnect():
@@ -88,16 +94,22 @@ def test_disconnect():
 
 @socketio.on('makeParty', namespace='/party')
 def makeParty(data):
+    if 'id' not in session.keys():
+        session['id']=u.uuid4()
+    print "makeParty:", session['id']
     room = data['room']
     ip = data['ipAddress']
     newParty = p.Party(room, ip)
     print "user: " + ip + "created party: " + room
-    emit('makeParty', {'data': 'Party Created'})
+    emit('makeParty', {'id': session['id']})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
+    if 'id' not in session.keys():
+        session['id']=u.uuid4()
+    print "onjoin:", session['id']
     room = data['room']
-    ipAddress = data['ipAddress']
+    ipAddress =data['ipAddress']
     join_room(room)
     newParty = p.Party(room)
     dj = newParty.getDJ()
@@ -110,7 +122,7 @@ def on_join(data):
 def on_leave(data):
     room = data['room']
     leave_room(room)
-    print "nigga left room: " + room
+    print "broski left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')
