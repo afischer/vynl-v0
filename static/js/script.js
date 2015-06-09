@@ -1,3 +1,4 @@
+
 function handleClientLoad() {
     gapi.client.setApiKey(apiKey);
     gapi.client.load('youtube', 'v3', function() {});

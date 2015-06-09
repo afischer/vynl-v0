@@ -186,22 +186,17 @@ function hideDJOnly() {
 }
 
 $(document).ready(function() {
- 
-
-	vynl.sockets.getUserID();
-
-    vynl.sockets.socket.on('getID', function() {
-           vynl.sockets.join();
-
-	console.log("after getUserID()" + ipAddress);
+    vynl.sockets.join();
 
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
         console.log(songs.songs);
         if (ipAddress !== songs.dj) {
             hideDJOnly();
+            toastr.info('You may vote and suggest songs', 'You are not the DJ');
         } else {
             console.log("you're the dj!");
+            toastr.success('You have full access to the playlist', 'You are the DJ!');
         }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
@@ -291,5 +286,4 @@ $(document).ready(function() {
         vynl.sockets.leave();
         return null;
     };
-    });
 });

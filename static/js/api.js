@@ -1,4 +1,5 @@
-var vynl = {};
+var vynl = {
+};
 
 vynl.api = (function() {
 	var endpoint = "/api";
@@ -67,10 +68,6 @@ vynl.sockets = (function() {
         return room;
     };
 
-	var getID = function() {
-		socket.emit('getID', {'data': 'Success'});
-	};
-
     var makeParty = function(partyID) {
         socket.emit('makeParty', {room: partyID, ipAddress: ipAddress})
     };
@@ -120,17 +117,14 @@ vynl.sockets = (function() {
         console.log(data);
     });
 
-	socket.on('getID', function(data) {
-		console.log(data);
-		ipAddress = data.id;
-	});
-
     socket.on('success', function(data) {
         console.log(data.data);
+        toastr.success(data.data);
     });
 
     socket.on('error', function(data) {
         console.log(data.data);
+        toastr.error(data.data);
     });
 
     socket.on('updateSongs', function(songs) {
@@ -145,7 +139,6 @@ vynl.sockets = (function() {
 
     return {
         socket: socket,
-		getUserID: getID,
         makeParty: makeParty,
         join: join,
         leave: leave,

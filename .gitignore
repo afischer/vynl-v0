@@ -1,4 +1,4 @@
-### Mac
+### MAC ###
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -21,7 +21,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-### Python 
+### PYTHON ### 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -71,7 +71,7 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
+### DJANGO ###
 *.log
 
 # Sphinx documentation
@@ -80,5 +80,14 @@ docs/_build/
 # PyBuilder
 target/
 
+### EMACS ###
 \#*\#
 *~
+
+
+### SQL ###
+*.db
+
+
+### Security ###
+secret.txt
