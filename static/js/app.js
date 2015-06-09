@@ -314,7 +314,7 @@ $(document).ready(function() {
 
 
     window.onbeforeunload = function(e) {
-        console.log("nigga left");
+        console.log("bruddah left");
         vynl.sockets.leave();
         return null;
     };
