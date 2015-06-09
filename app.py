@@ -1,11 +1,13 @@
-from flask import Flask, render_template, redirect,request, jsonify, Response
+from flask import Flask, render_template, redirect,request, jsonify, Response, sessions,session, url_for
 from flask.ext.socketio import SocketIO, join_room, leave_room, emit
 import random
 import string
 import party as p
-
+import uuid as u
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret'
+#app.config['SECRET_KEY'] = 'secret'
+with open('secret.txt','r') as f:
+    app.secret_key =f.read()
 socketio = SocketIO(app)
 
 
@@ -39,6 +41,8 @@ def genID():
 
 @app.route("/")
 def index():
+    if 'id' not in session.keys():
+        session['id']=str(u.uuid4())
     return render_template("index.html", partyID=genID())
 
 
@@ -64,6 +68,8 @@ def party():
 @app.route("/party/<partyID>")
 def genParty(partyID):
     if (len(partyID) == 8):
+        if 'id' not in session.keys():
+            session['id']=str(u.uuid4())
         return render_template("party.html", partyID=partyID)
     else:
         return '<h1>404</h1>', 404
@@ -72,6 +78,8 @@ def genParty(partyID):
 @app.route("/<partyID>")
 def redirParty(partyID):
     if (len(partyID) == 8):
+        if 'id' not in session.keys():
+            session['id']=str(u.uuid4())
         partyURL = "/party/" + partyID
         return redirect(partyURL, code=303)
     else:
@@ -80,7 +88,18 @@ def redirParty(partyID):
 @socketio.on('connect', namespace='/party')
 def test_connect():
     print "connected"
-    emit('connect', {'data': 'Connected'})
+    if 'id' not in session.keys():
+        session['id']=str(u.uuid4())
+    print "connect:",session['id']
+    emit('connect', {'data': session['id']})
+
+@socketio.on('getID', namespace='/party')
+def getID(data):
+	if 'id' not in session.keys():
+		session['id']=str(u.uuid4())
+	print "getID: ", session['id']
+	emit('getID', {'id': session['id']})
+
 
 @socketio.on('disconnect', namespace='/party')
 def test_disconnect():
@@ -88,16 +107,26 @@ def test_disconnect():
 
 @socketio.on('makeParty', namespace='/party')
 def makeParty(data):
+    print session.keys()
+    print 'id' not in session.keys()
+    if 'id' not in session.keys():
+        session['id']=str(u.uuid4())
+    print "makeParty:", session['id']
     room = data['room']
-    ip = data['ipAddress']
+    ip = session['id']
     newParty = p.Party(room, ip)
     print "user: " + ip + "created party: " + room
-    emit('makeParty', {'data': 'Party Created'})
+    url = 'http://vynl.party/party/' + room
+    emit('makeParty', {'id': session['id']})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
+    #vote = data['vote']
+    if 'id' not in session.keys():
+        session['id']=str(u.uuid4())
+    print "onjoin:", session['id']
     room = data['room']
-    ipAddress = data['ipAddress']
+    ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
     dj = newParty.getDJ()
@@ -110,14 +139,14 @@ def on_join(data):
 def on_leave(data):
     room = data['room']
     leave_room(room)
-    print "nigga left room: " + room
+    print "broski left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')
 def addSong(data):
     partyID = data['room']
     song = data['song']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
@@ -128,7 +157,7 @@ def addSong(data):
 def getSong(data):
     print "updating songs"
     partyID = data['room']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
 
@@ -137,8 +166,8 @@ def getSong(data):
 def voteSong(data):
     partyID = data['room']
     song = data['song']
-    vote = data['vote']
-    ipAddress = data['ipAddress']
+    vote=data['vote']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
@@ -152,7 +181,7 @@ def voteSong(data):
 def deleteSong(data):
     partyID = data['room']
     song = data['song']
-    ipAddress = data['ipAddress']
+    ipAddress = session['id']
     newParty = p.Party(partyID)
     dj = newParty.getDJ()
     if dj == ipAddress:
