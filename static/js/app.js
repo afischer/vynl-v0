@@ -209,9 +209,6 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
-        if (songs.songs.length > 0) {
-        	onYouTubeIframeAPIReady();
-        }
     });
 
     vynl.sockets.socket.on('updateSongs', function(songs) {
@@ -219,11 +216,6 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
-        /*
-        if (typeof(player) == 'undefined' && data.models.length > 0) {
-            onYouTubeIframeAPIReady();
-        }
-        */
     });
 
     vynl.sockets.socket.on('notifySongUpdate', function(songs) {
@@ -236,11 +228,6 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
-        /*
-        if (data.models.length < 2) {
-            onYouTubeIframeAPIReady();
-        }
-        */
     });
 
     vynl.sockets.socket.on('playingSong', function(song) {
@@ -286,6 +273,18 @@ $(document).ready(function() {
     }
 
     $(document).on('touchstart click', '.fa.fa-times', handleDeleteClick);
+
+	var lastTime = (new Date()).getTime();
+
+	setInterval(function() {
+	  var currentTime = (new Date()).getTime();
+	  if (currentTime > (lastTime + 2000*2)) {  // ignore small delays
+	      vynl.sockets.join();
+	  } else {
+              console.log("browser is awake");
+          }
+	  lastTime = currentTime;
+	}, 2000);
 
 
     window.onbeforeunload = function(e) {
