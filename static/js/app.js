@@ -147,13 +147,11 @@ function onPlayerStateChange(event) {
 
 };
 
-var endofq = false;
 function playVideo() {
     if (player === undefined) {
         onYouTubeIframeAPIReady(playVideo);
         return;
     }
-    endofq = false;
     player.playVideo();
     $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
     $('.play').attr("onclick", "pauseVideo()");
@@ -169,9 +167,7 @@ function pauseVideo() {
 function nextVideo(){
     if (playIndex < data.models.length) {
         player.loadVideoById(data.models[playIndex].attributes.songID);
-	endofq = false;
     } else {
-	endofq = true;
         console.warn("can't call nextVideo: end of queue");
     }
 };
@@ -192,25 +188,19 @@ function hideDJOnly() {
 $(document).ready(function() {
  
 
-	vynl.sockets.getUserID();
+    vynl.sockets.getUserID();
 
     vynl.sockets.socket.on('getID', function() {
+           console.log(ipAddress);
            vynl.sockets.join();
-});
+    });
 
-
-	console.log("after getUserID()" + ipAddress);
-
-
-    var isDJ = false;
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
-        console.log(songs.songs);
-	data.reset();
+        console.log(songs);
         if (ipAddress !== songs.dj) {
             hideDJOnly();
         } else {
-	    isDJ = true;
             console.log("you're the dj!");
         }
         var i;
@@ -227,11 +217,6 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
-	if (endofq) {
-	    if (isDJ) {
-		    nextVideo();
-	    }
-	}
         /*
         if (typeof(player) == 'undefined' && data.models.length > 0) {
             onYouTubeIframeAPIReady();
@@ -299,18 +284,6 @@ $(document).ready(function() {
     }
 
     $(document).on('touchstart click', '.fa.fa-times', handleDeleteClick);
-
-    var TIMEOUT = 2000;
-    var lastTime = Date.now();
-
-    setInterval(function() {
-        var currentTime = Date.now();
-        if (currentTime > (lastTime + TIMEOUT + 2000)) {
-            console.log("Wake Event Called");
-            vynl.sockets.join();
-        }
-        lastTime = currentTime;
-    }, TIMEOUT); 
 
 
     window.onbeforeunload = function(e) {

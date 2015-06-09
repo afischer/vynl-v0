@@ -15,6 +15,7 @@ html {
 body {
     margin-bottom: 60px;
     min-height: 400px;
+    overflow: hidden;
 }
 .footer {
     padding-top: 20px;
@@ -151,6 +152,7 @@ svg {
     margin: 0 auto;
     position: relative;
     left: 25%;
+    overflow: hidden;
 } 
 
 svg path {

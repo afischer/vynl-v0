@@ -1,4 +1,5 @@
-var vynl = {};
+var vynl = {
+};
 
 vynl.api = (function() {
 	var endpoint = "/api";
