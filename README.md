@@ -16,6 +16,11 @@
 ## Timetable
 See [TODO.md](https://github.com/afischer/vynl/blob/master/TODO.md) for a complete timeline and goal completion deadlines.
 
+## Video
+[![YTVideo](http://img.youtube.com/vi/BJfs_lFGRPo/0.jpg)](http://www.youtube.com/watch?v=BJfs_lFGRPo)
+
+
+
 ## Workflow
 *Since we're in the dev stage, our master is our dev branch.*
 
