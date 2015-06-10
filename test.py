@@ -14,6 +14,8 @@ x.addSong(song5,"exampleimage","name5","asdf")
 x.addSong(song5,"exampleimage","name5","asdf")
 x.playSong(song)
 x.removeSong(song5)
+x.addSong(song5,"exampleimage","name5","asdf")
+x.addSong(song,"exampleimage","name","channelman")
 #for i in xrange(20):
 #	x.upVote(song,"199")
 for i in xrange(11):
