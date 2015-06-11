@@ -15,10 +15,10 @@
 	- [x] Backbone.Marionette? yahhh
 - [x] Look into APIs (Eric)
 	- [ ] ~~Spotify~~
-	- [x] Youtube (audio only?)
-	- [ ] ~~SoundCloud~~ (probably not)
+	- [x] Youtube (yeee)
+	- [ ] ~~SoundCloud~~ (nah)
 	- [ ] ~~GrooveShark~~ (shutdown)
-	- [ ] ~~8tracks~~ (probably not)
+	- [ ] ~~8tracks~~ (nah)
 	- [ ] More??
 - [x] Work out MVC implementation for single page web (Andrew)
 - [x] Decide on database structures and implementation (Zabari)
@@ -39,14 +39,14 @@
 - [x] Get IFrame API hooked up with MVC (Andrew)
 
 ###### Before 5/18
-- [ ] Fix the insane number of api calls made in search (Eric)
-- [ ] Hook up MVC/Frontend to Backend DB (Zabari, Eric)
-- [ ] Sessions (Andrew)
+- [x] Fix the insane number of api calls made in search (Eric)
+- [x] Hook up MVC/Frontend to Backend DB (Zabari, Eric)
+- [x] Sessions (Andrew)
 - [x] About Page (Isaac)
-- [ ] Visual User Representations (Isaac, Andrew)
+- [x] Visual User Representations (Isaac, Andrew)
 
 ###### Before 5/26 (**DUE DATE**)
-- [ ] Upvotes/Downvotes and Song Shuffling (Zabari?)
+- [x] Upvotes/Downvotes and Song Shuffling (Zabari?)
 - [ ] Find everything that was missed (Team)
 - [ ] Code review (Team)
 - [ ] Clean up Everything (Team)
