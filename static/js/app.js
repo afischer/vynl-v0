@@ -186,7 +186,6 @@ function hideDJOnly() {
 }
 
 $(document).ready(function() {
- 
 
     vynl.sockets.getUserID();
 
@@ -217,6 +216,10 @@ $(document).ready(function() {
     vynl.sockets.socket.on('updateSongs', function(songs) {
         data.reset();
         for (i = 0; i < songs.songs.length; i++) {
+            console.log(songs.songs[i]["songname"]);
+            songs.songs[i]["songname"]=decodeURIComponent(songs.songs[i]["songname"]);
+            console.log(songs.songs[i]["songname"]);
+            songs.songs[i]["songartist"]=decodeURIComponent(songs.songs[i]["songartist"]);
             data.push(songs.songs[i]);
         }
         /*

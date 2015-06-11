@@ -154,7 +154,7 @@ class Party:
             it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE played=0 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
             return ret
         else:
             return "Party not active."
@@ -196,7 +196,8 @@ class Party:
             c=conn.cursor()
             it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE played=1 ORDER BY timestamp ASC").fetchall()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3])})
+                #print x[0]
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
             return ret
         else:
             return "Party not active."
@@ -205,7 +206,7 @@ class Party:
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            L=c.execute("SELECT videid,imgURL,name,artist FROM " +self.k).fetchall()
+            L=c.execute("SELECT videoid,imgURL,name,artist FROM " +self.k).fetchall()
             return L
         else:
             return "Party not active."

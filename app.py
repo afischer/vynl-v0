@@ -4,25 +4,13 @@ import random
 import string
 import party as p
 import uuid as u
+import logging
+from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()
 socketio = SocketIO(app)
-
-if app.debug is not True:
-    import logging
-    from logging.handlers import RotatingFileHandler
-    file_handler = RotatingFileHandler('python.log', maxBytes=1024 * 1024 * 100, backupCount=20)
-    file_handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    file_handler.setFormatter(formatter)
-    app.logger.addHandler(file_handler)
-
-@app.errorhandler(500)
-def internal_error(exception):
-    app.logger.exception(exception)
-    return render_template('500.html'), 500
 
 @app.route("/api/parties/<party_id>",
            methods=["GET", "POST", "PATCH", "DELETE"])
@@ -157,6 +145,7 @@ def on_leave(data):
 
 @socketio.on('addSong', namespace='/party')
 def addSong(data):
+    #app.logger.error(data)
     partyID = data['room']
     song = data['song']
     ipAddress = session['id']
@@ -172,7 +161,9 @@ def getSong(data):
     partyID = data['room']
     ipAddress = session['id']
     newParty = p.Party(partyID)
-    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
+    thang=newParty.getOrdered(ipAddress)
+    print thang
+    emit('updateSongs', {"songs":thang })
 
 
 @socketio.on('voteSong', namespace="/party")
@@ -216,5 +207,8 @@ def playingSong(data):
 
 
 if __name__ == "__main__":
-    app.debug = False
+    handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
+    app.debug=True
     socketio.run(app, host='0.0.0.0', port=8000)
