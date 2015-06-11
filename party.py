@@ -24,10 +24,10 @@ class Party:
         conn = sqlite3.connect('parties.db')
         c = conn.cursor()
         try:
-            c.execute("CREATE TABLE uniques (url TEXT)")
+            self.active= len(c.execute("SELECT (url) FROM uniques WHERE url=?",(self.k,)).fetchall())
         except:
-            pass
-        self.active= len(c.execute("SELECT (url) FROM uniques WHERE url=?",(self.k,)).fetchall())
+            c.execute("CREATE TABLE uniques (url TEXT)")
+            self.active= False
         #print self.active
         if (self.active):
             #print dj
@@ -60,13 +60,12 @@ class Party:
                 L=c.execute("SELECT * FROM " + self.k + " WHERE videoid=? AND played=1",(self.k,)).fetchall()
                 if len(L)==0:
                     conn.close()
-                    return -1
+                    return "The song is already in the queue!"
                 c.execute("REPLACE INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played) VALUES (?,?,?,?,0,0,0,?,?,0)",args)
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
     def removeSong(self,vid):
         if self.active:
@@ -76,8 +75,8 @@ class Party:
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
+
     def upVote(self,vid, ip):
         if self.active:
             conn=sqlite3.connect(self.db)
@@ -104,8 +103,7 @@ class Party:
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
 
     def downVote(self,vid, ip):
@@ -134,8 +132,7 @@ class Party:
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
     def end(self):
         if self.active:
@@ -157,8 +154,10 @@ class Party:
             it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE played=0 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
             return ret
+        else:
+            return "Party not active."
 
     def addDJ(self,dj):
         conn=sqlite3.connect(self.db)
@@ -175,6 +174,8 @@ class Party:
     def getDJ(self):
         if self.active:
             return self.dj
+        else:
+            return "Party not active."
 
 
     def playSong(self,vid):
@@ -185,6 +186,8 @@ class Party:
             c.execute("UPDATE  "+self.k+" SET timestamp=?, played=1 WHERE videoid=?", (x,vid,))
             conn.commit()
             conn.close()
+        else:
+            return "Party not active."
 
     def getPlayed(self):
         if self.active:
@@ -193,5 +196,17 @@ class Party:
             c=conn.cursor()
             it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE played=1 ORDER BY timestamp ASC").fetchall()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3])})
+                #print x[0]
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
             return ret
+        else:
+            return "Party not active."
+
+    def getSongs(self):
+        if self.active:
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            L=c.execute("SELECT videoid,imgURL,name,artist FROM " +self.k).fetchall()
+            return L
+        else:
+            return "Party not active."
