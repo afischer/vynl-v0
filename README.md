@@ -1,4 +1,5 @@
 <p><img src="http://i.imgur.com/HhAIJc8.png" align="middle"> <i>The Dankest DJ App in the Universe.</i> </p>
+<p> Check us out at http://vynl.party </p>
 
 
 -----
@@ -17,7 +18,7 @@
 See [TODO.md](https://github.com/afischer/vynl/blob/master/TODO.md) for a complete timeline and goal completion deadlines.
 
 ## Video
-[![YTVideo](http://img.youtube.com/vi/BJfs_lFGRPo/0.jpg)](http://www.youtube.com/watch?v=BJfs_lFGRPo)
+[![YTVideo](http://img.youtube.com/vi/BJfs_lFGRPo/0.jpg)](https://www.youtube.com/watch?v=RpIWkr_cYx8)
 
 
 
