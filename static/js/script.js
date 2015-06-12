@@ -41,13 +41,15 @@ var SearchSongRow = React.createClass({
 });
 
 var SearchSongDropDown = React.createClass({
+    componentDidMount: function() {
+    },
     render: function() {
         var rows = [];
         this.props.songs.forEach(function(song) {
             rows.push(<SearchSongRow song={song} key={song.snippet.title} />);
         });
         return (
-            <ul id={'search_results'} className={'dropdown-menu'} role={'menu'}>
+            <ul id={'search_results'} className={'dropdown-menu search-option'} role={'menu'}>
             {rows}
             </ul>
         );
@@ -71,6 +73,16 @@ var SearchSongDynamic = React.createClass({
 	componentDidMount: function() {
 		document.addEventListener("click", this.handleClick);
 	},
+    handleOnKeyDown: function(event) {
+        if(event.which == 40) { // down
+            $(".search-option").children().first().focus();
+            return false; // stops the page from scrolling
+        }
+        else if(event.which == 38) { // up
+            $(".search-option").children().first().focus();
+            return false; // stops the page from scrolling
+        }
+    },
     handleOnChange: function(event) {
         this.setState({value: event.target.value});
 
@@ -87,8 +99,8 @@ var SearchSongDynamic = React.createClass({
     render: function() {
         var value = this.state.value;
         return (
-                <div>
-                    <input onChange={this.handleOnChange} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
+                <div className={"dropdown"}>
+                    <input onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control dropdown-toggle"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
                     <SearchSongDropDown songs={this.state.songs} ref="searchSongDropDown" />
                 </div>
                 );
@@ -96,6 +108,29 @@ var SearchSongDynamic = React.createClass({
 });
 
 React.render(<SearchSongDynamic />, document.getElementById('SearchSongDynamic'));
+
+        console.log("component mounted");
+        $("#search-input").keydown(function(e){
+            console.log("hello");
+            if(e.which == 13) { // enter
+                setTimeout(function(){
+                    $(".search-option:first").focus();
+                },100);
+            }
+        });
+
+        $(".search-option").keydown(function(e){
+            console.log("hello");
+            if(e.which == 40) { // down
+                console.log("down");
+                $(this).parent().next().find(".search-option").focus();
+                return false; // stops the page from scrolling
+            }
+            if(e.which == 38) { // up
+                $(this).parent().prev().find(".search-option").focus();
+                return false; // stops the page from scrolling
+            }
+        });
 
 /*
    function printResults()
