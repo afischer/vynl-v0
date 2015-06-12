@@ -120,10 +120,19 @@ class Party:
                     x=m.dumps(x)
                     y=m.dumps(y)
                     c.execute("UPDATE "+self.k+" SET downvotes=?, total=?, downvoteip=?, upvotes=?, upvoteip=? WHERE videoid=?",(num[0]+1,num[1]-2,x, num[3]-1,y,vid,))
+                    if (num[1]-2) <=-5:
+                        conn.close()
+                        self.removeSong(vid)
+                        return
                 else:
                     x.append(ip)
                     x=m.dumps(x)
                     c.execute("UPDATE "+self.k+" SET downvotes=?, total=?, downvoteip=? WHERE videoid=?",(num[0]+1,num[1]-1,x,vid,))
+                    if (num[1]-1)<=-5:
+                        conn.close()
+                        #print "gonna remove"
+                        self.removeSong(vid)
+                        return
             elif ip in x:
                 x.remove(ip)
                 x=m.dumps(x)
