@@ -44,7 +44,10 @@ def genID():
 def index():
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
-    return render_template("index.html", partyID=genID())
+    x=genID()
+    while p.partyExists(x):
+        x=genID()
+    return render_template("index.html", partyID=x)
 
 
 @app.route("/base")
