@@ -4,6 +4,29 @@
 <br>
 <br>
 
+<!-- Modal - Refactor this later -->
+<div id="joinModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Join Party</h4>
+      </div>
+      <div class="modal-body">
+        <input id="partyID" type="text" class="form-control" placeholder="Enter 8 Digit PartyID" autofocus="autofocus">
+      </div>
+      <div class="modal-body">
+	<h5> Protip - Just type in http://vynl.party/<yourID> to be forwarded to your party super fast! </h5>
+	</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="join_party">Join</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 svg-area">
@@ -46,31 +69,16 @@
     		<a id="startPartyButton" href="javascript:void(0);" class="btn btn-default btn-lg btn-block">Start a Party</a>
     	</div>
     	<div class="col-xs-6">
-    		<a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
+    	  <a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
     	</div>
+	
+	
 
-      <!-- Modal HTML -->
-      <div id="joinModal" class="modal fade">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title">Join Party</h4>
-                  </div>
-                  <div class="modal-body">
-                      <input id="partyID" type="text" class="form-control" placeholder="Enter partyID" autofocus="autofocus">
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" id="join_party">Join</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-    </div>
-
-    <br><br><br><br><br><br><br> <!--FIX THIS-->
+     </div>
+     
+     
+     
+     <br><br><br><br><br><br><br> <!--FIX THIS-->
 </div>
 
 {% endblock content %}
@@ -104,6 +112,8 @@
     window.location.href = "/party/" + $("#partyID").val();
   });
 </script>
+
+
 
 <script type="text/javascript" src="/static/js/animation.js"
 {% endblock scripts %}
