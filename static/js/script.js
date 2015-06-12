@@ -41,7 +41,8 @@ var SearchSongRow = React.createClass({
 });
 
 var SearchSongDropDown = React.createClass({
-    componentDidMount: function() {
+    handleOnKeyDown() {
+        
     },
     render: function() {
         var rows = [];
