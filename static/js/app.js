@@ -1,5 +1,5 @@
 function getArt(ytID){
-    return "".concat('<img class="album-art img-responsive img-rounded others" src="http://img.youtube.com/vi/', ytID, '/0.jpg">');
+    return "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', ytID, '/0.jpg">');
 }
 
 //// BACKBONE.MARIONETTE ////
@@ -54,7 +54,7 @@ var Songs = Backbone.Collection.extend({
 
 var data = new Songs([]);
 
-//var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
+var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
 //var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
 //data.push(test);
 //data.push(test2);
@@ -301,9 +301,9 @@ $(document).ready(function() {
         vynl.sockets.leave();
         return null;
     };
-    
+
     $(document).on('touchstart click', '.glyphicon-step-backward', prevVideo());
-    $(document).on('touchstart', '.glyphicon-play', playVideo(););
+    $(document).on('touchstart', '.glyphicon-play', playVideo());
     $(document).on('touchstart click', '.glyphicon-step-forwards', nextVideo());
 
 });
