@@ -50,7 +50,13 @@ html, body {
 }
 /*Dat red: #d9230f */
 /*Dat grey: #474949*/
-
+.blank{
+  display: inline;
+  z-index:1;
+  position: absolute;
+  height: 200px;
+  width: 200px;
+}
 .metadata {
 font-size: 65%;
 
