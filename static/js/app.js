@@ -179,8 +179,9 @@ function nextVideo(){
 
 function prevVideo(){
     if (playIndex > 0) {
-        playIndex--;
-        player.loadVideoById(data.models[playIndex].attributes.songID);
+        //playIndex--;
+        //player.loadVideoById(data.models[playIndex].attributes.songID);
+        console.warn("Can't do previous videos until played view implemented.")
     } else {
         console.warn("can't call previousVideo: start of queue");
     }
@@ -300,4 +301,9 @@ $(document).ready(function() {
         vynl.sockets.leave();
         return null;
     };
+    
+    $(document).on('touchstart click', '.glyphicon-step-backward', prevVideo());
+    $(document).on('touchstart', '.glyphicon-play', playVideo(););
+    $(document).on('touchstart click', '.glyphicon-step-forwards', nextVideo());
+
 });
