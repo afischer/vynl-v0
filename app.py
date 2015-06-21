@@ -6,6 +6,37 @@ import party as p
 import uuid as u
 import logging
 from logging.handlers import RotatingFileHandler
+import argparse
+import sys
+
+
+## Parse CL Options
+parser = argparse.ArgumentParser(description='Vynl.party backend routing.')
+                    
+parser.add_argument('-d', '--debug',
+                  dest="debug",
+                  default=False,
+                  action="store_true",
+                  )
+parser.add_argument('-p', 
+                  action="store", 
+                  dest="port", 
+                  type=int, 
+                  default="8000", 
+                  help="Specify port"
+                  )
+parser.add_argument('-V','--version',
+                  action='version',
+                  version="Vynl - %(prog)s 0.0.1",
+                  help="Log version and exit"
+                  )
+
+args = parser.parse_args()
+d = args.debug
+
+
+
+## Flask App ##
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
@@ -20,7 +51,7 @@ def apiParty(party_id):
     if request.method == "GET":
         return jsonify({"songs": newParty.getOrdered()})
     elif request.method == "POST":
-        print "POST"
+        if d: print "POST"
         rec = request.get_json()
         newParty.addSong(rec["videoID"], rec["title"], rec["artist"])
         return jsonify({"success": True})
@@ -33,7 +64,7 @@ def apiParty(party_id):
         return jsonify({"success": True})
     elif request.method == "DELETE":
         rec = request.get_json()
-        print rec["videoID"]
+        if d: print rec["videoID"]
         newParty.removeSong(rec["videoID"])
 
 
@@ -94,35 +125,35 @@ def redirParty(partyID):
 
 @socketio.on('connect', namespace='/party')
 def test_connect():
-    print "connected"
+    if d: print "connected"
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
-    print "connect:",session['id']
+    if d: print "connect:",session['id']
     emit('connect', {'data': session['id']})
 
 @socketio.on('getID', namespace='/party')
 def getID(data):
 	if 'id' not in session.keys():
 		session['id']=str(u.uuid4())
-	print "getID: ", session['id']
+	if d: print "getID: ", session['id']
 	emit('getID', {'id': session['id']})
 
 
 @socketio.on('disconnect', namespace='/party')
 def test_disconnect():
-    print "client disconnected"
+    if d: print "client disconnected"
 
 @socketio.on('makeParty', namespace='/party')
 def makeParty(data):
-    print session.keys()
-    print 'id' not in session.keys()
+    if d: print session.keys()
+    if d: print 'id' not in session.keys()
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
-    print "makeParty:", session['id']
+    if d: print "makeParty:", session['id']
     room = data['room'].upper()
     ip = session['id']
     newParty = p.Party(room, ip)
-    print "user: " + ip + "created party: " + room
+    if d: print "user: " + ip + "created party: " + room
     url = 'http://vynl.party/party/' + room
     emit('makeParty', {'id': session['id']})
 
@@ -131,13 +162,13 @@ def on_join(data):
     #vote = data['vote']
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
-    print "onjoin:", session['id']
+    if d: print "onjoin:", session['id']
     room = data['room'].upper()
     ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
     dj = newParty.getDJ()
-    print "joined room: " + room
+    if d: print "joined room: " + room
     emit('join', {"songs": newParty.getOrdered(ipAddress),
                   "dj": dj})
 
@@ -146,7 +177,7 @@ def on_join(data):
 def on_leave(data):
     room = data['room'].upper()
     leave_room(room)
-    print "broski left room: " + room
+    if d: print "broski left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')
@@ -156,19 +187,19 @@ def addSong(data):
     song = data['song']
     ipAddress = session['id']
     newParty = p.Party(partyID)
-    print "adding song: ", song, " to room: " + partyID
+    if d: print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
 @socketio.on('getSongs', namespace='/party')
 def getSong(data):
-    print "updating songs"
+    if d: print "updating songs"
     partyID = data['room'].upper()
     ipAddress = session['id']
     newParty = p.Party(partyID)
     thang=newParty.getOrdered(ipAddress)
-    print thang
+    if d: print thang
     emit('updateSongs', {"songs":thang })
 
 
@@ -179,7 +210,7 @@ def voteSong(data):
     vote=data['vote']
     ipAddress = session['id']
     newParty = p.Party(partyID)
-    print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
+    if d: print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
         newParty.upVote(song["songID"], ipAddress)
     elif vote == -1:
@@ -195,12 +226,12 @@ def deleteSong(data):
     newParty = p.Party(partyID)
     dj = newParty.getDJ()
     if dj == ipAddress:
-        print "user: ", ipAddress, " deleting song: ", song["songID"], " to room: ", partyID
+        if d: print "user: ", ipAddress, " deleting song: ", song["songID"], " to room: ", partyID
         newParty.removeSong(song["songID"])
         emit('notifySongUpdate', {"data": True}, room=partyID)
         emit('success', {'data': "Deleted Song"})
     else:
-        print "user: ", ipAddress, " is not a dj: ", dj
+        if d: print "user: ", ipAddress, " is not a dj: ", dj
         emit('error', {'data': "You are not the dj. You cannot Delete songs"});
 
 
@@ -208,13 +239,21 @@ def deleteSong(data):
 def playingSong(data):
     partyID = data['room'].upper()
     song = data['song']
-    print "playing song: ", song, " in room: ", partyID
+    if d: print "playing song: ", song, " in room: ", partyID
     emit('playingSong', {"song": song}, room=partyID)
 
 
 if __name__ == "__main__":
+    if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.debug=True
-    socketio.run(app, host='0.0.0.0', port=8000)
+    if d: app.debug=True
+    print " *****************************************"
+    print " *                                       *"
+    print " * Vynl Server successfully initialized! *"
+    print " *                                       *"
+    print " *****************************************"
+    socketio.run(app, host='0.0.0.0', port=args.port)
+
+
