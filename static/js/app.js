@@ -1,5 +1,5 @@
 function getArt(ytID){
-    return "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', ytID, '/0.jpg">');
+    return "".concat('<img class="album-art img-responsive img-rounded others" src="http://img.youtube.com/vi/', ytID, '/0.jpg">');
 }
 
 //// BACKBONE.MARIONETTE ////
@@ -110,6 +110,7 @@ function onYouTubeIframeAPIReady(callback) {
         height: '200',
         width: '200',
         videoId: data.models[playIndex].attributes.songID, //yass
+        playerVars: { 'controls': 0,'disablekb':0 },
         events: {
             'onReady': callback,
             'onStateChange': onPlayerStateChange
@@ -184,6 +185,9 @@ function prevVideo(){
 function hideDJOnly() {
     $(".dj").remove();
 }
+function nonDJ() {
+    $(".others").remove();
+}
 
 $(document).ready(function() {
 
@@ -203,6 +207,7 @@ $(document).ready(function() {
         } else {
             toastr.success("You have full access to the playlist", "You are the DJ!");
             console.log("you're the dj!");
+            nonDJ();
         }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
