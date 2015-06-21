@@ -23,14 +23,16 @@ See [TODO.md](https://github.com/afischer/vynl/blob/master/TODO.md) for a comple
 
 
 ## Workflow
-*Since we're in the dev stage, our master is our dev branch.*
 
-1. Branch from `master`/another dev branch (use style <yourname>/<branchdiscription>)
-2. Make your changes. Commit a lot. Be descriptive.
-3. Push your changes to your new branch.
+1. Branch from `dev` (use style initials-description for branch naming)
+2. Make your changes. Commit a lot. Be descriptive in your commit messages.
+3. Push your changes to your new branch. using `git push origin branch-name`
 4. When finished, prepare to merge back into master.
     1. If you have made a lot of changes, consider doing a `git rebase` from master to avoid conflics
-    2. If changes can be easily merged, make a PR from github.
-5. Let someone else know you're merging to `master`. Get the okay.
-6. Merge to master.
+    2. If changes can be easily merged, make a PR from github. Assign it to **someone else**
+5. Ask someone else to merge to `develop`. Have them do a code review
+6. Merge to `develop`.
 7. Make sure everything is okay and working properly. After a few hours/days, delete the stale branch.
+  
+
+After a number of changes have been made, `develop` will be merged into `master` and deployed to the server.
