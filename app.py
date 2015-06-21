@@ -15,6 +15,7 @@ socketio = SocketIO(app)
 @app.route("/api/parties/<party_id>",
            methods=["GET", "POST", "PATCH", "DELETE"])
 def apiParty(party_id):
+    party_id=party_id.upper()
     newParty = p.Party(party_id)
     if request.method == "GET":
         return jsonify({"songs": newParty.getOrdered()})
@@ -71,6 +72,7 @@ def party():
 
 @app.route("/party/<partyID>")
 def genParty(partyID):
+    partyID=partyID.upper()
     if (len(partyID) == 8):
         if 'id' not in session.keys():
             session['id']=str(u.uuid4())
@@ -81,6 +83,7 @@ def genParty(partyID):
 
 @app.route("/<partyID>")
 def redirParty(partyID):
+    partyID=partyID.upper()
     if (len(partyID) == 8):
         if 'id' not in session.keys():
             session['id']=str(u.uuid4())
@@ -116,7 +119,7 @@ def makeParty(data):
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
     print "makeParty:", session['id']
-    room = data['room']
+    room = data['room'].upper()
     ip = session['id']
     newParty = p.Party(room, ip)
     print "user: " + ip + "created party: " + room
@@ -129,7 +132,7 @@ def on_join(data):
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
     print "onjoin:", session['id']
-    room = data['room']
+    room = data['room'].upper()
     ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
@@ -141,7 +144,7 @@ def on_join(data):
 
 @socketio.on('leave', namespace='/party')
 def on_leave(data):
-    room = data['room']
+    room = data['room'].upper()
     leave_room(room)
     print "broski left room: " + room
 
@@ -149,7 +152,7 @@ def on_leave(data):
 @socketio.on('addSong', namespace='/party')
 def addSong(data):
     #app.logger.error(data)
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     ipAddress = session['id']
     newParty = p.Party(partyID)
@@ -161,7 +164,7 @@ def addSong(data):
 @socketio.on('getSongs', namespace='/party')
 def getSong(data):
     print "updating songs"
-    partyID = data['room']
+    partyID = data['room'].upper()
     ipAddress = session['id']
     newParty = p.Party(partyID)
     thang=newParty.getOrdered(ipAddress)
@@ -171,7 +174,7 @@ def getSong(data):
 
 @socketio.on('voteSong', namespace="/party")
 def voteSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     vote=data['vote']
     ipAddress = session['id']
@@ -186,7 +189,7 @@ def voteSong(data):
 
 @socketio.on('deleteSong', namespace="/party")
 def deleteSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     ipAddress = session['id']
     newParty = p.Party(partyID)
@@ -203,7 +206,7 @@ def deleteSong(data):
 
 @socketio.on('playingSong', namespace="/party")
 def playingSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     print "playing song: ", song, " in room: ", partyID
     emit('playingSong', {"song": song}, room=partyID)
