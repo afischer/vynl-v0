@@ -4,16 +4,18 @@ import random
 import string
 import party as p
 import uuid as u
+import logging
+from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()
 socketio = SocketIO(app)
 
-
 @app.route("/api/parties/<party_id>",
            methods=["GET", "POST", "PATCH", "DELETE"])
 def apiParty(party_id):
+    party_id=party_id.upper()
     newParty = p.Party(party_id)
     if request.method == "GET":
         return jsonify({"songs": newParty.getOrdered()})
@@ -43,7 +45,10 @@ def genID():
 def index():
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
-    return render_template("index.html", partyID=genID())
+    x=genID()
+    while p.partyExists(x):
+        x=genID()
+    return render_template("index.html", partyID=x)
 
 
 @app.route("/base")
@@ -67,6 +72,7 @@ def party():
 
 @app.route("/party/<partyID>")
 def genParty(partyID):
+    partyID=partyID.upper()
     if (len(partyID) == 8):
         if 'id' not in session.keys():
             session['id']=str(u.uuid4())
@@ -77,6 +83,7 @@ def genParty(partyID):
 
 @app.route("/<partyID>")
 def redirParty(partyID):
+    partyID=partyID.upper()
     if (len(partyID) == 8):
         if 'id' not in session.keys():
             session['id']=str(u.uuid4())
@@ -112,7 +119,7 @@ def makeParty(data):
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
     print "makeParty:", session['id']
-    room = data['room']
+    room = data['room'].upper()
     ip = session['id']
     newParty = p.Party(room, ip)
     print "user: " + ip + "created party: " + room
@@ -125,7 +132,7 @@ def on_join(data):
     if 'id' not in session.keys():
         session['id']=str(u.uuid4())
     print "onjoin:", session['id']
-    room = data['room']
+    room = data['room'].upper()
     ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
@@ -137,14 +144,15 @@ def on_join(data):
 
 @socketio.on('leave', namespace='/party')
 def on_leave(data):
-    room = data['room']
+    room = data['room'].upper()
     leave_room(room)
     print "broski left room: " + room
 
 
 @socketio.on('addSong', namespace='/party')
 def addSong(data):
-    partyID = data['room']
+    #app.logger.error(data)
+    partyID = data['room'].upper()
     song = data['song']
     ipAddress = session['id']
     newParty = p.Party(partyID)
@@ -156,15 +164,17 @@ def addSong(data):
 @socketio.on('getSongs', namespace='/party')
 def getSong(data):
     print "updating songs"
-    partyID = data['room']
+    partyID = data['room'].upper()
     ipAddress = session['id']
     newParty = p.Party(partyID)
-    emit('updateSongs', {"songs": newParty.getOrdered(ipAddress)})
+    thang=newParty.getOrdered(ipAddress)
+    print thang
+    emit('updateSongs', {"songs":thang })
 
 
 @socketio.on('voteSong', namespace="/party")
 def voteSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     vote=data['vote']
     ipAddress = session['id']
@@ -179,7 +189,7 @@ def voteSong(data):
 
 @socketio.on('deleteSong', namespace="/party")
 def deleteSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     ipAddress = session['id']
     newParty = p.Party(partyID)
@@ -196,12 +206,15 @@ def deleteSong(data):
 
 @socketio.on('playingSong', namespace="/party")
 def playingSong(data):
-    partyID = data['room']
+    partyID = data['room'].upper()
     song = data['song']
     print "playing song: ", song, " in room: ", partyID
     emit('playingSong', {"song": song}, room=partyID)
 
 
 if __name__ == "__main__":
-    app.debug = True
+    handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
+    app.debug=True
     socketio.run(app, host='0.0.0.0', port=8000)

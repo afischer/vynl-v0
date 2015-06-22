@@ -54,7 +54,7 @@ var Songs = Backbone.Collection.extend({
 
 var data = new Songs([]);
 
-//var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
+var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
 //var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
 //data.push(test);
 //data.push(test2);
@@ -107,9 +107,10 @@ var paused = false;
 function onYouTubeIframeAPIReady(callback) {
      playIndex = 0;
      player = new YT.Player('player', {
-        height: '0',
-        width: '0',
+        height: '200',
+        width: '200',
         videoId: data.models[playIndex].attributes.songID, //yass
+        playerVars: { 'controls': 0,'disablekb':0 },
         events: {
             'onReady': callback,
             'onStateChange': onPlayerStateChange
@@ -174,8 +175,9 @@ function nextVideo(){
 
 function prevVideo(){
     if (playIndex > 0) {
-        playIndex--;
-        player.loadVideoById(data.models[playIndex].attributes.songID);
+        //playIndex--;
+        //player.loadVideoById(data.models[playIndex].attributes.songID);
+        console.warn("Can't do previous videos until played view implemented.")
     } else {
         console.warn("can't call previousVideo: start of queue");
     }
@@ -183,6 +185,9 @@ function prevVideo(){
 
 function hideDJOnly() {
     $(".dj").remove();
+}
+function nonDJ() {
+    $(".others").remove();
 }
 
 var YTPlayerInteraction = (function() {
@@ -221,7 +226,6 @@ var YTPlayerInteraction = (function() {
 
 $(document).ready(function() {
 
-
     vynl.sockets.getUserID();
 
     vynl.sockets.socket.on('getID', function() {
@@ -232,12 +236,14 @@ $(document).ready(function() {
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
         console.log(songs);
+        data.reset();
         if (ipAddress !== songs.dj) {
             toastr.info("You may suggest and vote on songs", "You are not the DJ");
             hideDJOnly();
         } else {
             toastr.success("You have full access to the playlist", "You are the DJ!");
             console.log("you're the dj!");
+            nonDJ();
         }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
@@ -248,6 +254,10 @@ $(document).ready(function() {
     vynl.sockets.socket.on('updateSongs', function(songs) {
         data.reset();
         for (i = 0; i < songs.songs.length; i++) {
+            console.log(songs.songs[i]["songname"]);
+            songs.songs[i]["songname"]=decodeURIComponent(songs.songs[i]["songname"]);
+            console.log(songs.songs[i]["songname"]);
+            songs.songs[i]["songartist"]=decodeURIComponent(songs.songs[i]["songartist"]);
             data.push(songs.songs[i]);
         }
     });
@@ -326,4 +336,9 @@ $(document).ready(function() {
         vynl.sockets.leave();
         return null;
     };
+
+    $(document).on('touchstart click', '.glyphicon-step-backward', prevVideo());
+    $(document).on('touchstart', '.glyphicon-play', playVideo());
+    $(document).on('touchstart click', '.glyphicon-step-forwards', nextVideo());
+
 });

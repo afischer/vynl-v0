@@ -7,7 +7,7 @@ def partyExists(key):
     try:
         conn = sqlite3.connect('parties.db')
         c = conn.cursor()
-        n=len(c.execute("SELECT * FROM uniques WHERE url=? AND active=1",(key,)))
+        n=len(c.execute("SELECT * FROM uniques WHERE url=?",(key,)))
         return n>0
     except:
         return False
@@ -24,10 +24,10 @@ class Party:
         conn = sqlite3.connect('parties.db')
         c = conn.cursor()
         try:
-            c.execute("CREATE TABLE uniques (url TEXT, active INTEGER)")
+            self.active= len(c.execute("SELECT (url) FROM uniques WHERE url=?",(self.k,)).fetchall())
         except:
-            pass
-        self.active= len(c.execute("SELECT (url) FROM uniques WHERE url=? AND active=1",(self.k,)).fetchall())
+            c.execute("CREATE TABLE uniques (url TEXT)")
+            self.active= False
         #print self.active
         if (self.active):
             #print dj
@@ -38,10 +38,10 @@ class Party:
         #print "why"
         #conn2=sqlite3.connect(self.db)
         #c2=conn2.cursor()
-        c.execute("CREATE TABLE " + self.k +"(videoid TEXT PRIMARY KEY ON CONFLICT IGNORE, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, active INTEGER,total REAL, upvoteip BLOB, downvoteip BLOB, timestamp REAL,played INTEGER)")
+        c.execute("CREATE TABLE " + self.k +"(videoid TEXT PRIMARY KEY, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, total REAL, upvoteip BLOB, downvoteip BLOB, timestamp REAL,played INTEGER, playing INTEGER)")
         conn.commit()
         self.addDJ(dj)
-        c.execute("INSERT OR REPLACE INTO uniques (url,active) VALUES (?,?)", (self.k,1,))
+        c.execute("INSERT OR REPLACE INTO uniques (url) VALUES (?)", (self.k,))
         conn.commit()
         conn.close()
         self.dj=dj
@@ -52,25 +52,31 @@ class Party:
             conn=sqlite3.connect(self.db)
             x=m.dumps([])
             y=m.dumps([])
-            args=(vid,imgURL,1,title,artist,x,y,)
+            args=(vid,imgURL,title,artist,x,y,)
             c=conn.cursor()
-            c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,active,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played) VALUES (?,?,?,?,?,0,0,0,?,?,0)",args)
+            try:
+                c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played, playing) VALUES (?,?,?,?,0,0,0,?,?,0,0)",args)
+            except:
+                L=c.execute("SELECT * FROM " + self.k + " WHERE videoid=? AND played=1",(self.k,)).fetchall()
+                if len(L)==0:
+                    conn.close()
+                    return "The song is already in the queue!"
+                c.execute("REPLACE INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played,playing) VALUES (?,?,?,?,0,0,0,?,?,0,0)",args)
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
     def removeSong(self,vid):
         if self.active:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("UPDATE "+self.k+ "SET active = 0 WHERE videoid=?",(vid,))
+            c.execute("DELETE FROM "+self.k+ " WHERE videoid=?",(vid,))
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
+
     def upVote(self,vid, ip):
         if self.active:
             conn=sqlite3.connect(self.db)
@@ -97,8 +103,7 @@ class Party:
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
 
     def downVote(self,vid, ip):
@@ -115,10 +120,19 @@ class Party:
                     x=m.dumps(x)
                     y=m.dumps(y)
                     c.execute("UPDATE "+self.k+" SET downvotes=?, total=?, downvoteip=?, upvotes=?, upvoteip=? WHERE videoid=?",(num[0]+1,num[1]-2,x, num[3]-1,y,vid,))
+                    if (num[1]-2) <=-5:
+                        conn.close()
+                        self.removeSong(vid)
+                        return
                 else:
                     x.append(ip)
                     x=m.dumps(x)
                     c.execute("UPDATE "+self.k+" SET downvotes=?, total=?, downvoteip=? WHERE videoid=?",(num[0]+1,num[1]-1,x,vid,))
+                    if (num[1]-1)<=-5:
+                        conn.close()
+                        #print "gonna remove"
+                        self.removeSong(vid)
+                        return
             elif ip in x:
                 x.remove(ip)
                 x=m.dumps(x)
@@ -127,8 +141,7 @@ class Party:
             conn.commit()
             conn.close()
         else:
-            print "Party not active."
-            return -1
+            return "Party not active."
 
     def end(self):
         if self.active:
@@ -136,7 +149,7 @@ class Party:
             self.active=False
             conn = sqlite3.connect('parties.db')
             c=conn.cursor()
-            c.execute("UPDATE uniques SET active=? WHERE url=?",(0,self.k,))
+            c.execute("DELETE FROM uniques WHERE url=?",(self.k,))
             c.execute("DROP TABLE "+self.k)
             conn.commit()
             conn.close()
@@ -147,11 +160,13 @@ class Party:
             ret=[]
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE active=1 AND played=0 ORDER BY total DESC").fetchall()
+            it=c.execute("SELECT name,artist,videoid,imgURL, upvotes, downvotes,upvoteip,downvoteip FROM "+self.k+" WHERE played=0 ORDER BY total DESC").fetchall()
             conn.close()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3]),"upvotes":x[4],"downvotes":x[5],"upvoted":(ip in m.loads(x[6])), "downvoted":(ip in m.loads(x[7]))})
             return ret
+        else:
+            return "Party not active."
 
     def addDJ(self,dj):
         conn=sqlite3.connect(self.db)
@@ -168,6 +183,8 @@ class Party:
     def getDJ(self):
         if self.active:
             return self.dj
+        else:
+            return "Party not active."
 
 
     def playSong(self,vid):
@@ -175,16 +192,49 @@ class Party:
             x=time.time()
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("UPDATE  "+self.k+" SET timestamp=?, played=1 WHERE videoid=? AND active=1", (x,vid,))
+            c.execute("UPDATE  "+self.k+" SET playing=0, played=1 WHERE playing=1")
+            conn.commit()
+            c.execute("UPDATE  "+self.k+" SET timestamp=?, playing=1 WHERE videoid=?", (x,vid,))
             conn.commit()
             conn.close()
+        else:
+            return "Party not active."
 
     def getPlayed(self):
         if self.active:
             ret=[]
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE active=1 AND played=1 ORDER BY timestamp ASC").fetchall()
+            it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE played=1 ORDER BY timestamp ASC").fetchall()
+            conn.close()
             for x in it:
-                ret.append({"songname":str(x[0]),"songartist":str(x[1]),"songID":str(x[2]),"albumarturl":str(x[3])})
+                #print x[0]
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
             return ret
+        else:
+            return "Party not active."
+
+    def getSongs(self):
+        if self.active:
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            L=c.execute("SELECT videoid,imgURL,name,artist FROM " +self.k).fetchall()
+            conn.close()
+            return L
+        else:
+            return "Party not active."
+
+
+    def getPlaying(self):
+        if self.active:
+            ret=[]
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE playing=1").fetchall()
+            conn.close()
+            for x in it:
+                #print x[0]
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
+            return ret
+        else:
+            return "Party not active."

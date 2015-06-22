@@ -15,7 +15,6 @@ html {
 body {
     margin-bottom: 60px;
     min-height: 400px;
-    overflow: hidden;
 }
 .footer {
     padding-top: 20px;
@@ -45,15 +44,19 @@ html, body {
     margin-top: -5px;
     height: 30px;
     width: 30px;
-    overflow: hidden;
 }
 .album-art {
     display: inline;
-    overflow: hidden;
 }
 /*Dat red: #d9230f */
 /*Dat grey: #474949*/
-
+.blank{
+  display: inline;
+  z-index:1;
+  position: absolute;
+  height: 200px;
+  width: 200px;
+}
 .metadata {
 font-size: 65%;
 
@@ -146,14 +149,12 @@ svg {
    display: block;
    max-width: 950px;
    max-height: 400px;
-   overflow: hidden;
 }
 .svg-area {
     margin: 0 auto;
     position: relative;
     left: 25%;
-    overflow: hidden;
-} 
+}
 
 svg path {
    stroke-linecap:round;

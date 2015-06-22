@@ -35,22 +35,20 @@
         </div>
       </div>
 </script>
-<!-- /MVC TEMPLATES -->
-
-<!-- Hidden YTPlayer -->
-<div id="player"></div>
-
-
+<!-- /MVC TEMPLATES -->		
 <div class="container">
     <div class="row" style="padding-top:60px">
         <div class="col-md-10">
             <div class="jumbotron">
-
                 <div class="row">
                     <div class="col-sm-5">
                         <h3>Now Playing</h3>
+
                         <div class="well">
-                            <div class="album-art"></div>
+                            <div class="blank dj"></div>
+                            <div id="player" class="dj"></div>
+
+                            <div class="album-art others"></div>
                             <div class="music-data">
                             <h4>
                                 <font color="#d9230f"> <div class="now-playing-song-name"></div> </font>
@@ -60,10 +58,9 @@
                                     <br>
                                     <div class="song-album"></div>
                                 </small>
-                                <br> <br>
-                                <a class="glyphicon glyphicon-step-backward dj"  onClick="prevVideo()"></a>
-                                <a class="glyphicon glyphicon-play play dj"  onClick="playVideo()"></a>
-                                <a class="glyphicon glyphicon-step-forward dj"  onClick="nextVideo()"></a>
+                                <a class="glyphicon glyphicon-step-backward dj" style="z-index:1" onClick="prevVideo()"></a>
+                                <a class="glyphicon glyphicon-play play dj" style="z-index:1"  onClick="playVideo()"></a>
+                                <a class="glyphicon glyphicon-step-forward dj" style="z-index:1"  onClick="nextVideo()"></a>
                             </h4>
                         </div>
                     </div>
@@ -73,12 +70,14 @@
                         <h3>Queue</h3>
 
 
-                        <!-- MCV Queue Region -->
+                        <!-- MCV Regions -->
+                        <!--<h4>Up Next</h4>-->
                         <div id="queue-region"></div>
+                        <!--<h4>Played</h4>-->
+                        <div id="played-region"></div>
 
                         <!-- SEARCH -->
-			<div id="SearchSongDynamic">
-			</div>
+                        <div id="SearchSongDynamic"></div>
 
                     </div>
                 </div>
