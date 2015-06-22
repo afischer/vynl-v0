@@ -79,7 +79,7 @@ def index():
     x=genID()
     while p.partyExists(x):
         x=genID()
-    return render_template("index.html", partyID=x)
+    return render_template("index.html", partyID=x, debug=d)
 
 
 @app.route("/base")

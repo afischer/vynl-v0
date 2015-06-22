@@ -132,9 +132,12 @@
 
   ga('create', 'UA-6208376-6', 'auto');
   ga('send', 'pageview');
-
   </script>
-
+  
+  <script>
+  if ({{debug}}) {console.info(" * Running in Debug mode!")}
+  </script>
+  
   {% block scripts %}
   {% endblock scripts %}
 

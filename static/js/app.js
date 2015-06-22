@@ -202,6 +202,7 @@ $(document).ready(function() {
     vynl.sockets.socket.on('join', function(songs) {
         console.log("joined");
         console.log(songs);
+        $(".loading").css("display","none");
         if (ipAddress !== songs.dj) {
             toastr.info("You may suggest and vote on songs", "You are not the DJ");
             hideDJOnly();
@@ -302,8 +303,6 @@ $(document).ready(function() {
         return null;
     };
 
-    $(document).on('touchstart click', '.glyphicon-step-backward', prevVideo());
-    $(document).on('touchstart', '.glyphicon-play', playVideo());
-    $(document).on('touchstart click', '.glyphicon-step-forwards', nextVideo());
-
 });
+
+// Loader
