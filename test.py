@@ -32,6 +32,8 @@ for i in xrange(30):
 for i in xrange(50):
 	x.upVote(song4,"155")
 x.playSong(song4)
+x.playSong(song5)
+print x.getPlaying()
 y=party.Party("hey")
 print y.getDJ()
 print y.getOrdered("167")
