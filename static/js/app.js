@@ -185,8 +185,42 @@ function hideDJOnly() {
     $(".dj").remove();
 }
 
+var YTPlayerInteraction = (function() {
+
+    // wrapper that handles mobile and browser clicks
+    var clickAndTouch = function(e, handler) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.handled !== true) {
+            console.log(e);
+            handler();
+        } else {
+            return false;
+        }
+    };
+
+    var handlePrevVideo = function(e) {
+        clickAndTouch(e, prevVideo);
+    };
+
+    var handlePlayVideo = function(e) {
+        clickAndTouch(e, playVideo);
+    };
+
+    var handleNextVideo = function(e) {
+        clickAndTouch(e, nextVideo);
+    }
+
+    return {
+        handlePrevVideo: handlePrevVideo,
+        handlePlayVideo: handlePlayVideo,
+        handleNextVideo: handleNextVideo
+    };
+}());
+
 $(document).ready(function() {
- 
+
 
     vynl.sockets.getUserID();
 
@@ -278,7 +312,7 @@ $(document).ready(function() {
 
 	setInterval(function() {
 	  var currentTime = (new Date()).getTime();
-	  if (currentTime > (lastTime + 2000*2)) {  // ignore small delays
+	  if (currentTime > (lastTime + 3000*2)) {  // ignore small delays
 	      vynl.sockets.join();
 	  } else {
               console.log("browser is awake");
