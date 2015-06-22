@@ -38,7 +38,7 @@ class Party:
         #print "why"
         #conn2=sqlite3.connect(self.db)
         #c2=conn2.cursor()
-        c.execute("CREATE TABLE " + self.k +"(videoid TEXT PRIMARY KEY, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, total REAL, upvoteip BLOB, downvoteip BLOB, timestamp REAL,played INTEGER)")
+        c.execute("CREATE TABLE " + self.k +"(videoid TEXT PRIMARY KEY, imgURL TEXT, upvotes REAL, downvotes REAL, name TEXT, artist TEXT, total REAL, upvoteip BLOB, downvoteip BLOB, timestamp REAL,played INTEGER, playing INTEGER)")
         conn.commit()
         self.addDJ(dj)
         c.execute("INSERT OR REPLACE INTO uniques (url) VALUES (?)", (self.k,))
@@ -55,13 +55,13 @@ class Party:
             args=(vid,imgURL,title,artist,x,y,)
             c=conn.cursor()
             try:
-                c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played) VALUES (?,?,?,?,0,0,0,?,?,0)",args)
+                c.execute("INSERT INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played, playing) VALUES (?,?,?,?,0,0,0,?,?,0,0)",args)
             except:
                 L=c.execute("SELECT * FROM " + self.k + " WHERE videoid=? AND played=1",(self.k,)).fetchall()
                 if len(L)==0:
                     conn.close()
                     return "The song is already in the queue!"
-                c.execute("REPLACE INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played) VALUES (?,?,?,?,0,0,0,?,?,0)",args)
+                c.execute("REPLACE INTO "+self.k+ "(videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played,playing) VALUES (?,?,?,?,0,0,0,?,?,0,0)",args)
             conn.commit()
             conn.close()
         else:
@@ -192,7 +192,9 @@ class Party:
             x=time.time()
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
-            c.execute("UPDATE  "+self.k+" SET timestamp=?, played=1 WHERE videoid=?", (x,vid,))
+            c.execute("UPDATE  "+self.k+" SET playing=0, played=1 WHERE playing=1")
+            conn.commit()
+            c.execute("UPDATE  "+self.k+" SET timestamp=?, playing=1 WHERE videoid=?", (x,vid,))
             conn.commit()
             conn.close()
         else:
@@ -204,6 +206,7 @@ class Party:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
             it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE played=1 ORDER BY timestamp ASC").fetchall()
+            conn.close()
             for x in it:
                 #print x[0]
                 ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
@@ -216,6 +219,22 @@ class Party:
             conn=sqlite3.connect(self.db)
             c=conn.cursor()
             L=c.execute("SELECT videoid,imgURL,name,artist FROM " +self.k).fetchall()
+            conn.close()
             return L
+        else:
+            return "Party not active."
+
+
+    def getPlaying(self):
+        if self.active:
+            ret=[]
+            conn=sqlite3.connect(self.db)
+            c=conn.cursor()
+            it=c.execute("SELECT name,artist,videoid,imgURL FROM "+self.k+" WHERE playing=1").fetchall()
+            conn.close()
+            for x in it:
+                #print x[0]
+                ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
+            return ret
         else:
             return "Party not active."
