@@ -3,91 +3,137 @@ function getArt(ytID){
 }
 
 //// BACKBONE.MARIONETTE ////
-var App = new Marionette.Application();
+var App = new Backbone.Marionette.Application();
 
 App.addRegions({
-  queueRegion: '#queue-region',
-  playedRegion: '#played-region'
+  queueRegion: '#queueRegion',
+    playedRegion: '#playedRegion'
 });
 
-App.on("start", function(){
-  console.log("in Start block");
+App.start();
 
-  var listView = new App.ListView({collection:data});
-  var playedView = new App.ListView({collection:played});
-  App.queueRegion.show(listView);
- // App.playedRegion.show(playedView); <<SOMETHING is whack with this view
-  Backbone.history.start();
-  console.log("MVC Loaded... hopefully.");
+var Song = Backbone.Model.extend({});
+var Songs = Backbone.Collection.extend({
+    model: Song,
+});
 
+var TheCollection2 = Backbone.Collection.extend({
+    model: Song,
 });
 
 // ItemView for each of the songs
-App.ItemView = Backbone.Marionette.ItemView.extend({
-    initialize: function() {
+var ItemView = Backbone.Marionette.ItemView.extend({
+    modelEvents: {
+      "change" : "render"
     },
     template: '#queue-item-template',
     tagName: 'div',
-    className: 'list-group-item metadata',
-    modelEvents : {
-	"change" : function() { this.render(); }
+    className: 'list-group-item metadata'
+});
+
+// CompositeViews to hold the ItemViews
+var QueueView = Backbone.Marionette.CompositeView.extend({
+	tagName: 'ul',
+	className: 'list-group music-queue',
+	template:"#ListViewTemplate",
+	childViewContainer: 'ul',
+	childView: ItemView,
+  modelEvents : {
+    "change" : "render"
+  }
+});
+
+var PlayedView = Backbone.Marionette.CompositeView.extend({
+	tagName: 'ul',
+	className: 'list-group music-queue',
+	template:"#ListViewTemplate",
+	childViewContainer: 'ul',
+	childView: ItemView,
+  modelEvents : {
+    "change" : "render"
+  }
+});
+
+var data = [];
+var playedData = [];
+
+playedData.push(
+    {
+        "songname":"Nothing",
+        "songartist":'NoOne',
+        "albumarturl":"moo", 
+        "songID":"DNqv3nHyteM",
+        "downvoted":"true",
+        "downvotes":"1",
+        "upvoted":"false",
+        "upvotes":"0"
+    },
+    {
+        "songname":"Yooo",
+        "songartist":'Hiiiii',
+        "albumarturl":"moo", 
+        "songID":"Ladadie",
+        "downvoted":"true",
+        "downvotes":"1",
+        "upvoted":"false",
+        "upvotes":"0"
     }
-});
+);
 
-// ListView to hold all of the Items.
-App.ListView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'ul',
-    className: 'list-group music-queue',
-    template: '#queue-tempate',
-    childViewContainer: 'ul',
-    childView: App.ItemView,
-    modelEvents : {
-	"change" : function() { this.render(); }
+var songs = new Songs(data);
+var queueView = new QueueView({collection: songs});
+
+var playedsongs = new Songs(playedData);
+var playedView = new PlayedView({collection: played});
+
+App.queueRegion.show(queueView);
+App.playedRegion.show(playedView);
+
+data.push(
+    {
+        "songname":"Idioteque",
+        "songartist":'Radiohead',
+        "albumarturl":"moo", 
+        "songID":"DNqv3nHyteM",
+        "downvoted":"true",
+        "downvotes":"1",
+        "upvoted":"false",
+        "upvotes":"0"
+    },
+    {
+        "songname":"Moo",
+        "songartist":'Radiohead',
+        "albumarturl":"moo", 
+        "songID":"Ladadie",
+        "downvoted":"true",
+        "downvotes":"1",
+        "upvoted":"false",
+        "upvotes":"0"
     }
-});
+);
 
 
-var Song = Backbone.Model.extend();
-var Songs = Backbone.Collection.extend({
-    model:Song
-});
 
-
-var data = new Songs([]);
-var played = new Songs([]);
-
-var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
+// var test = new Song({"songname":"Idioteque","songartist":'Radiohead',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"DNqv3nHyteM"});
 //var test2 = new Song({"songname":"GDFR","songartist":'Flo Rida',"albumarturl":"http://upload.wikimedia.org/wikipedia/en/8/8b/Radiohead.bends.albumart.jpg", "songID":"F8Cg572dafQ"});
-played.push(test);
+// played.push(test);
 //data.push(test2);
-console.log(test);
-console.log(played);
-
-
-// Controllers, etc
-var MyController = Marionette.Controller.extend({
-    makeHome: function() {
-	var listView = new App.ListView({model:song,collection:data});
-	var playedView = new App.ListView({model:song,collection:played});
-	App.queueRegion.show(listView);
-	App.playedRegion.show(playedView);
-    }
-});
-
-
-App.controller = new MyController();
-
-// Routers
-App.router = new Marionette.AppRouter({
-    controller : App.controller,
-    appRoutes : {
-    default  :  "makeHome",     
-    }
-});
+// console.log(test);
+// console.log(played);
 
 
 
-App.start();
+
+
+
+
+
+
+
+
+
+
+
 
 ///////// Youtube Iframe API shizz
 
