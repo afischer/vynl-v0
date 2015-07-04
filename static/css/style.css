@@ -160,3 +160,32 @@ svg path {
    stroke-linecap:round;
    stroke-linejoin:round;
 }
+
+.loading {
+  display: inline-block;
+  /*margin: 2.5em;*/
+  border-width: 25px;
+  border-radius: 50%;
+  -webkit-animation: spin 2s linear infinite;
+     -moz-animation: spin 2s linear infinite;
+       -o-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+  border-style: double;
+  border-color: #444 transparent;
+  z-index: -10;
+  }
+
+
+@-webkit-keyframes spin {
+  100% { -webkit-transform: rotate(359deg); }
+  }
+@-moz-keyframes spin {
+  100% { -moz-transform: rotate(359deg); }
+  }
+@-o-keyframes spin {
+  100% { -moz-transform: rotate(359deg); }
+  }
+@keyframes spin {
+  100% {  transform: rotate(359deg); }
+  }
+
