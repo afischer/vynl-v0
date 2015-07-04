@@ -127,7 +127,7 @@ function showSong() {
     $(".now-playing-song-name").html(player.getVideoData()['title']);
     $(".song-artist").html(player.getVideoData()['author']);
     var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', data.models[playIndex].attributes.songID, '/0.jpg">');
-    console.log(albumart)
+    console.log(albumart);
      $(".album-art").html(albumart);
 }
 
@@ -177,7 +177,7 @@ function prevVideo(){
     if (playIndex > 0) {
         //playIndex--;
         //player.loadVideoById(data.models[playIndex].attributes.songID);
-        console.warn("Can't do previous videos until played view implemented.")
+        console.warn("Can't do previous videos until played view implemented.");
     } else {
         console.warn("can't call previousVideo: start of queue");
     }
@@ -266,7 +266,7 @@ $(document).ready(function() {
         } else {
             return false;
         }
-    }
+    };
 
     $(document).on('touchstart click', '.fa.thumbs', handleClick);
 
@@ -280,7 +280,7 @@ $(document).ready(function() {
         } else {
             return false;
         }
-    }
+    };
 
     $(document).on('touchstart click', '.fa.fa-times', handleDeleteClick);
 
@@ -305,4 +305,3 @@ $(document).ready(function() {
 
 });
 
-// Loader
