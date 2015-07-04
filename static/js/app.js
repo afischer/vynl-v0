@@ -203,6 +203,7 @@ $(document).ready(function() {
         console.log("joined");
         console.log(songs);
         $(".loading").css("display","none");
+        data.reset();
         if (ipAddress !== songs.dj) {
             toastr.info("You may suggest and vote on songs", "You are not the DJ");
             hideDJOnly();
