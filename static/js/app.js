@@ -153,6 +153,7 @@ function onPlayerStateChange(event) {
 
 function playVideo() {
     if (player === undefined) {
+        console.log(player);
         createPlayer(playVideo);
         return;
     }
