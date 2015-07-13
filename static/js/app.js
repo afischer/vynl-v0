@@ -106,6 +106,9 @@ var paused = false;
 
 function onYouTubeIframeAPIReady(callback) {
      playIndex = 0;
+}
+
+function createPlayer(callback) {
      player = new YT.Player('player', {
         height: '200',
         width: '200',
@@ -150,7 +153,7 @@ function onPlayerStateChange(event) {
 
 function playVideo() {
     if (player === undefined) {
-        onYouTubeIframeAPIReady(playVideo);
+        createPlayer(playVideo);
         return;
     }
     player.playVideo();
