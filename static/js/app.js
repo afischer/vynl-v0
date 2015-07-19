@@ -100,7 +100,7 @@ var player;
 var playIndex;
 var videoData;
 var paused = false;
-
+var newvid = true;
 
 
 
@@ -136,16 +136,21 @@ function showSong() {
 
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
-        if (!paused) {
+        if (newvid) {
+            newvid=false;
             showSong();
             vynl.sockets.playingSong(data.models[0], ipAddress);
             vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
         }
-        paused = false;
+        playVideo();
+
     }
 
-
+    if (event.data === YT.PlayerState.PAUSED) {
+        pauseVideo();
+    }
     if (event.data == YT.PlayerState.ENDED){
+        //pauseVideo();
         nextVideo();
     }
 
@@ -163,13 +168,14 @@ function playVideo() {
 };
 
 function pauseVideo() {
-    paused = true;
+    //paused = true;
     player.pauseVideo();
     $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
     $('.play').attr("onclick", "playVideo()");
 };
 
 function nextVideo(){
+    newvid=true;
     if (playIndex < data.models.length) {
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
@@ -309,4 +315,3 @@ $(document).ready(function() {
     };
 
 });
-
