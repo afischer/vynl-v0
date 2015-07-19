@@ -175,11 +175,12 @@ function pauseVideo() {
 };
 
 function nextVideo(){
-    newvid=true;
     if (playIndex < data.models.length) {
+        newvid=true;
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
         console.warn("can't call nextVideo: end of queue");
+        pauseVideo();
     }
 };
 
