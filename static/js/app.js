@@ -139,8 +139,8 @@ function onPlayerStateChange(event) {
         if (newvid) {
             newvid=false;
             showSong();
-            vynl.sockets.playingSong(data.models[0], ipAddress);
-            vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
+            vynl.sockets.playSong(data.models[0], ipAddress);
+            //vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
         }
         playVideo();
 
@@ -252,7 +252,7 @@ $(document).ready(function() {
         }
     });
 
-    vynl.sockets.socket.on('playingSong', function(song) {
+    vynl.sockets.socket.on('playSong', function(song) {
         console.log(song);
         console.log("playing song");
         $(".now-playing-song-name").html(song.song.songname);

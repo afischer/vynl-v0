@@ -12,17 +12,17 @@ import sys
 
 ## Parse CL Options
 parser = argparse.ArgumentParser(description='Vynl.party backend routing.')
-                    
+
 parser.add_argument('-d', '--debug',
                   dest="debug",
                   default=False,
                   action="store_true",
                   )
-parser.add_argument('-p', 
-                  action="store", 
-                  dest="port", 
-                  type=int, 
-                  default="8000", 
+parser.add_argument('-p',
+                  action="store",
+                  dest="port",
+                  type=int,
+                  default="8000",
                   help="Specify port"
                   )
 parser.add_argument('-V','--version',
@@ -235,12 +235,15 @@ def deleteSong(data):
         emit('error', {'data': "You are not the dj. You cannot Delete songs"});
 
 
-@socketio.on('playingSong', namespace="/party")
+@socketio.on('playSong', namespace="/party")
 def playingSong(data):
     partyID = data['room'].upper()
     song = data['song']
+    newParty = p.Party(partyID)
+    newParty.playSong(song["songID"])
     if d: print "playing song: ", song, " in room: ", partyID
-    emit('playingSong', {"song": song}, room=partyID)
+    emit('playSong', {"song": song}, room=partyID)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
 if __name__ == "__main__":
@@ -255,5 +258,3 @@ if __name__ == "__main__":
     print " *                                       *"
     print " *****************************************"
     socketio.run(app, host='0.0.0.0', port=args.port)
-
-
