@@ -56,15 +56,20 @@ class Party:
             y=m.dumps([])
             args=(vid,imgURL,title,artist,x,y,self.k,)
             c=conn.cursor()
-            try:
-                c.execute("INSERT INTO songs (videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played,party) VALUES (?,?,?,?,0,0,0,?,?,0,?)",args)
-            except Exception as e:
                 #raise e
-                L=c.execute("SELECT * FROM songs WHERE videoid=? AND played=1 AND party=? ",(vid,self.k,)).fetchall()
+            L=c.execute("SELECT * FROM songs WHERE videoid=? AND played=1 AND party=? ",(vid,self.k,)).fetchall()
+            if len(L)==0:
+                L=c.execute("SELECT * FROM songs WHERE videoid=? AND played=0 AND party=? ",(vid,self.k,)).fetchall()
                 if len(L)==0:
+                    c.execute("INSERT INTO songs (videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played,party) VALUES (?,?,?,?,0,0,0,?,?,0,?)",args)
+                    conn.commit()
                     conn.close()
-                    #print "in queue!"
+                    return
+                else:
+                    conn.close()
+                #print "in queue!"
                     return "The song is already in the queue!"
+            else:
                 c.execute("REPLACE INTO songs (videoid,imgURL,name,artist,upvotes,downvotes,total,upvoteip,downvoteip,played,party) VALUES (?,?,?,?,0,0,0,?,?,0,?)",args)
             conn.commit()
             conn.close()
