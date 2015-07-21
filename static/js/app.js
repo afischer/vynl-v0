@@ -100,7 +100,7 @@ var player;
 var playIndex;
 var videoData;
 var paused = false;
-
+var newvid = true;
 
 
 
@@ -136,16 +136,21 @@ function showSong() {
 
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
-        if (!paused) {
+        if (newvid) {
+            newvid=false;
             showSong();
-            vynl.sockets.playingSong(data.models[0], ipAddress);
-            vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
+            vynl.sockets.playSong(data.models[0], ipAddress);
+            //vynl.sockets.deleteSong({songID: data.models[playIndex].attributes.songID}, ipAddress);
         }
-        paused = false;
+        playVideo();
+
     }
 
-
+    if (event.data === YT.PlayerState.PAUSED) {
+        pauseVideo();
+    }
     if (event.data == YT.PlayerState.ENDED){
+        //pauseVideo();
         nextVideo();
     }
 
@@ -153,6 +158,7 @@ function onPlayerStateChange(event) {
 
 function playVideo() {
     if (player === undefined) {
+        console.log(player);
         createPlayer(playVideo);
         return;
     }
@@ -162,7 +168,7 @@ function playVideo() {
 };
 
 function pauseVideo() {
-    paused = true;
+    //paused = true;
     player.pauseVideo();
     $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
     $('.play').attr("onclick", "playVideo()");
@@ -170,9 +176,11 @@ function pauseVideo() {
 
 function nextVideo(){
     if (playIndex < data.models.length) {
+        newvid=true;
         player.loadVideoById(data.models[playIndex].attributes.songID);
     } else {
         console.warn("can't call nextVideo: end of queue");
+        pauseVideo();
     }
 };
 
@@ -244,7 +252,7 @@ $(document).ready(function() {
         }
     });
 
-    vynl.sockets.socket.on('playingSong', function(song) {
+    vynl.sockets.socket.on('playSong', function(song) {
         console.log(song);
         console.log("playing song");
         $(".now-playing-song-name").html(song.song.songname);
@@ -308,4 +316,3 @@ $(document).ready(function() {
     };
 
 });
-
