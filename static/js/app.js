@@ -227,6 +227,14 @@ $(document).ready(function() {
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }
+        current=songs.current;
+        if (current.length>0){
+            current=songs.current[0];
+            $(".now-playing-song-name").html(current.songname);
+            $(".song-artist").html(current.songartist);
+            var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', current.songID, '/0.jpg">');
+            $(".album-art").html(albumart);
+        }
     });
 
     vynl.sockets.socket.on('updateSongs', function(songs) {
