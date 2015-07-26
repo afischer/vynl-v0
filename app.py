@@ -170,7 +170,7 @@ def on_join(data):
     dj = newParty.getDJ()
     if d: print "joined room: " + room
     emit('join', {"songs": newParty.getOrdered(ipAddress),
-                  "dj": dj})
+                  "dj": dj, "current":newParty.getPlaying()})
 
 
 @socketio.on('leave', namespace='/party')
