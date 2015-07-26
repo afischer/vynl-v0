@@ -262,7 +262,7 @@ class Party:
                     ret.append({"songname":x[0],"songartist":x[1],"songID":str(x[2]),"albumarturl":str(x[3])})
                 return ret
             except Exception as e:
-                raise e
+                #raise e
                 return []
         else:
             return "Party not active."
