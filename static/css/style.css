@@ -178,6 +178,10 @@ svg path {
   }
 
 .buttons-area {
-   height: 122px;
-   margin: auto;
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+}
+
+.join-buttons{
+height: 122px;
 }

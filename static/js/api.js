@@ -6,12 +6,12 @@ vynl.api = (function() {
 
 	var addSong = function(song, callback) {
 		$.ajax({
-			type        : "POST",
-			url         : endpoint + window.location.pathname,
-			contentType : "application/json; charset=utf-8",
-			dataType    : "json",
-			data        : JSON.stringify(song),
-			success     : callback,
+			type: "POST",
+			url: endpoint + window.location.pathname,
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data: JSON.stringify(song),
+			success: callback,
 			error: function() {
 				console.log("error");
 			}
@@ -20,41 +20,41 @@ vynl.api = (function() {
 
 	var deleteSong = function(song, callback) {
 		$.ajax({
-			type        : "DELETE",
-			url         : endpoint + window.location.pathname,
-			contentType : "application/json",
-			dataType    : "json",
-			data        : JSON.stringify(song),
-			success     : callback
+			type: "DELETE",
+			url: endpoint + window.location.pathname,
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify(song),
+			success: callback
 		});
 	};
 
 	var updateSong = function(song, callback) {
 		$.ajax({
-			type        : "PATCH",
-			url         : endpoint + window.location.pathname,
-			contentType : "application/json",
-			dataType    : "json",
-			data        : JSON.stringify(song),
-			success     : callback
+			type: "PATCH",
+			url: endpoint + window.location.pathname,
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify(song),
+			success: callback
 		});
 	};
 
 	var getSongs = function(callback) {
 		$.ajax({
-			type        : "GET",
-			url         : endpoint + window.location.pathname,
-			contentType : "application/json",
-			dataType    : "json",
-			success     : callback
+			type: "GET",
+			url: endpoint + window.location.pathname,
+			contentType: "application/json",
+			dataType: "json",
+			success: callback
 		});
 	};
 
         return {
-            addSong    : addSong,
-            deleteSong : deleteSong,
-            updateSong : updateSong,
-            getSongs   : getSongs
+            addSong: addSong,
+            deleteSong: deleteSong,
+            updateSong: updateSong,
+            getSongs: getSongs
         };
 }());
 
@@ -73,7 +73,7 @@ vynl.sockets = (function() {
 	};
 
     var makeParty = function(partyID) {
-        socket.emit('makeParty', {room: partyID, ipAddress: ipAddress});
+        socket.emit('makeParty', {room: partyID, ipAddress: ipAddress})
     };
 
     var join = function() {
@@ -86,7 +86,7 @@ vynl.sockets = (function() {
 
     var getSongs = function() {
         room = getPartyID();
-        socket.emit('getSongs', {room: room, ipAddress: ipAddress});
+        socket.emit('getSongs', {room: room, ipAddress: ipAddress})
     };
 
     var addSong = function(song) {
@@ -149,17 +149,17 @@ vynl.sockets = (function() {
     });
 
     return {
-        socket      : socket,
-		  getUserID   : getID,
-        makeParty   : makeParty,
-        join        : join,
-        leave       : leave,
-        addSong     : addSong,
-        vote        : vote,
-        deleteSong  : deleteSong,
-		  playSong    : playSong,
-        playingSong : playingSong,
-        getSongs    : getSongs,
-        getPartyID  : getPartyID
+        socket: socket,
+		getUserID: getID,
+        makeParty: makeParty,
+        join: join,
+        leave: leave,
+        addSong: addSong,
+        vote: vote,
+        deleteSong: deleteSong,
+		playSong: playSong,
+        playingSong: playingSong,
+        getSongs: getSongs,
+        getPartyID: getPartyID
     };
 }());
