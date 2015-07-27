@@ -10,7 +10,6 @@
 <br>
 <br>
 
-<!-- Modal - Refactor this later -->
 <div id="joinModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -70,18 +69,13 @@
 		<p>DJs are expensive. Let the party's party goers dictate the music they hear.</p>
       </div>
     </div>
-
-    
-        
 </div>
-
 {% endblock content %}
 
 {% block scripts %}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
 
-
-<!-- Can be put in another file if necessary -->
+<!-- TODO: Refactor out -->
 <script type="text/javascript">
   $("#startPartyButton").on("click", function(event) {
     console.log("creating {{partyID}}");
@@ -93,14 +87,13 @@
     window.location.href = "/party/{{partyID}}"
   });
 
+  // TODO: Validation
   $("#partyID").keypress(function(event) {
     if( event.which == 13 ) {
-      // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
       window.location.href = "/party/" + $("#partyID").val();
     }
   });
   $("#join_party").on( "click", function(event) {
-    // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
     window.location.href = "/party/" + $("#partyID").val();
   });
 </script>
