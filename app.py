@@ -11,6 +11,7 @@ import sys
 
 
 ## Parse CL Options
+'''
 parser = argparse.ArgumentParser(description='Vynl.party backend routing.')
 
 parser.add_argument('-d', '--debug',
@@ -33,9 +34,9 @@ parser.add_argument('-V','--version',
 
 args = parser.parse_args()
 d = args.debug
+'''
 
-
-
+d = False
 ## Flask App ##
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret'
@@ -170,7 +171,7 @@ def on_join(data):
     dj = newParty.getDJ()
     if d: print "joined room: " + room
     emit('join', {"songs": newParty.getOrdered(ipAddress),
-                  "dj": dj})
+                  "dj": dj, "current":newParty.getPlaying()})
 
 
 @socketio.on('leave', namespace='/party')
@@ -245,7 +246,22 @@ def playingSong(data):
     emit('playSong', {"song": song}, room=partyID)
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
+def app_main(port=8000, debug=True):
+    d=debug  
+    if d: print " * Starting in debug mode"
+    handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
+    if d: app.debug=True
+    print " *****************************************"
+    print " *                                       *"
+    print " * Vynl Server successfully initialized! *"
+    print " *                                       *"
+    print " *****************************************"
+    socketio.run(app, host='0.0.0.0', port=port)
 
+
+'''
 if __name__ == "__main__":
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
@@ -258,3 +274,4 @@ if __name__ == "__main__":
     print " *                                       *"
     print " *****************************************"
     socketio.run(app, host='0.0.0.0', port=args.port)
+'''
