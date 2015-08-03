@@ -1,10 +1,15 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/js/animation.js"></script>
+{% endblock head %}
+
+{% block content %}
 <br>
 <br>
 <br>
 <br>
 
-<!-- Modal - Refactor this later -->
 <div id="joinModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -27,69 +32,50 @@
 </div>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 svg-area">
+<div class="container-fluid">
+    <div class="row svg-row">
+        <div class="col-sm-8 svg-area">
             <!-- SVG -->
-            <div id="svg-canvas">
-            </div>
+            <center>
+                <div id="svg-canvas">
+                </div>
+            </center>
             <!-- /SVG -->
         </div>
-       <!-- <div class="col-xs-3">
-            <div class="btn-group-vertical enter-buttons" role="group">
-                <a class="btn btn-info" href="/party/{{partyID}}"> Start a Party </a>
-                <a class="btn btn-default" href="#"> Join a Party </a>
+        <div class="col-sm-4 buttons-area">
+            <div class="join-buttons">
+                <a id="startPartyButton" href="javascript:void(0);" class="btn btn-default btn-lg btn-block">Start a Party</a>
+                <br>
+                <a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
             </div>
-
-        </div> -->
+        </div>
     </div>
-
+    
+    
     <div class="row info-area">
-      <div class="col-md-4 text-center">
+      <div class="col-sm-4 text-center">
       	<h1>What?</h1>
       	<p>Vynl is an app and a DJ... at the same time. Vynl is a way to crowd source the music selection at a social gathering.</p>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
 		<h1 class="text-center">How?</h1>
 		<p>1. Start or join a party.<br>
 		2. Add music you want to hear to the playlist.<br>
 		3. Give your opinion on other attendee's music choices.<br>
 		4. Jam out.</p>
       </div>
-      <div class="col-md-4 text-center">
+      <div class="col-sm-4 text-center">
 		<h1>Why?</h1>
 		<p>DJs are expensive. Let the party's party goers dictate the music they hear.</p>
       </div>
     </div>
-
-    <hr>
-
-     <div class="row button-area">
-    	<div class="col-xs-6">
-    		<a id="startPartyButton" href="javascript:void(0);" class="btn btn-default btn-lg btn-block">Start a Party</a>
-    	</div>
-    	<div class="col-xs-6">
-    	  <a href="#joinModal" class="btn btn-default btn-lg btn-block" data-toggle="modal">Join a Party</a>
-    	</div>
-	
-	
-
-     </div>
-     
-     
-     
-     <br><br><br><br><br><br><br> <!--FIX THIS-->
 </div>
-
 {% endblock content %}
 
 {% block scripts %}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
 
-<script type="text/javascript" src="/static/js/animation.js"></script>
-
-
-<!-- Can be put in another file if necessary -->
+<!-- TODO: Refactor out -->
 <script type="text/javascript">
   $("#startPartyButton").on("click", function(event) {
     console.log("creating {{partyID}}");
@@ -101,19 +87,17 @@
     window.location.href = "/party/{{partyID}}"
   });
 
+  // TODO: Validation
   $("#partyID").keypress(function(event) {
     if( event.which == 13 ) {
-      // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
       window.location.href = "/party/" + $("#partyID").val();
     }
   });
   $("#join_party").on( "click", function(event) {
-    // SOME TYPE OF VALIDATION NEEDED (instantaneous autocorrect of some sort would be nice)
     window.location.href = "/party/" + $("#partyID").val();
   });
 </script>
 
 
 
-<script type="text/javascript" src="/static/js/animation.js"
 {% endblock scripts %}
