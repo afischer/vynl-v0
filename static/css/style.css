@@ -5,15 +5,12 @@
     font-weight: normal;
     font-style: normal;
 }
-/* Sticky footer styles
--------------------------------------------------- */
 
 html {
     position: relative;
     min-height: 100%;
 }
 body {
-    margin-bottom: 60px;
     min-height: 400px;
 }
 .footer {
@@ -128,32 +125,22 @@ font-size: 65%;
    padding-top: 50%;
 }
 
-.info-area {
-   -webkit-transform: translateY(-100px);
-   -ms-transform: translateY(-100px);
-   transform: translateY(-100px);
-}
-
-.button-area {
-   -webkit-transform: translateY(-100px);
-   -ms-transform: translateY(-100px);
-   transform: translateY(-100px);
-}
-
-
 /*SVG Hero*/
-#svg-canvas {
-    text-align: center;
+.svg-row {
+overflow-x: hidden;
 }
-svg {
-   display: block;
-   max-width: 950px;
-   max-height: 400px;
+#svg-canvas {
+
 }
 .svg-area {
     margin: 0 auto;
     position: relative;
-    left: 25%;
+}
+svg {
+   display: block;
+   bottom: 0px;
+    width: 40vw;
+    height: auto;
 }
 
 svg path {
@@ -175,7 +162,6 @@ svg path {
   z-index: -10;
   }
 
-
 @-webkit-keyframes spin {
   100% { -webkit-transform: rotate(359deg); }
   }
@@ -189,3 +175,11 @@ svg path {
   100% {  transform: rotate(359deg); }
   }
 
+.buttons-area {
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+}
+
+.join-buttons{
+height: 122px;
+}
