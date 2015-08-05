@@ -247,7 +247,7 @@ def playingSong(data):
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 def app_main(port=8000, debug=True):
-    d=debug  
+    d=debug
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
@@ -261,7 +261,7 @@ def app_main(port=8000, debug=True):
     socketio.run(app, host='0.0.0.0', port=port)
 
 
-'''
+
 if __name__ == "__main__":
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
@@ -273,5 +273,4 @@ if __name__ == "__main__":
     print " * Vynl Server successfully initialized! *"
     print " *                                       *"
     print " *****************************************"
-    socketio.run(app, host='0.0.0.0', port=args.port)
-'''
+    socketio.run(app, host='0.0.0.0', port=8000)
