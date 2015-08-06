@@ -42,7 +42,8 @@ d = False
 app = Flask(__name__)
 ext = Sitemap(app=app)
 app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
-
+#######Comment next line out when testing
+app.config['SERVER_NAME']='vynl.party'
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()
@@ -251,7 +252,6 @@ def playingSong(data):
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 def app_main(port=8000, debug=False):
-    app.config['SERVER_NAME']='vynl.party'
     d=debug
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
