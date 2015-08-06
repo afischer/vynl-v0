@@ -250,7 +250,8 @@ def playingSong(data):
     emit('playSong', {"song": song}, room=partyID)
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
-def app_main(port=8000, debug=True):
+def app_main(port=8000, debug=False):
+    app.config['SERVER_NAME']='vynl.party'
     d=debug
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
