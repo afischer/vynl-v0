@@ -36,7 +36,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a onClick={this.handleOnClick} href="javascript:void(0);">{title}</a></li>
+            <li style={rowStyle}><a onClick={this.handleOnClick} className={'dropdown-row'} href="javascript:void(0);">{title}</a></li>
         );
     }
 });
@@ -63,8 +63,15 @@ var SearchSongDynamic = React.createClass({
         };
     },
 	handleClick: function(e) {
+        console.log(e.target.className);
+        if (e.target.className == 'dropdown-row') {
+            $("#search_input").val("");
+            console.log("hiiii");
+			//$(React.findDOMNode(this.refs.searchSongDropDown)).show();
+		}
 		if (e.target.className != 'form-control' || this.state.value == '') {
-			$(React.findDOMNode(this.refs.searchSongDropDown)).hide();
+			console.log("hola");
+            $(React.findDOMNode(this.refs.searchSongDropDown)).hide();
 		} else if (e.target.className == 'form-control') {
 			$(React.findDOMNode(this.refs.searchSongDropDown)).show();
 		}
@@ -102,7 +109,7 @@ var SearchSongDynamic = React.createClass({
         var value = this.state.value;
         return (
                 <div>
-                    <input onChange={this.handleOnChange} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Search"} autoFocus={"autofocus"} autoComplete={"off"} />
+                    <input onChange={this.handleOnChange} value={value} id={"search_input"} data-toggle={"dropdown"} type={"text"} className={"form-control"} placeholder={"Enter the name of a song."} autoFocus={"autofocus"} autoComplete={"off"} />
                     <SearchSongDropDown songs={this.state.songs} ref="searchSongDropDown" />
                 </div>
                 );
