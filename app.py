@@ -8,6 +8,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import argparse
 import sys
+from flask_sitemap import Sitemap
 
 
 ## Parse CL Options
@@ -39,6 +40,9 @@ d = args.debug
 d = False
 ## Flask App ##
 app = Flask(__name__)
+ext = Sitemap(app=app)
+app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
+
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()
@@ -82,21 +86,21 @@ def index():
         x=genID()
     return render_template("index.html", partyID=x, debug=d)
 
-
+'''
 @app.route("/base")
 def base():
     return render_template("base.html")
-
+'''
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-
+'''
 @app.route("/contact")
 def contact():
   return render_template("contact.html")
-
+'''
 @app.route("/party")
 def party():
     return render_template("party.html")
@@ -263,6 +267,7 @@ def app_main(port=8000, debug=True):
 
 
 if __name__ == "__main__":
+    d=True
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)

@@ -93,7 +93,15 @@
 
         <div class="col-md-2">
             <center>
-                <h5> Party ID: {{partyID}}</h5>
+                <h6> Three ways your friends can join:</h6>
+            </center>
+                <ol>
+                    <li>Going to the url <a href="http://vynl.party/{{partyID}}">vynl.party/{{partyID}}</a></li>
+                    <li>Hitting "join a party" on the home page, and entering the party id below.</li>
+                    <li>Scanning the QR code below.</li>
+                </ol>
+            <center>
+                <h5> Party ID: {{partyID}}</h6>
                 <br>
                 <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://vynl.party/{{partyID}}>
             </center>
