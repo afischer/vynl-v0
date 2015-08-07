@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect,request, jsonify, Response, sessions,session, url_for
+from flask import Flask, render_template, redirect,request, jsonify, Response, sessions,session, url_for, send_from_directory
 from flask.ext.socketio import SocketIO, join_room, leave_room, emit
 import random
 import string
@@ -117,6 +117,9 @@ def genParty(partyID):
     else:
         return '<h1>404</h1>', 404
 
+@app.route('/robots.txt')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 @app.route("/<partyID>")
 def redirParty(partyID):
