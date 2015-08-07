@@ -36,7 +36,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle}><a onClick={this.handleOnClick} className={'dropdown-row'} href="javascript:void(0);">{title}</a></li>
+            <li style={rowStyle} className={'dropdown-row'}><a onClick={this.handleOnClick} className={'dropdown-row'} href="javascript:void(0);">{title}</a></li>
         );
     }
 });
@@ -66,11 +66,11 @@ var SearchSongDynamic = React.createClass({
         console.log(e.target.className);
         if (e.target.className == 'dropdown-row') {
             $("#search_input").val("");
-            console.log("hiiii");
+            //console.log("hiiii");
 			//$(React.findDOMNode(this.refs.searchSongDropDown)).show();
 		}
 		if (e.target.className != 'form-control' || this.state.value == '') {
-			console.log("hola");
+			//console.log("hola");
             $(React.findDOMNode(this.refs.searchSongDropDown)).hide();
 		} else if (e.target.className == 'form-control') {
 			$(React.findDOMNode(this.refs.searchSongDropDown)).show();
