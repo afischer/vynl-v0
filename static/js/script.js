@@ -77,7 +77,8 @@ var SearchSongDynamic = React.createClass({
 		}
 	},
 	componentDidMount: function() {
-		document.addEventListener("click", this.handleClick);
+		document.addEventListener("touchend", this.handleClick);
+        document.addEventListener("click", this.handleClick);
 	},
     handleOnChange: function(event) {
         this.setState({value: event.target.value});

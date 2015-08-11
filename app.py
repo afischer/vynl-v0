@@ -43,7 +43,7 @@ app = Flask(__name__)
 ext = Sitemap(app=app)
 app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
 #######Comment next line out when testing
-app.config['SERVER_NAME']='vynl.party'
+#app.config['SERVER_NAME']='vynl.party'
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()

@@ -80,6 +80,10 @@
 
 <!-- TODO: Refactor out -->
 <script type="text/javascript">
+  $("#startPartyButton").on("touchend", function(event) {
+    console.log("creating {{partyID}}");
+    vynl.sockets.makeParty("{{partyID}}");
+  });
   $("#startPartyButton").on("click", function(event) {
     console.log("creating {{partyID}}");
     vynl.sockets.makeParty("{{partyID}}");
