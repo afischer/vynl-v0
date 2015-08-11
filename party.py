@@ -99,7 +99,7 @@ class Party:
                     y.remove(ip)
                     x=m.dumps(x)
                     y=m.dumps(y)
-                    c.execute("UPDATE songs SET upvotes=?, total=?, upvoteip=?, downvotes=?, downvoteip=? WHERE videoid=? AND party=",(num[0]+1,num[1]+2,x, num[3]-1,y,vid,self.k,))
+                    c.execute("UPDATE songs SET upvotes=?, total=?, upvoteip=?, downvotes=?, downvoteip=? WHERE videoid=? AND party=?",(num[0]+1,num[1]+2,x, num[3]-1,y,vid,self.k,))
                 else:
                     x.append(ip)
                     x=m.dumps(x)
