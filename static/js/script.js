@@ -36,7 +36,7 @@ var SearchSongRow = React.createClass({
             paddingBottom: '3px'
         };
         return (
-            <li style={rowStyle} className={'dropdown-row'}><a onClick={this.handleOnClick} className={'dropdown-row'} href="javascript:void(0);">{title}</a></li>
+            <li style={rowStyle}><a onClick={this.handleOnClick} className={'dropdown-row'} href="javascript:void(0);">{title}</a></li>
         );
     }
 });
@@ -57,6 +57,7 @@ var SearchSongDropDown = React.createClass({
 
 var SearchSongDynamic = React.createClass({
     getInitialState: function() {
+
         return {
             songs: [],
             value: ''
@@ -77,7 +78,7 @@ var SearchSongDynamic = React.createClass({
 		}
 	},
 	componentDidMount: function() {
-		document.addEventListener("touchend", this.handleClick);
+        document.addEventListener("tap", this.handleClick);
         document.addEventListener("click", this.handleClick);
 	},
     handleOnChange: function(event) {
@@ -102,7 +103,7 @@ var SearchSongDynamic = React.createClass({
             }
         }
         var query = event.target.value;
-        $("#search_input").keyup(delay(this,query));
+        $("#search_input").keyup(delay(this , query));
 
 
     },
