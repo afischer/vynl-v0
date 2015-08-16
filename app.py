@@ -46,7 +46,8 @@ app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
 app.config['SERVER_NAME']='vynl.party'
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
-    app.secret_key =f.read()
+    app.secret_key =f.readline().strip("\n")
+    apiKey=f.readline().strip("\n")
 socketio = SocketIO(app)
 
 @app.route("/api/parties/<party_id>",
@@ -113,7 +114,7 @@ def genParty(partyID):
     if (len(partyID) == 8):
         if 'id' not in session.keys():
             session['id']=str(u.uuid4())
-        return render_template("party.html", partyID=partyID)
+        return render_template("party.html", partyID=partyID,key=apiKey)
     else:
         return '<h1>404</h1>', 404
 
@@ -208,8 +209,9 @@ def getSong(data):
     ipAddress = session['id']
     newParty = p.Party(partyID)
     thang=newParty.getOrdered(ipAddress)
+    dj=newParty.getDJ();
     if d: print thang
-    emit('updateSongs', {"songs":thang })
+    emit('updateSongs', {"songs":thang,"dj":dj })
 
 
 @socketio.on('voteSong', namespace="/party")

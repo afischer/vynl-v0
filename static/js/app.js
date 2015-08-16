@@ -97,7 +97,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 var player;
-var playIndex;
+var playIndex=0;
 var videoData;
 var paused = false;
 var newvid = true;
@@ -106,16 +106,18 @@ var newvid = true;
 
 function onYouTubeIframeAPIReady(callback) {
      playIndex = 0;
+     //showSong();
 }
 
-function createPlayer(callback) {
+function createPlayer() {
+    console.log(playIndex);
      player = new YT.Player('player', {
         height: '200',
         width: '200',
-        videoId: data.models[playIndex].attributes.songID, //yass
+        videoId: data.models[0].attributes.songID, //yass
         playerVars: { 'controls': 0,'disablekb':0 },
         events: {
-            'onReady': callback,
+            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
         }
     });
@@ -123,6 +125,9 @@ function createPlayer(callback) {
 
 function onPlayerReady(event) {
     console.log("player ready");
+    //player.playVideo();
+    //playVideo();
+    //nextVideo();
 }
 
 function showSong() {
@@ -157,18 +162,22 @@ function onPlayerStateChange(event) {
 };
 
 function playVideo() {
+    paused=false;/*
     if (player === undefined) {
-        console.log(player);
-        createPlayer(playVideo);
+        //console.log(player);
+        createPlayer();
+        //console.log(player);
+        //player.loadVideoById(data.models[0].attributes.songID);
         return;
-    }
+        //player.playVideo();
+    }*/
     player.playVideo();
     $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
     $('.play').attr("onclick", "pauseVideo()");
 };
 
 function pauseVideo() {
-    //paused = true;
+    paused = true;
     player.pauseVideo();
     $('.play').removeClass("glyphicon-pause").addClass("glyphicon-play");
     $('.play').attr("onclick", "playVideo()");
@@ -222,6 +231,7 @@ $(document).ready(function() {
             toastr.success("You have full access to the playlist", "You are the DJ!");
             console.log("you're the dj!");
             nonDJ();
+            //createPlayer();
         }
         var i;
         for (i = 0; i < songs.songs.length; i++) {
@@ -239,12 +249,19 @@ $(document).ready(function() {
 
     vynl.sockets.socket.on('updateSongs', function(songs) {
         data.reset();
+        dj=songs.dj
+        console.log(ipAddress);
+        console.log(dj);
+
         for (i = 0; i < songs.songs.length; i++) {
             console.log(songs.songs[i]["songname"]);
             songs.songs[i]["songname"]=decodeURIComponent(songs.songs[i]["songname"]);
             console.log(songs.songs[i]["songname"]);
             songs.songs[i]["songartist"]=decodeURIComponent(songs.songs[i]["songartist"]);
             data.push(songs.songs[i]);
+        }
+        if (ipAddress==dj && player == undefined){
+            createPlayer();
         }
     });
 
