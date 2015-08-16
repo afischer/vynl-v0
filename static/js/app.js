@@ -270,11 +270,11 @@ $(document).ready(function() {
     });
 
     vynl.sockets.socket.on('addSong', function(songs) {
-        console.log(songs);
-        data.reset();
+        console.log("adding");
+        data.reset();/*
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
-        }
+        }*/
     });
 
     vynl.sockets.socket.on('playSong', function(song) {

@@ -199,6 +199,7 @@ def addSong(data):
     newParty = p.Party(partyID)
     if d: print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
+    emit('addSong',{})
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
