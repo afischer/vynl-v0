@@ -114,7 +114,7 @@ function createPlayer() {
      player = new YT.Player('player', {
         height: '200',
         width: '200',
-        videoId: data.models[0].attributes.songID, //yass
+        videoId: data.models[playIndex].attributes.songID, //yass
         playerVars: { 'controls': 0,'disablekb':0 },
         events: {
             'onReady': onPlayerReady,
@@ -125,6 +125,7 @@ function createPlayer() {
 
 function onPlayerReady(event) {
     console.log("player ready");
+    playVideo();
     //player.playVideo();
     //playVideo();
     //nextVideo();
@@ -162,7 +163,7 @@ function onPlayerStateChange(event) {
 };
 
 function playVideo() {
-    paused=false;/*
+    paused=false;
     if (player === undefined) {
         //console.log(player);
         createPlayer();
@@ -170,7 +171,7 @@ function playVideo() {
         //player.loadVideoById(data.models[0].attributes.songID);
         return;
         //player.playVideo();
-    }*/
+    }
     player.playVideo();
     $('.play').removeClass("glyphicon-play").addClass("glyphicon-pause");
     $('.play').attr("onclick", "pauseVideo()");
@@ -244,6 +245,7 @@ $(document).ready(function() {
             $(".song-artist").html(current.songartist);
             var albumart = "".concat('<img class="album-art img-responsive img-rounded" src="http://img.youtube.com/vi/', current.songID, '/0.jpg">');
             $(".album-art").html(albumart);
+            data.unshift(current);
         }
     });
 
@@ -271,7 +273,8 @@ $(document).ready(function() {
 
     vynl.sockets.socket.on('addSong', function(songs) {
         console.log("adding");
-        data.reset();/*
+        data.reset();
+        $("#search_input").val("");/*
         for (i = 0; i < songs.songs.length; i++) {
             data.push(songs.songs[i]);
         }*/

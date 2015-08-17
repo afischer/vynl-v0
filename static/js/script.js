@@ -66,7 +66,7 @@ var SearchSongDynamic = React.createClass({
 	handleClick: function(e) {
         console.log(e.target.className);
         if (e.target.className == 'dropdown-row' || e.target.className == 'dropdown-menu') {
-            $("#search_input").val("");
+            //$("#search_input").val("");
             //console.log("hiiii");
 			//$(React.findDOMNode(this.refs.searchSongDropDown)).show();
 		}
