@@ -9,7 +9,7 @@ from logging.handlers import RotatingFileHandler
 import argparse
 import sys
 from flask_sitemap import Sitemap
-
+from oauth2client import client, crypt
 
 ## Parse CL Options
 '''
@@ -107,6 +107,24 @@ def contact():
 def party():
     return render_template("party.html")
 
+@app.route("/login", methods=['GET',"POST"])
+def login():
+    print "loginnn"
+    if request.method=='POST':
+        print "it's a post"
+        idtoken=request.form.get('idtoken')
+        try:
+            idinfo = client.verify_id_token(idtoken, '673195807989-euva4oi2v80e1t6q1g3sig5sohbcgbiq.apps.googleusercontent.com')
+            if idinfo['aud'] not in ['673195807989-euva4oi2v80e1t6q1g3sig5sohbcgbiq.apps.googleusercontent.com']:
+                raise crypt.AppIdentityError("Unrecognized client.")
+            if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                raise crypt.AppIdentityError("Wrong issuer.")
+            print "hallelujah"
+        except crypt.AppIdentityError:
+            # Invalid token
+            print 'error'
+        userid = idinfo['sub']
+    return render_template("login.html")
 
 @app.route("/party/<partyID>")
 def genParty(partyID):
