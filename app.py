@@ -124,6 +124,7 @@ def login():
             # Invalid token
             print 'error'
         userid = idinfo['sub']
+        return flask.jsonify(**idinfo)
     return render_template("login.html")
 
 @app.route("/party/<partyID>")
