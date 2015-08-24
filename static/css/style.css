@@ -185,5 +185,5 @@ height: 122px;
 }
 
 footer.footer {
-    position: absolute;
+    position: fixed;
 }
