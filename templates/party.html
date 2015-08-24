@@ -112,9 +112,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-    <script src="/static/js/app.js"></script>
-    <script type="text/jsx" src="/static/js/script.js"></script>
+
     <script>
         var apiKey = "AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg"; //TODO: this should be moved to the secret
         function handleClientLoad()
@@ -124,4 +122,7 @@
             console.log("youtube client loaded");
         }
     </script>
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <script src="/static/js/app.js"></script>
+    <script type="text/jsx" src="/static/js/script.js"></script>
     {% endblock scripts %}
