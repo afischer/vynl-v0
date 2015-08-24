@@ -187,3 +187,7 @@ height: 122px;
 footer.footer {
     position: fixed;
 }
+
+body > .container {
+    margin-bottom: 60px;
+}
