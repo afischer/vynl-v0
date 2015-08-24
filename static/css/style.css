@@ -183,3 +183,7 @@ svg path {
 .join-buttons{
 height: 122px;
 }
+
+footer.footer {
+    position: absolute;
+}
