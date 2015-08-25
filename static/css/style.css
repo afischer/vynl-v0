@@ -129,19 +129,26 @@ font-size: 65%;
 
 /*SVG Hero*/
 .svg-row {
-overflow-x: hidden;
+    overflow-x: hidden;
+    text-align: center;
+    margin: 0 auto;
 }
 #svg-canvas {
+    margin: 0 auto;
+    text-align: center;
 }
 .svg-area {
     margin: 0 auto;
     position: relative;
+    text-align: center;
 }
 svg {
    display: block;
    bottom: 0px;
-    width: 40vw;
-    height: auto;
+   width: 40vw;
+   height: auto;
+   margin: 0 auto;
+   text-align: center;
 }
 
 svg path {
