@@ -44,6 +44,7 @@
 
 <body>
 
+
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
 
@@ -91,13 +92,12 @@
   </nav>
 
 
-
+  <div class="container" id="content">
   {% block content %}
   <br><br><br>
   If you see this, you forgot to override content. <br>
   {% endblock content %}
-
-
+  </div>
 
 
 
@@ -109,7 +109,6 @@
       </div>
   </footer>
 </div>
-
 
   <script type="text/javascript" src="http://l2.io/ip.js?var=ipAddress"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

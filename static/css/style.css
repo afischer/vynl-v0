@@ -185,9 +185,14 @@ height: 122px;
 }
 
 footer.footer {
+    text-align: center;
     position: fixed;
 }
 
 body > .container {
     margin-bottom: 60px;
+}
+
+#content{
+    min-height: 100%;
 }
