@@ -38,7 +38,7 @@ $(function() {
 
     canvas.setViewBox(0, 0, 640, 480);
    // $('#svg-canvas').attr('preserveAspectRatio', 'xMinYMin');
-    
+
     animateLine(canvas, "svg-canvas", "#000", pathString);
 
     $().ready(function(){
@@ -52,7 +52,7 @@ $(function() {
  //   	$('svg').css('height', $(window).width()/2);
 	// // $
     // });
-    // 
+    //
     // $(window).load(function(){
 	// // console.log("MEOW")
 	// $('svg').css('width', $(window).width()/1.5);
