@@ -9,9 +9,11 @@ import logging
 from logging.handlers import RotatingFileHandler
 import argparse
 import sys
+from flask_sitemap import Sitemap
 
 
 ## Parse CL Options
+'''
 parser = argparse.ArgumentParser(description='Vynl.party backend routing.')
 
 parser.add_argument('-d', '--debug',
@@ -34,9 +36,14 @@ parser.add_argument('-V','--version',
 
 args = parser.parse_args()
 d = args.debug
+'''
 
+d = False
 ## Flask App ##
 app = Flask(__name__)
+ext = Sitemap(app=app)
+app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
+
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.read()
@@ -80,21 +87,21 @@ def index():
         x=genID()
     return render_template("index.html", partyID=x, debug=d)
 
-
+'''
 @app.route("/base")
 def base():
     return render_template("base.html")
-
+'''
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-
+'''
 @app.route("/contact")
 def contact():
   return render_template("contact.html")
-
+'''
 @app.route("/party")
 def party():
     return render_template("party.html")
@@ -177,8 +184,8 @@ def on_join(data):
     newParty = p.Party(room)
     dj = newParty.getDJ()
     if d: print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered(sessionid),
-                  "dj": dj})
+    emit('join', {"songs": newParty.getOrdered(ipAddress),
+                  "dj": dj, "current":newParty.getPlaying()})
 
 
 @socketio.on('leave', namespace='/party')
@@ -251,15 +258,18 @@ def deleteSong(data):
         emit('error', {'data': "You are not the dj. You cannot Delete songs"});
 
 
-@socketio.on('playingSong', namespace="/party")
+@socketio.on('playSong', namespace="/party")
 def playingSong(data):
     partyID = data['room'].upper()
     song = data['song']
+    newParty = p.Party(partyID)
+    newParty.playSong(song["songID"])
     if d: print "playing song: ", song, " in room: ", partyID
-    emit('playingSong', {"song": song}, room=partyID)
+    emit('playSong', {"song": song}, room=partyID)
+    emit('notifySongUpdate', {"data": True}, room=partyID)
 
-
-if __name__ == "__main__":
+def app_main(port=8000, debug=True):
+    d=debug
     if d: print " * Starting in debug mode"
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
@@ -270,6 +280,20 @@ if __name__ == "__main__":
     print " * Vynl Server successfully initialized! *"
     print " *                                       *"
     print " *****************************************"
-    socketio.run(app, host='0.0.0.0', port=args.port)
+    socketio.run(app, host='0.0.0.0', port=port)
 
 
+
+if __name__ == "__main__":
+    d=True
+    if d: print " * Starting in debug mode"
+    handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
+    if d: app.debug=True
+    print " *****************************************"
+    print " *                                       *"
+    print " * Vynl Server successfully initialized! *"
+    print " *                                       *"
+    print " *****************************************"
+    socketio.run(app, host='0.0.0.0', port=8000)

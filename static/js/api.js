@@ -112,6 +112,10 @@ vynl.sockets = (function() {
         room = getPartyID();
         socket.emit('deleteSong', {room: room, song: song, ipAddress: ipAddress});
     };
+	var playSong = function(song, ipAddress) {
+		room = getPartyID();
+		socket.emit('playSong', {room: room, song: song, ipAddress: ipAddress});
+	};
 
     socket.on('connect', function(data) {
         console.log(data);
@@ -153,6 +157,7 @@ vynl.sockets = (function() {
         addSong: addSong,
         vote: vote,
         deleteSong: deleteSong,
+		playSong: playSong,
         playingSong: playingSong,
         getSongs: getSongs,
         getPartyID: getPartyID

@@ -1,12 +1,4 @@
-{% extends "base.html" %} 
-
-{% block nav %}
-  <li><a href="/">Home</a></li>
-  <li class="active"><a href="/about">About</a></li>
-  <li><a href="/contact">Contact</a></li>
-{% endblock nav %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <br>
 <br>
 <br>
@@ -14,70 +6,48 @@
 
 <div class="container">
 
-  <div class="row">
-            <div class="col-lg-12 jumbotron">
-                <h1 class="page-header">About Us</h1>
-                <p>The team.  The makers, thinkers, and innovators of this project.  What started off as a school project, we hope, will take off and change the way people party at parties.</p>
-            </div>
-  </div>
-  <!-- <br><br> -->
-  
-    <!-- <hr class="featurette-divider"> -->
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Eric Chen</h2>
-          <p class="lead">Frontend to backend connector.  Manages our sockets, and makes sure the buttons actually call functions instead of, well, being pretty buttons.  Without this guy, the functions and buttons would never have met each other.</p>
+    <div class="row">
+        <div class="col-lg-12 jumbotron">
+            <h1 class="page-header">About Us</h1>
+            <p>The team. The makers, thinkers, and innovators of this project. What started off as a school project, we hope, will take off and change the way people party at parties.   Want to contact us? Email us at <a href="mailto://vynl.party@gmail.com">vynl.party@gmail.com</a> or follow us on twitter <a href="https://twitter.com/vynlparty"> @vynlparty</a>.</p>
         </div>
-        <div class="col-md-5">
-
-          <img class="featurette-image img-responsive center-block" src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xaf1/v/t1.0-9/551682_336750553084539_646619314_n.jpg?oh=841e35785d6de5257ab4f814cd999ecc&oe=55C5BAD9&__gda__=1443149832_39cc292e24fd2c733e65b823017124e3" alt="Generic placeholder image">
-
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
+    </div>
+    <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Isaac Gluck</h2>
-          <p class="lead">He has a dinosaur on his head.</p>
+            <h2 class="featurette-heading">Eric Chen</h2>
+            <p class="lead">Frontend to backend connector. Manages our sockets, and makes sure the buttons actually call functions instead of, well, being pretty buttons. Without this guy, the functions and buttons would never have met each other.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-
-          <img class="featurette-image img-responsive center-block" src="https://scontent-ord.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/s720x720/1461143_737116592970643_1486605419_n.jpg?oh=fe87590ac086520ae1aaff0a8c21f2ff&oe=5603FBAC" alt="Generic placeholder image">
-
+            <img class="featurette-image img-responsive center-block" src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xaf1/v/t1.0-9/551682_336750553084539_646619314_n.jpg?oh=841e35785d6de5257ab4f814cd999ecc&oe=55C5BAD9&__gda__=1443149832_39cc292e24fd2c733e65b823017124e3"
+            alt="Generic placeholder image">
         </div>
-      </div>
+    </div>
+    <hr class="featurette-divider">
 
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
+    <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">Andrew Fischer</h2>
-          <p class="lead">Frontend man and general prettifier.  See our awesome logo?  Designed by Fischer.  What could be cooler?  WIthout this guy, the website would be black on white, all squares, no coolness.</p>
+            <h2 class="featurette-heading">Andrew Fischer</h2>
+            <p class="lead">Frontend man and general prettifier. See our awesome logo? Without this guy, we would still be using table layouts and the <kbd>marquee</kbd> tag.</p>
         </div>
         <div class="col-md-5">
-
-          <img class="featurette-image img-responsive center-block" src="https://scontent-ord.xx.fbcdn.net/hphotos-xtp1/v/t1.0-9/11109718_10203865233380449_7526962931302347651_n.jpg?oh=59899399e43f2a3c83bbe7ebba7e9f28&oe=55FEE5A9" alt="Generic placeholder image">
+            <img class="featurette-image img-responsive center-block" src="https://scontent-ord.xx.fbcdn.net/hphotos-xtp1/v/t1.0-9/11109718_10203865233380449_7526962931302347651_n.jpg?oh=59899399e43f2a3c83bbe7ebba7e9f28&oe=55FEE5A9" alt="Generic placeholder image">
         </div>
-      </div>
+    </div>
 
-      <hr class="featurette-divider">
+    <hr class="featurette-divider">
 
-      <div class="row featurette">
+    <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Daniel Zabari</h2>
-          <p class="lead">Backend guy, and general motivator.  What's a pretty website without some working code?  When we fall behind, we gotta remember the dream.  Awesome parties for everyone.</p>
+            <h2 class="featurette-heading">Daniel Zabari</h2>
+            <p class="lead">Backend guy, and general motivator. What's a pretty website without some working code? When we fall behind, we gotta remember the dream. Awesome parties for everyone.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block" src="https://scontent-ord.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/431798_590739924291977_1012942671_n.jpg?oh=2d8df85fa65f961a8f7f40c58ca7d005&oe=560DB928" alt="Generic placeholder image">
+            <img class="featurette-image img-responsive center-block" src="https://scontent-ord.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/431798_590739924291977_1012942671_n.jpg?oh=2d8df85fa65f961a8f7f40c58ca7d005&oe=560DB928" alt="Generic placeholder image">
 
         </div>
-      </div>
+    </div>
 
-      <!-- <hr class="featurette-divider"> -->
-      <br><br>
+    <br>
 
 </div>
 

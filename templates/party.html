@@ -1,41 +1,40 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <!-- MVC TEMPLATES -->
 <script type="text/template" id="queue-tempate">
-  <ul class="list-group music-queue">
-  </ul>
+    <ul class="list-group music-queue">
+    </ul>
 </script>
 
 <script type="text/template" id="queue-item-template">
-      <img class="album-art img-rounded" src=<%=albumarturl%> >
-      &nbsp;
-      <span class="song-name"><%=songname%></span>
-      <%=songartist%>
-      <div class="deleteButton dj">
-          <i data-id=<%=songID%> class="fa fa-times"></i>
-      </div>
-      <div class="votes">
-        <div class="thumbCount">
-            <div data-voted=<%=downvoted%> class="icon downvote">
-            <i data-id=<%=songID%> data-vote=-1 data-downvoted=<%=downvoted%> class="fa thumbs fa-thumbs-down"></i>
+    <img class="album-art img-rounded" src=<%=albumarturl%> > &nbsp;
+    <span class="song-name">
+        <%=songname%>
+    </span>
+    <%=songartist%>
+        <div class="deleteButton dj">
+            <i data-id=<%=songID%> class="fa fa-times"></i>
+        </div>
+        <div class="votes">
+            <div class="thumbCount">
+                <div data-voted=<%=downvoted%> class="icon downvote">
+                    <i data-id=<%=songID%> data-vote=-1 data-downvoted=<%=downvoted%> class="fa thumbs fa-thumbs-down"></i>
+                </div>
+                <div class="thumbCountNum">
+                    <%=downvotes%>
+                </div>
             </div>
-            <div class="thumbCountNum">
-            <%=downvotes%>
+            <div class="thumbCount">
+                <div data-voted=<%=upvoted%> class="icon upvote">
+                    <i data-id=<%=songID%> data-vote=1 data-upvoted=<%=upvoted%> class="fa thumbs fa-thumbs-up"></i>
+                </div>
+                <div class="thumbCountNum">
+                    <%=upvotes%>
+                </div>
             </div>
         </div>
-        <div class="thumbCount">
-            <div data-voted=<%=upvoted%> class="icon upvote">
-            <i data-id=<%=songID%> data-vote=1 data-upvoted=<%=upvoted%> class="fa thumbs fa-thumbs-up"></i>
-            </div>
-            <div class="thumbCountNum">
-            <%=upvotes%>
-            </div>
-        </div>
-      </div>
 </script>
-<!-- /MVC TEMPLATES -->		
+<!-- /MVC TEMPLATES -->
 
 
 
@@ -48,34 +47,35 @@
                         <h3>Now Playing</h3>
 
                         <div class="well">
-                            <!-- LOADER -->
-                            <center><span class="loading"></span></center>
-
-                            <div class="blank dj"></div>
-                            <div id="player" class="dj"></div>
+                            <center>
+                                <span class="loading"></span>
+                                <div id="player" class="dj"></div>
+                            </center>
 
                             <div class="album-art others"></div>
                             <div class="music-data">
-                            <h4>
-                                <font color="#d9230f"> <div class="now-playing-song-name"></div> </font>
-                                <br>
-                                <small>
-                                    <div class="song-artist"></div>
+                                <h4>
+                                    <font color="#d9230f">
+                                        <div class="now-playing-song-name"></div>
+                                    </font>
                                     <br>
-                                    <div class="song-album"></div>
-                                </small>
-                                <a class="glyphicon glyphicon-step-backward dj" style="z-index:1" onClick="prevVideo()"></a>
-                                <a class="glyphicon glyphicon-play play dj" style="z-index:1"  onClick="playVideo()"></a>
-                                <a class="glyphicon glyphicon-step-forward dj" style="z-index:1"  onClick="nextVideo()"></a>
-                            </h4>
+                                    <small>
+                                        <div class="song-artist"></div>
+                                        <br>
+                                        <div class="song-album"></div>
+                                    </small>
+                                    <a class="glyphicon glyphicon-play play dj" style="z-index:1" onClick="playVideo()"></a>
+                                    <a class="glyphicon glyphicon-step-forward dj" style="z-index:1" onClick="nextVideo()"></a>
+                                </h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                     <div class="col-sm-7">
                         <h3>Queue</h3>
-                        <!-- LOADER -->
-                        <center><span class="loading"></span></center>
+                        <center>
+                            <span class="loading"></span>
+                        </center>
 
                         <!-- MCV Regions -->
                         <!--<h4>Up Next</h4>-->
@@ -92,29 +92,37 @@
         </div>
 
         <div class="col-md-2">
-	  <center>
-            <h5> Party ID: {{partyID}}</h5> <br>
-            <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://vynl.party/{{partyID}} >
-	  </center>
+            <center>
+                <h6> Three ways your friends can join:</h6>
+            </center>
+                <ol>
+                    <li>Going to the url <a href="http://vynl.party/{{partyID}}">vynl.party/{{partyID}}</a></li>
+                    <li>Hitting "join a party" on the home page, and entering the party id below.</li>
+                    <li>Scanning the QR code below.</li>
+                </ol>
+            <center>
+                <h5> Party ID: {{partyID}}</h6>
+                <br>
+                <img class="img-responsive" src=https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=http://vynl.party/{{partyID}}>
+            </center>
         </div>
     </div>
-
-    {% endblock content %}
-
-    {% block scripts %}
+  </div>
+    {% endblock content %} {% block scripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.8.0/lodash.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.4.1/backbone.marionette.min.js"></script>
     <script src="/static/js/app.js"></script>
-	<script type="text/jsx" src="/static/js/script.js"></script>
+    <script type="text/jsx" src="/static/js/script.js"></script>
 
     <script>
-      var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg'; //TODO: this should be moved to the secret
-      function handleClientLoad() {
-      gapi.client.setApiKey(apiKey);
-      gapi.client.load('youtube', 'v3', function() {});
-      console.log("youtube client loaded");
-      }
+        var apiKey = 'AIzaSyCotdvV8u6NXowT24nFcd1Tlh4XEn56nlg'; //TODO: this should be moved to the secret
+        function handleClientLoad()
+        {
+            gapi.client.setApiKey(apiKey);
+            gapi.client.load('youtube', 'v3', function() {});
+            console.log("youtube client loaded");
+        }
     </script>
 
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
