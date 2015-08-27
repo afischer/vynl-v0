@@ -136,17 +136,24 @@ def redirParty(partyID):
 @socketio.on('connect', namespace='/party')
 def test_connect():
     if d: print "connected"
-    if 'id' not in session.keys():
-        session['id']=str(u.uuid4())
-    if d: print "connect:",session['id']
-    emit('connect', {'data': session['id']})
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = str(u.uuid4())
+    if d: print "connect:",sessionid
+    emit('connect', {'data': sessionid})
 
 @socketio.on('getID', namespace='/party')
 def getID(data):
-	if 'id' not in session.keys():
-		session['id']=str(u.uuid4())
-	if d: print "getID: ", session['id']
-	emit('getID', {'id': session['id']})
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        if 'sessionid' in data:
+            sessionid = data['sessionid']
+        else:
+            sessionid = str(u.uuid4())
+    if d: print "getID: ", sessionid
+    emit('getID', {'id': sessionid})
 
 
 @socketio.on('disconnect', namespace='/party')
@@ -157,24 +164,26 @@ def test_disconnect():
 def makeParty(data):
     if d: print session.keys()
     if d: print 'id' not in session.keys()
-    if 'id' not in session.keys():
-        session['id']=str(u.uuid4())
-    if d: print "makeParty:", session['id']
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = data['sessionid']
+    if d: print "makeParty:", sessionid
     room = data['room'].upper()
-    ip = session['id']
-    newParty = p.Party(room, ip)
-    if d: print "user: " + ip + "created party: " + room
+    newParty = p.Party(room, sessionid)
+    if d: print "user: " + sessionid + "created party: " + room
     url = 'http://vynl.party/party/' + room
-    emit('makeParty', {'id': session['id']})
+    emit('makeParty', {'id': sessionid})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
     #vote = data['vote']
-    if 'id' not in session.keys():
-        session['id']=str(u.uuid4())
-    if d: print "onjoin:", session['id']
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = data['sessionid']
+    if d: print "onjoin:", sessionid
     room = data['room'].upper()
-    ipAddress =session['id']
     join_room(room)
     newParty = p.Party(room)
     dj = newParty.getDJ()
@@ -195,7 +204,6 @@ def addSong(data):
     #app.logger.error(data)
     partyID = data['room'].upper()
     song = data['song']
-    ipAddress = session['id']
     newParty = p.Party(partyID)
     if d: print "adding song: ", song, " to room: " + partyID
     newParty.addSong(song["songID"], song["albumarturl"], song["songname"], song["songartist"])
@@ -207,7 +215,10 @@ def addSong(data):
 def getSong(data):
     if d: print "updating songs"
     partyID = data['room'].upper()
-    ipAddress = session['id']
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = data['sessionid']
     newParty = p.Party(partyID)
     thang=newParty.getOrdered(ipAddress)
     dj=newParty.getDJ();
@@ -220,13 +231,16 @@ def voteSong(data):
     partyID = data['room'].upper()
     song = data['song']
     vote=data['vote']
-    ipAddress = session['id']
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = data['sessionid']
     newParty = p.Party(partyID)
-    if d: print "user: ", ipAddress, " vote: ", vote, " for song: ", song, " to room: " + partyID
+    if d: print "user: ", sessionid, " vote: ", vote, " for song: ", song, " to room: " + partyID
     if vote == 1:
-        newParty.upVote(song["songID"], ipAddress)
+        newParty.upVote(song["songID"], sessionid)
     elif vote == -1:
-        newParty.downVote(song["songID"], ipAddress)
+        newParty.downVote(song["songID"], sessionid)
     emit('notifySongUpdate', {"data": True}, room=partyID)
 
 
@@ -234,16 +248,19 @@ def voteSong(data):
 def deleteSong(data):
     partyID = data['room'].upper()
     song = data['song']
-    ipAddress = session['id']
+    if 'id' in session:
+        sessionid = session['id']
+    else:
+        sessionid = data['sessionid']
     newParty = p.Party(partyID)
     dj = newParty.getDJ()
-    if dj == ipAddress:
-        if d: print "user: ", ipAddress, " deleting song: ", song["songID"], " to room: ", partyID
+    if dj == sessionid:
+        if d: print "user: ", sessionid, " deleting song: ", song["songID"], " to room: ", partyID
         newParty.removeSong(song["songID"])
         emit('notifySongUpdate', {"data": True}, room=partyID)
         emit('success', {'data': "Deleted Song"})
     else:
-        if d: print "user: ", ipAddress, " is not a dj: ", dj
+        if d: print "user: ", sessionid, " is not a dj: ", dj
         emit('error', {'data': "You are not the dj. You cannot Delete songs"});
 
 
