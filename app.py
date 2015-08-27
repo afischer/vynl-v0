@@ -188,7 +188,7 @@ def on_join(data):
     newParty = p.Party(room)
     dj = newParty.getDJ()
     if d: print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered(ipAddress),
+    emit('join', {"songs": newParty.getOrdered(sessionid),
                   "dj": dj, "current":newParty.getPlaying()})
 
 
@@ -220,7 +220,7 @@ def getSong(data):
     else:
         sessionid = data['sessionid']
     newParty = p.Party(partyID)
-    thang=newParty.getOrdered(ipAddress)
+    thang=newParty.getOrdered(sessionid)
     dj=newParty.getDJ();
     if d: print thang
     emit('updateSongs', {"songs":thang,"dj":dj })
