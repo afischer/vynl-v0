@@ -2,8 +2,9 @@
 import party,os
 
 #try:
-x=party.Party("hey","195.196.1.1")
+x=party.Party("AAAAAAAA","195.196.1.1")
 song= "xxx5"
+print party.partyExists("AAAAAAAA")
 #print song
 song2="yyy5"
 song3="fff5"
@@ -32,7 +33,7 @@ for i in xrange(30):
 for i in xrange(50):
 	x.upVote(song4,"155")
 x.playSong(song4)
-y=party.Party("hey")
+y=party.Party("AAAAAAAA")
 print y.getDJ()
 print y.getOrdered("167")
 print x.getPlayed()

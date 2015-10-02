@@ -7,7 +7,8 @@ def partyExists(key):
     try:
         conn = sqlite3.connect('parties.db')
         c = conn.cursor()
-        n=len(c.execute("SELECT * FROM uniques WHERE url=?",(key,)))
+        print key
+        n=len(c.execute("SELECT * FROM uniques WHERE url=?",(key,)).fetchall())
         return n>0
     except:
         return False
