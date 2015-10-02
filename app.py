@@ -184,7 +184,7 @@ def on_join(data):
         sessionid = data['sessionid']
     if d: print "onjoin:", sessionid
     room = data['room'].upper()
-    if p.partyExists(room):
+    if not p.partyExists(room):
         if d: print "room does not exist: " + room
         emit('join', {"error": "Party Does Not Exist"})
     else:
