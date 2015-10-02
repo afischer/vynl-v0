@@ -43,7 +43,7 @@ app = Flask(__name__)
 ext = Sitemap(app=app)
 app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
 #######Comment next line out when testing
-app.config['SERVER_NAME']='vynl.party'
+#app.config['SERVER_NAME']='vynl.party'
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.readline().strip("\n")
@@ -184,12 +184,16 @@ def on_join(data):
         sessionid = data['sessionid']
     if d: print "onjoin:", sessionid
     room = data['room'].upper()
-    join_room(room)
-    newParty = p.Party(room)
-    dj = newParty.getDJ()
-    if d: print "joined room: " + room
-    emit('join', {"songs": newParty.getOrdered(sessionid),
-                  "dj": dj, "current":newParty.getPlaying()})
+    if p.partyExists(room):
+        if d: print "room does not exist: " + room
+        emit('join', {"error": "Party Does Not Exist"})
+    else:
+        join_room(room)
+        newParty = p.Party(room)
+        dj = newParty.getDJ()
+        if d: print "joined room: " + room
+        emit('join', {"songs": newParty.getOrdered(sessionid),
+                      "dj": dj, "current":newParty.getPlaying()})
 
 
 @socketio.on('leave', namespace='/party')
