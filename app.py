@@ -43,7 +43,7 @@ app = Flask(__name__)
 ext = Sitemap(app=app)
 app.config['SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS']=True
 #######Comment next line out when testing
-app.config['SERVER_NAME']='vynl.party'
+#app.config['SERVER_NAME']='vynl.party'
 #app.config['SECRET_KEY'] = 'secret'
 with open('secret.txt','r') as f:
     app.secret_key =f.readline().strip("\n")
@@ -170,10 +170,14 @@ def makeParty(data):
         sessionid = data['sessionid']
     if d: print "makeParty:", sessionid
     room = data['room'].upper()
-    newParty = p.Party(room, sessionid)
-    if d: print "user: " + sessionid + "created party: " + room
-    url = 'http://vynl.party/party/' + room
-    emit('makeParty', {'id': sessionid})
+
+    if p.partyExists(room):
+        emit('makeParty', {'error': 'room already exists'})
+    else:
+        newParty = p.Party(room, sessionid)
+        if d: print "user: " + sessionid + "created party: " + room
+        url = 'http://vynl.party/party/' + room
+        emit('makeParty', {'id': sessionid})
 
 @socketio.on('join', namespace='/party')
 def on_join(data):
